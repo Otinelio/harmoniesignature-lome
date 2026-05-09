@@ -1,0 +1,239 @@
+.spa-page {
+  background-color: var(--color-bg-secondary);
+}
+
+.spa-hero .dept-hero-bg {
+  filter: grayscale(0.4) saturate(0.8) contrast(1.1);
+}
+
+.spa-title {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-style: italic;
+  color: var(--color-text-primary);
+  margin-bottom: 16px;
+}
+
+.spa-subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  opacity: 0.8;
+}
+
+.spa-services {
+  padding: 100px 32px;
+}
+
+.spa-cards {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .spa-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.spa-card {
+  background-color: var(--color-bg-primary);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.spa-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(200, 168, 75, 0.3);
+}
+
+.spa-card h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+
+.spa-card p {
+  font-family: var(--font-body);
+  font-size: 14px;
+  opacity: 0.7;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.spa-price {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-accent-gold);
+  margin-top: 16px;
+}
+
+/* Spa Gallery */
+.spa-gallery {
+  padding: 40px 32px 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.spa-gallery .gallery-masonry {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.spa-gallery .gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  aspect-ratio: 3/4;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.spa-gallery .gallery-item.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.spa-gallery .gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(0.6) sepia(0.2) hue-rotate(190deg) saturate(1.5);
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.spa-gallery .gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.spa-gallery .gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(24, 32, 48, 0.5), transparent);
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.spa-gallery .gallery-item:hover .gallery-overlay {
+  opacity: 0.2;
+}
+
+/* Spa Booking Form */
+.spa-booking-section {
+  padding: 100px 32px;
+  background-color: var(--color-bg-primary);
+}
+
+.spa-booking-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 64px;
+}
+
+@media (min-width: 1024px) {
+  .spa-booking-container {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+.spa-contact-info h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--color-accent-gold);
+  margin-bottom: 24px;
+}
+
+.spa-booking-title {
+  font-family: var(--font-display);
+  font-size: 40px;
+  margin-bottom: 32px;
+}
+
+.spa-booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.spa-booking-form input,
+.spa-booking-form select,
+.spa-booking-form textarea {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-accent-gold);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  padding: 12px 0;
+  outline: none;
+}
+
+.spa-booking-form input::placeholder,
+.spa-booking-form textarea::placeholder {
+  color: rgba(237, 232, 223, 0.4);
+}
+
+.spa-booking-form select option {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+.spa-submit-btn {
+  background-color: var(--color-accent-gold);
+  color: var(--color-bg-primary);
+  padding: 16px 32px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.spa-submit-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 30px rgba(200, 168, 75, 0.4);
+}
+
+.form-success-msg {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--color-accent-gold);
+  margin-top: 16px;
+  animation: fadeIn 300ms ease-in;
+}
+
+.form-note {
+  font-size: 12px;
+  opacity: 0.5;
+  margin-top: 8px;
+}

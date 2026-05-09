@@ -1,0 +1,77 @@
+.gym-pricing-section {
+  padding: 40px 32px 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gym-pricing-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .gym-pricing-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.gym-plan {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-accent-gold);
+  border-radius: 8px;
+  padding: 40px 32px;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.gym-plan.featured {
+  box-shadow: 0 0 0 2px var(--color-accent-gold);
+  background-color: var(--color-bg-primary);
+  transform: scale(1.05);
+  z-index: 10;
+}
+
+.gym-plan h3 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--color-text-primary);
+}
+
+.plan-price {
+  font-family: var(--font-body);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-accent-gold);
+  margin: 8px 0;
+}
+
+.plan-desc {
+  font-size: 14px;
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+.plan-badge {
+  position: absolute;
+  top: -12px;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-accent-gold);
+  color: var(--color-accent-gold);
+  padding: 4px 16px;
+  border-radius: 100px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.plan-badge.featured-badge {
+  background-color: var(--color-accent-gold);
+  color: var(--color-bg-primary);
+  font-weight: 600;
+}
