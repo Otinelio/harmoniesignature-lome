@@ -28,6 +28,39 @@ const DepartementsHub = () => {
     return `/${id}`;
   };
 
+  const getBadgeColor = (id: string) => {
+    switch(id) {
+      case 'piscine': return '#3B82F6';
+      case 'bowling': return '#F97316';
+      case 'spa': return '#2DD4BF';
+      case 'gym': return '#4ADE80';
+      case 'tennis': return '#F59E0B';
+      case 'basket': return '#8B5CF6';
+      default: return '#EF4444';
+    }
+  };
+
+  const getSubtitle = (id: string) => {
+    switch(id) {
+      case 'piscine': return 'Piscine olympique · Tarifs · Horaires';
+      case 'bowling': return 'Pistes · Plaisir · Compétition';
+      case 'spa': return 'Soin · Détente · Jacuzzi';
+      case 'gym': return 'Salle de gym · Coaching · Abonnements';
+      case 'tennis': return 'Terre battue · Coaching · Localisation';
+      case 'basket': return 'Terrain pro · Équipement · Réservation';
+      default: return 'Découverte · Services · Informations';
+    }
+  };
+
+  const getLinkText = (id: string) => {
+    switch(id) {
+      case 'spa': return 'RÉSERVER UN SOIN';
+      case 'bowling': return 'VOIR LES TARIFS';
+      case 'gym': return 'VOIR LES ABONNEMENTS';
+      default: return 'VOIR PLUS DE DÉTAILS';
+    }
+  };
+
   return (
     <div className="hub-page">
       <section className="hub-hero">
@@ -39,27 +72,28 @@ const DepartementsHub = () => {
         </div>
       </section>
 
-      <div className="hub-list">
-        {departments.map((dep, index) => {
-          if (!dep.isOpen) return null;
-          const isEven = index % 2 === 0;
-
-          return (
-            <section key={dep.id} className={`hub-section ${isEven ? 'even' : 'odd'}`}>
-              <div className="hub-section-img" style={{ backgroundImage: `url(${dep.images[0] || ''})` }}></div>
-              <div className="hub-section-content">
-                <div className="hub-section-icon">{getIcon(dep.id)}</div>
-                <h2 className="hub-section-title">{dep.name}</h2>
-                <p className="hub-section-desc">{dep.description}</p>
-                <div className="hub-section-hours">{dep.hours}</div>
-                <Link to={getRoute(dep.id)} className="hub-section-link">
-                  Découvrir ce département <ArrowRight size={16} />
-                </Link>
-              </div>
-              <div className="hub-separator"></div>
-            </section>
-          );
-        })}
+      <div className="mockup-grid-container">
+        <div className="mockup-grid">
+          {departments.map((dep) => {
+            if (!dep.isOpen) return null;
+            return (
+              <Link to={getRoute(dep.id)} key={dep.id} className={`mockup-card card-${dep.id}`}>
+                <div className="mockup-card-bg" style={{ backgroundImage: `url(${dep.images[0] || ''})` }}></div>
+                <div className="mockup-card-overlay"></div>
+                <div className="mockup-card-content">
+                  <div className="mockup-badge" style={{ backgroundColor: getBadgeColor(dep.id) }}>
+                    {dep.id.toUpperCase()}
+                  </div>
+                  <h2 className="mockup-title">{dep.name}</h2>
+                  <p className="mockup-subtitle">{getSubtitle(dep.id)}</p>
+                  <span className="mockup-link">
+                    {getLinkText(dep.id)}
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

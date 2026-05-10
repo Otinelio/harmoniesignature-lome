@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Phone, Clock, Waves, CircleDot, Sparkles, Dumbbell, Trophy, CalendarCheck } from 'lucide-react';
+import { ChevronDown, Phone, Clock, Waves, CircleDot, Sparkles, Dumbbell, Trophy, CalendarCheck, ArrowRight } from 'lucide-react';
 import CountUp from 'react-countup';
 import './Home.css';
 
 const Home = () => {
+  const [hoveredUnivers, setHoveredUnivers] = useState<string>('piscine');
+
+  const universList = [
+    { id: 'piscine', name: 'Piscine', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop' },
+    { id: 'bowling', name: 'Bowling', img: 'https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?q=80&w=2000&auto=format&fit=crop' },
+    { id: 'spa', name: 'Spa & Bien-être', img: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2000&auto=format&fit=crop' },
+    { id: 'gym', name: 'Gym & Fitness', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop' },
+    { id: 'restauration', name: 'Restaurants', img: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2000&auto=format&fit=crop' },
+    { id: 'sports', name: 'Terrains de Sport', img: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=2000&auto=format&fit=crop' },
+  ];
+
   return (
     <div className="home-page">
       {/* HERO */}
@@ -12,10 +23,9 @@ const Home = () => {
         <div className="hero-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=2000&auto=format&fit=crop)' }}></div>
         <div className="hero-overlay"></div>
         <div className="hero-content">
-          <h1 className="hero-title">
-            <span>HARMONIE</span>
-            <span>SIGNATURE</span>
-          </h1>
+          <div className="hero-logo-container">
+            <img src="/logo-harmonie.png" alt="Harmonie Signature Logo" className="hero-logo-img" />
+          </div>
           <p className="hero-subtitle">
             Piscine · Bowling · Spa · Restaurants · Tennis · Basket · Gym
           </p>
@@ -57,70 +67,26 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SECTION MOSAÏQUE DÉPARTEMENTS */}
-      <section className="mosaic-section">
-        <div className="mosaic-header">
-          <h2 className="mosaic-title">Nos Univers</h2>
-          <p className="mosaic-subtitle">7 ESPACES · UN SEUL ENDROIT</p>
+      {/* SECTION CAROUSEL UNIVERS */}
+      <section className="carousel-univers-section">
+        <div className="carousel-header">
+          <h2 className="carousel-title">Nos Univers</h2>
+          <p className="carousel-subtitle">FAITES DÉFILER POUR DÉCOUVRIR</p>
         </div>
         
-        <div className="mosaic-grid">
-          <Link to="/piscine" className="mosaic-cell cell-piscine">
-            <div className="cell-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1000&auto=format&fit=crop)' }}></div>
-            <div className="cell-overlay"></div>
-            <div className="cell-content">
-              <Waves size={24} color="#EDE8DF" />
-              <span>Piscine</span>
-            </div>
-          </Link>
-          <Link to="/bowling" className="mosaic-cell cell-bowling">
-            <div className="cell-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?q=80&w=800&auto=format&fit=crop)' }}></div>
-            <div className="cell-overlay"></div>
-            <div className="cell-content">
-              <CircleDot size={24} color="#EDE8DF" />
-              <span>Bowling</span>
-            </div>
-          </Link>
-          <Link to="/spa" className="mosaic-cell cell-spa">
-            <div className="cell-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop)' }}></div>
-            <div className="cell-overlay"></div>
-            <div className="cell-content">
-              <Sparkles size={24} color="#EDE8DF" />
-              <span>Spa</span>
-            </div>
-          </Link>
-          <Link to="/gym" className="mosaic-cell cell-gym">
-            <div className="cell-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop)' }}></div>
-            <div className="cell-overlay"></div>
-            <div className="cell-content">
-              <Dumbbell size={24} color="#EDE8DF" />
-              <span>Gym</span>
-            </div>
-          </Link>
-          <Link to="/restauration" className="mosaic-cell cell-resto">
-            <div className="cell-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop)' }}></div>
-            <div className="cell-overlay"></div>
-            <div className="cell-content">
-              <CircleDot size={24} color="#EDE8DF" />
-              <span>Tropicana</span>
-            </div>
-          </Link>
-          <Link to="/sports" className="mosaic-cell cell-tennis">
-            <div className="cell-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=800&auto=format&fit=crop)' }}></div>
-            <div className="cell-overlay"></div>
-            <div className="cell-content">
-              <Trophy size={24} color="#EDE8DF" />
-              <span>Tennis</span>
-            </div>
-          </Link>
-          <Link to="/sports" className="mosaic-cell cell-basket">
-            <div className="cell-bg" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1505666287802-931dc83948e9?q=80&w=800&auto=format&fit=crop)' }}></div>
-            <div className="cell-overlay"></div>
-            <div className="cell-content">
-              <CircleDot size={24} color="#EDE8DF" />
-              <span>Basket</span>
-            </div>
-          </Link>
+        <div className="univers-carousel">
+          {universList.map((u) => (
+            <Link to={`/${u.id}`} key={u.id} className="carousel-card">
+              <div className="carousel-card-bg" style={{ backgroundImage: `url(${u.img})` }}></div>
+              <div className="carousel-card-overlay"></div>
+              <div className="carousel-card-content">
+                <h3>{u.name}</h3>
+                <span className="carousel-card-link">
+                  Explorer <ArrowRight size={16} />
+                </span>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 

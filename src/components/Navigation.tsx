@@ -28,7 +28,7 @@ const Navigation = () => {
       <header className={`navigation ${isScrolled ? 'scrolled' : ''}`}>
         <div className="nav-container">
           <Link to="/" className="nav-logo">
-            HARMONIE
+            <img src="/logo-harmonie.png" alt="Harmonie Signature Logo" className="nav-logo-img" />
           </Link>
 
           <nav className="nav-desktop">

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Phone } from 'lucide-react';
+import { Phone, Clock, Target, Trophy, Users } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Sports.css';
 
-// MODIFIEZ CES IMAGES CI-DESSOUS POUR CHANGER LE CAROUSEL
 const tennisImages = [
   'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=1200&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?q=80&w=1200&auto=format&fit=crop',
@@ -11,12 +10,59 @@ const tennisImages = [
   'https://images.unsplash.com/photo-1572560372864-1507bb0a22c5?q=80&w=1200&auto=format&fit=crop'
 ];
 
-// MODIFIEZ CES IMAGES CI-DESSOUS POUR CHANGER LE CAROUSEL
 const basketImages = [
   'https://images.unsplash.com/photo-1505666287802-931dc83948e9?q=80&w=1200&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1519861531473-9200262188bf?q=80&w=1200&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=1200&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1608245449230-4ac19066d2d0?q=80&w=1200&auto=format&fit=crop'
+];
+
+const tennisServices = [
+  {
+    image: tennisImages[0],
+    name: 'Court Central',
+    duration: '1h',
+    desc: 'Terrain principal en dur éclairé, idéal pour les matchs compétitifs.',
+    price: '10 000',
+  },
+  {
+    image: tennisImages[1],
+    name: 'Court Loisir',
+    duration: '1h',
+    desc: 'Terrain secondaire pour les sessions d\'entraînement et loisirs.',
+    price: '8 000',
+  },
+  {
+    image: tennisImages[2],
+    name: 'Cours Particulier',
+    duration: '1h30',
+    desc: 'Leçon personnalisée avec coach professionnel.',
+    price: '15 000',
+  },
+];
+
+const basketServices = [
+  {
+    image: basketImages[0],
+    name: 'Terrain 5x5',
+    duration: '1h',
+    desc: 'Terrain complet pour matchs d\'équipe, éclairé pour les soirées.',
+    price: '15 000',
+  },
+  {
+    image: basketImages[1],
+    name: 'Terrain 3x3',
+    duration: '45 min',
+    desc: 'Espace réduit pour des parties rapides et intenses.',
+    price: '10 000',
+  },
+  {
+    image: basketImages[2],
+    name: 'Entraînement',
+    duration: '1h',
+    desc: 'Session d\'entraînement collectif avec coach.',
+    price: '12 000',
+  },
 ];
 
 const Sports = () => {
@@ -32,84 +78,112 @@ const Sports = () => {
 
   return (
     <div className="sports-page">
-      <section className="dept-hero">
-        <div className="dept-hero-bg" style={{ backgroundImage: `url(${tennisImages[0]})` }}></div>
-        <div className="dept-hero-overlay"></div>
-        <div className="dept-hero-content">
-          <h1 className="dept-title">Sports Extérieurs</h1>
-        </div>
-      </section>
 
-      {/* TENNIS SECTION */}
-      <section className="dept-presentation" id="tennis">
-        <div className="presentation-container">
-          <div className="presentation-text" style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '40px', fontStyle: 'normal' }}>Tennis</h2>
-            <p>Terrains en dur éclairés pour une pratique loisir ou intensive, même en soirée. L'espace idéal pour perfectionner votre service sous le climat tropical.</p>
+      {/* ─── HERO ─── */}
+      <section className="sp-hero">
+        <div className="sp-hero-bg" style={{ backgroundImage: `url(${tennisImages[0]})` }}></div>
+        <div className="sp-hero-overlay"></div>
+        <div className="sp-hero-content">
+          <div className="sp-hero-logo-row">
+            <Trophy size={22} className="sp-hero-icon" />
+            <h1 className="sp-hero-title">Sports Extérieurs</h1>
+          </div>
+          <div className="sp-hero-info-bar">
+            <span><Clock size={14} /> LUN–DIM 08H–22H</span>
+            <span><Phone size={14} /> +228 92 92 18 89</span>
           </div>
         </div>
       </section>
 
-      <section className="dept-gallery" style={{ paddingTop: 0 }}>
-        <div className="sports-carousel-container">
-          <div className="sports-carousel-track">
-            {/* Dupliquer le tableau pour le défilement infini */}
-            {[...tennisImages, ...tennisImages].map((src, idx) => (
-              <div key={idx} className="sports-carousel-item" onClick={() => openLightbox(tennisImages, idx % tennisImages.length)}>
-                <img src={src} alt={`Tennis ${idx}`} />
-                <div className="gallery-overlay"></div>
+      {/* ─── TENNIS ─── */}
+      <section className="sp-soins-section">
+        <div className="sports-section-header">
+          <Target size={24} className="section-icon" />
+          <h2 className="sports-section-title">Tennis</h2>
+        </div>
+        <p className="sports-section-desc">Terrains en dur éclairés pour une pratique loisir ou intensive, même en soirée.</p>
+        <div className="sp-soins-grid">
+          {tennisServices.map((service, i) => (
+            <div key={i} className="sp-soin-card">
+              <div className="sp-soin-img-wrap">
+                <img src={service.image} alt={service.name} />
               </div>
-            ))}
-          </div>
-        </div>
-        <div className="contact-card" style={{ maxWidth: '600px', margin: '40px auto 0' }}>
-          <div className="tarif-line" style={{ borderBottom: 'none', paddingBottom: 0 }}><span>Tarif horaire</span><span className="price">10 000 FCFA</span></div>
-          <div className="contact-line" style={{ marginTop: '16px' }}><Phone size={18} /><span>(+228) 92 92 18 89</span></div>
-        </div>
-      </section>
-
-      {/* GRAPHIC SEPARATOR */}
-      <div style={{ padding: '80px 0', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '50%', left: 0, width: '100%', height: '1px', backgroundColor: 'rgba(200,168,75,0.3)', zIndex: 1 }}></div>
-        <div style={{ position: 'relative', zIndex: 2, display: 'inline-block', backgroundColor: 'var(--color-bg-primary)', padding: '0 32px' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: '100px', color: 'rgba(200,168,75,0.1)', fontStyle: 'italic', lineHeight: 1 }}>&</span>
-        </div>
-      </div>
-
-      {/* BASKETBALL SECTION */}
-      <section className="dept-presentation" id="basket" style={{ paddingTop: 0 }}>
-        <div className="presentation-container">
-          <div className="presentation-text" style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '40px', fontStyle: 'normal' }}>Basketball</h2>
-            <p>Un terrain professionnel extérieur pour des matchs 5x5 ou 3x3 intenses. Projecteurs LED pour des soirées de jeu mémorables.</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="dept-gallery" style={{ paddingTop: 0, paddingBottom: '100px' }}>
-        <div className="sports-carousel-container">
-          <div className="sports-carousel-track">
-            {/* Dupliquer le tableau pour le défilement infini */}
-            {[...basketImages, ...basketImages].map((src, idx) => (
-              <div key={idx} className="sports-carousel-item" onClick={() => openLightbox(basketImages, idx % basketImages.length)}>
-                <img src={src} alt={`Basket ${idx}`} />
-                <div className="gallery-overlay"></div>
+              <div className="sp-soin-body">
+                <div className="sp-soin-header">
+                  <h3>{service.name}</h3>
+                  <span className="sp-soin-duration">{service.duration}</span>
+                </div>
+                <p className="sp-soin-desc">{service.desc}</p>
+                <div className="sp-soin-footer">
+                  <span className="sp-soin-price">{service.price} FCFA</span>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-        <div className="contact-card" style={{ maxWidth: '600px', margin: '40px auto 0' }}>
-          <div className="tarif-line" style={{ borderBottom: 'none', paddingBottom: 0 }}><span>Tarif horaire</span><span className="price">5 000 FCFA</span></div>
-          <div className="contact-line" style={{ marginTop: '16px' }}><Phone size={18} /><span>(+228) 92 92 18 89</span></div>
+            </div>
+          ))}
         </div>
       </section>
 
-      <Lightbox 
+      {/* ─── BASKETBALL ─── */}
+      <section className="sp-soins-section">
+        <div className="sports-section-header">
+          <Users size={24} className="section-icon" />
+          <h2 className="sports-section-title">Basketball</h2>
+        </div>
+        <p className="sports-section-desc">Un terrain professionnel extérieur pour des matchs 5x5 ou 3x3 intenses, avec projecteurs LED.</p>
+        <div className="sp-soins-grid">
+          {basketServices.map((service, i) => (
+            <div key={i} className="sp-soin-card">
+              <div className="sp-soin-img-wrap">
+                <img src={service.image} alt={service.name} />
+              </div>
+              <div className="sp-soin-body">
+                <div className="sp-soin-header">
+                  <h3>{service.name}</h3>
+                  <span className="sp-soin-duration">{service.duration}</span>
+                </div>
+                <p className="sp-soin-desc">{service.desc}</p>
+                <div className="sp-soin-footer">
+                  <span className="sp-soin-price">{service.price} FCFA</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ─── INFOS PRATIQUES ─── */}
+      <section className="sp-infos-section">
+        <div className="sp-infos-card">
+          <div className="sp-infos-icon-top"><Trophy size={28} /></div>
+          <p className="sp-infos-heading">Informations pratiques</p>
+          <div className="sp-infos-items">
+            <div className="sp-info-item"><Clock size={16} /><span>Ouvert 7j/7 de 08h00 à 22h00</span></div>
+            <div className="sp-info-sep"></div>
+            <div className="sp-info-item"><Phone size={16} /><span>Contact : +228 92 92 18 89</span></div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── GALERIE ─── */}
+      <section className="sp-gallery-section">
+        <h2 className="sp-gallery-title">Les Sports en images</h2>
+        <div className="sp-gallery-grid">
+          {[...tennisImages, ...basketImages].map((src, idx) => (
+            <div key={idx} className="sp-gallery-item" onClick={() => openLightbox([...tennisImages, ...basketImages], idx)}>
+              <img src={src} alt={`Sport ${idx + 1}`} />
+              <div className="sp-gallery-hover"></div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Lightbox
         images={activeGallery}
         currentIndex={currentImage}
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}
         onNavigate={setCurrentImage}
+        backgroundColor="rgba(24, 32, 48, 0.98)"
       />
     </div>
   );

@@ -11,7 +11,7 @@ const Footer = () => {
         <div className="footer-grid">
           {/* Col 1 */}
           <div className="footer-col animate-col-1">
-            <h2 className="footer-logo">HARMONIE</h2>
+            <img src="/logo-harmonie.png" alt="Harmonie Signature Logo" className="footer-logo-img" />
             <p className="footer-tagline">Détente complète à Lomé</p>
             <div className="social-links">
               <a href="https://facebook.com/harmoniesignature" target="_blank" rel="noreferrer"><FaFacebook size={20} /></a>

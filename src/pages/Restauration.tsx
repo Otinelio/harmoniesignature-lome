@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { ShoppingCart, Plus, Minus, Trash2, X, MessageCircle, Phone } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, Trash2, X, MessageCircle, Phone, ArrowLeft, ArrowRight, Clock } from 'lucide-react';
 import { getRestaurants, Restaurant, MenuItem, CartItem, getCart, saveCart } from '../utils/storage';
 import './Restauration.css';
 
@@ -31,18 +31,6 @@ const Restauration = () => {
       saveCart(restaurants[activeTab].id, cart);
     }
   }, [cart, activeTab, restaurants]);
-
-  const handleTabChange = (index: number) => {
-    if (cart.length > 0 && index !== activeTab) {
-      const confirmChange = window.confirm('Vous avez des articles dans votre panier actuel. Vider le panier et changer de restaurant ?');
-      if (confirmChange) {
-        setCart([]);
-        setActiveTab(index);
-      }
-    } else {
-      setActiveTab(index);
-    }
-  };
 
   const addToCart = (item: MenuItem) => {
     setCart(prev => {
@@ -190,61 +178,73 @@ const Restauration = () => {
 
   return (
     <div className="restauration-page">
-      <section className="dept-hero rest-hero" style={{ height: '60vh' }}>
-        <div className="dept-hero-bg" style={{ backgroundImage: `url(${heroImages[activeTab % heroImages.length]})` }}></div>
-        <div className="dept-hero-overlay"></div>
-        <div className="dept-hero-content">
-          <h1 className="dept-title">Restauration</h1>
+      <section className="rest-hero-banner">
+        <div className="rest-hero-bg" style={{ backgroundImage: `url(${heroImages[activeTab % heroImages.length]})` }}></div>
+        <div className="rest-hero-overlay"></div>
+        <div className="rest-hero-content">
+          <h1 className="rest-hero-title">Restauration</h1>
+          
+          <div className="rest-banner-cards">
+            {restaurants.map((rest, idx) => (
+              <button 
+                key={rest.id} 
+                className={`rest-banner-card ${activeTab === idx ? 'active' : ''}`}
+                onClick={() => {
+                  if (cart.length > 0 && activeTab !== idx) {
+                    const confirmChange = window.confirm('Vous avez des articles dans votre panier actuel. Vider le panier et changer de restaurant ?');
+                    if (confirmChange) {
+                      setCart([]);
+                      setActiveTab(idx);
+                    }
+                  } else {
+                    setActiveTab(idx);
+                  }
+                }}
+              >
+                <div className="rest-card-logo" style={{ backgroundImage: `url(${heroImages[idx % heroImages.length]})` }}></div>
+                <div className="rest-card-name">{rest.name}</div>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
-
-      <div className="rest-tabs-container">
-        <div className="rest-tabs">
-          {restaurants.map((rest, idx) => (
-            <button 
-              key={rest.id} 
-              className={`rest-tab ${activeTab === idx ? 'active' : ''}`}
-              onClick={() => handleTabChange(idx)}
-            >
-              {rest.name}
-            </button>
-          ))}
-        </div>
-      </div>
 
       <section className="rest-content fade-in-up" key={currentRest.id}>
         <div className="rest-header">
           <h2 className="rest-name">{currentRest.name}</h2>
           <div className="rest-info-bar">
             <div className="contact-line"><Phone size={16} /><span>(+228) 92 92 18 89</span></div>
-            <div className="contact-line"><span>{currentRest.hours}</span></div>
+            <div className="contact-line"><Clock size={16} /><span>{currentRest.hours}</span></div>
           </div>
         </div>
 
         {!currentRest.isOpen && (
-          <div style={{ textAlign: 'center', padding: '40px', backgroundColor: 'rgba(224, 90, 90, 0.1)', color: '#E05A5A', borderRadius: '8px', margin: '0 32px 40px' }}>
+          <div style={{ textAlign: 'center', padding: '24px', backgroundColor: 'rgba(224, 90, 90, 0.1)', color: '#E05A5A', borderRadius: '8px', margin: '0 auto 40px', maxWidth: '900px' }}>
             Ce restaurant est actuellement fermé.
           </div>
         )}
 
-        <div className="menu-grid">
+        <div className="classic-menu-list">
           {currentRest.menu.map(item => (
-            <div key={item.id} className="menu-item-card">
-              <div className="menu-item-img" style={{ backgroundImage: `url(${item.image})` }}></div>
-              <div className="menu-item-details">
-                <div className="menu-item-header">
-                  <h3 className="menu-item-name">{item.name}</h3>
-                  <span className="menu-item-price">{item.price.toLocaleString('fr-FR')} FCFA</span>
+            <div key={item.id} className="classic-menu-item">
+              <div className="c-menu-img" style={{ backgroundImage: `url(${item.image})` }}></div>
+              <div className="c-menu-body">
+                <div className="c-menu-header">
+                  <h3 className="c-menu-name">{item.name}</h3>
+                  <div className="c-menu-dots"></div>
+                  <span className="c-menu-price">{item.price.toLocaleString('fr-FR')} FCFA</span>
                 </div>
-                <p className="menu-item-desc">{item.description}</p>
-                <button className="add-to-cart-btn" onClick={() => addToCart(item)} disabled={!currentRest.isOpen}>
-                  <Plus size={16} /> Ajouter
-                </button>
+                <p className="c-menu-desc">{item.description}</p>
+                <div className="c-menu-actions">
+                  <button className="c-menu-add-btn" onClick={() => addToCart(item)} disabled={!currentRest.isOpen}>
+                    <Plus size={14} /> Ajouter au panier
+                  </button>
+                </div>
               </div>
             </div>
           ))}
           {currentRest.menu.length === 0 && (
-            <p style={{ gridColumn: '1 / -1', textAlign: 'center', opacity: 0.5 }}>Menu en cours d'élaboration.</p>
+            <p style={{ textAlign: 'center', opacity: 0.5, fontStyle: 'italic' }}>Menu en cours d'élaboration.</p>
           )}
         </div>
       </section>

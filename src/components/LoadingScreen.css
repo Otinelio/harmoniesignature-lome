@@ -16,16 +16,23 @@
   animation: scaleDown 0.28s ease-in 1.82s forwards;
 }
 
-.loading-title {
-  font-family: var(--font-display);
-  font-size: 28px;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--color-text-primary);
-  background: linear-gradient(var(--color-text-primary), var(--color-text-primary)) no-repeat;
-  -webkit-background-clip: text;
-  background-position: -1000px 0;
-  animation: fillText 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  letter-spacing: 0.1em;
+.loading-logo-img {
+  width: 280px;
+  height: auto;
+  object-fit: contain;
+  opacity: 0;
+  animation: fadeInLogo 0.8s ease-out forwards;
+}
+
+@keyframes fadeInLogo {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .loading-line-container {

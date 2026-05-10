@@ -1,249 +1,325 @@
-.dept-hero {
+/* ============================================
+   PISCINE – MOCKUP FAITHFUL DESIGN
+   ============================================ */
+
+.piscine-page {
+  background-color: var(--color-bg-primary);
+  min-height: 100vh;
+  color: var(--color-text-primary);
+}
+
+/* ─── HERO ─── */
+.p-hero {
   position: relative;
-  height: 70vh;
+  height: 60vh;
+  min-height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
 
-.dept-hero-bg {
+.p-hero-bg {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
-  filter: saturate(0.88) contrast(1.06);
+  filter: brightness(0.5) saturate(0.8);
 }
 
-.dept-hero-overlay {
+.p-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top right, rgba(12, 16, 24, 0.9) 0%, rgba(12, 16, 24, 0.4) 50%, rgba(12, 16, 24, 0.1) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(12, 16, 24, 0.3) 0%,
+    rgba(12, 16, 24, 0.65) 100%
+  );
 }
 
-.dept-hero-content {
+.p-hero-content {
   position: relative;
   z-index: 10;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
-}
-
-.dept-title {
-  font-family: var(--font-display);
-  font-size: 64px;
-  color: var(--color-text-primary);
-}
-
-.dept-badge {
-  font-family: var(--font-body);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--color-accent-turquoise);
-  background-color: rgba(46, 158, 173, 0.1);
-  padding: 8px 16px;
-  border: 1px solid rgba(46, 158, 173, 0.3);
-  border-radius: 4px;
-}
-
-.dept-presentation {
-  padding: 100px 32px;
-}
-
-.presentation-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 48px;
-  align-items: center;
-}
-
-@media (min-width: 1024px) {
-  .presentation-container {
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-  }
-}
-
-.presentation-text h2 {
-  font-family: var(--font-display);
-  font-size: 40px;
-  font-style: italic;
-  margin-bottom: 24px;
-  color: var(--color-text-primary);
-}
-
-.presentation-text p {
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.8;
-  opacity: 0.8;
-}
-
-.presentation-image {
-  height: 500px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 4px;
-  filter: saturate(0.9) contrast(1.1);
-}
-
-/* Wave Separator */
-.wave-separator {
-  width: 100%;
-  height: 100px;
-  overflow: hidden;
-  line-height: 0;
-  margin: -1px 0;
-}
-
-.wave-svg {
-  position: relative;
-  display: block;
-  width: calc(100% + 1.3px);
-  height: 100px;
-  animation: waveMotion 4s ease-in-out infinite alternate;
-}
-
-.wave-path {
-  fill: var(--color-accent-turquoise);
-  opacity: 0.15;
-}
-
-@keyframes waveMotion {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50px); }
-}
-
-/* Gallery Masonry */
-.dept-gallery {
-  padding: 80px 32px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.gallery-masonry {
-  column-count: 2;
-  column-gap: 16px;
-}
-
-@media (min-width: 1024px) {
-  .gallery-masonry {
-    column-count: 3;
-    column-gap: 24px;
-  }
-}
-
-.gallery-item {
-  position: relative;
-  margin-bottom: 16px;
-  break-inside: avoid;
-  overflow: hidden;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-@media (min-width: 1024px) {
-  .gallery-item { margin-bottom: 24px; }
-}
-
-.gallery-item img {
-  width: 100%;
-  display: block;
-  transition: transform 0.38s ease-out;
-  filter: saturate(0.9) contrast(1.1);
-}
-
-.gallery-overlay {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(12, 16, 24, 0.4);
-  transition: background-color 0.38s ease-out;
-}
-
-.gallery-item:hover img {
-  transform: scale(1.04);
-}
-
-.gallery-item:hover .gallery-overlay {
-  background-color: rgba(12, 16, 24, 0.1);
-}
-
-/* Dept Info */
-.dept-info {
-  padding: 40px 32px 100px;
-}
-
-.info-cards {
-  max-width: 1000px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-}
-
-@media (min-width: 768px) {
-  .info-cards {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.tarif-card, .contact-card {
-  background-color: var(--color-bg-secondary);
-  border: 1px solid var(--color-accent-gold);
-  border-radius: 8px;
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
   gap: 16px;
 }
 
-.tarif-card h3, .contact-card h3 {
+.p-hero-title {
   font-family: var(--font-display);
-  font-size: 24px;
-  color: var(--color-accent-gold);
-  margin-bottom: 8px;
+  font-style: italic;
+  font-size: clamp(44px, 7vw, 80px);
+  color: var(--color-text-primary);
+  line-height: 1.05;
 }
 
-.tarif-line {
+.p-hero-sub {
+  font-family: var(--font-body);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ─── SECTION TITLE ─── */
+.p-section-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(28px, 3.5vw, 40px);
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+/* ─── PLANS ─── */
+.p-plans-section {
+  padding: 80px 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.p-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .p-plans-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 580px) {
+  .p-plans-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.p-plan-card {
+  position: relative;
+  background: var(--color-bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  padding: 28px 24px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  padding-bottom: 8px;
+  flex-direction: column;
+  gap: 16px;
+  transition: border-color 0.25s ease;
 }
 
-.tarif-line .price {
+.p-plan-card:hover {
+  border-color: rgba(200, 168, 75, 0.25);
+}
+
+.p-plan-card.highlighted {
+  border-color: rgba(46, 158, 173, 0.4);
+  background: rgba(46, 158, 173, 0.04);
+}
+
+.p-plan-badge {
+  position: absolute;
+  top: -12px;
+  right: 16px;
+  background: var(--color-accent-turquoise);
+  color: #0C1018;
+  font-family: var(--font-body);
+  font-size: 10px;
   font-weight: 700;
-  color: var(--color-accent-gold);
-}
-
-.tarif-badge {
-  display: inline-block;
-  align-self: flex-start;
-  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  background-color: rgba(200, 168, 75, 0.1);
-  color: var(--color-accent-gold);
-  padding: 4px 12px;
+  padding: 4px 10px;
   border-radius: 4px;
+}
+
+.p-plan-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.p-plan-price {
+  font-family: var(--font-display);
+  font-size: 42px;
+  line-height: 1;
+  color: var(--color-text-primary);
+}
+
+.p-plan-price span {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+  margin-left: 4px;
+}
+
+.p-plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.p-plan-features li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.p-plan-features li svg {
+  color: var(--color-accent-turquoise);
+  flex-shrink: 0;
+}
+
+.p-plan-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.25s ease;
+  margin-top: auto;
+}
+
+.p-plan-btn:hover {
+  border-color: var(--color-accent-turquoise);
+  color: var(--color-accent-turquoise);
+  background: rgba(46, 158, 173, 0.05);
+}
+
+/* ─── GALLERY ─── */
+.p-gallery-section {
+  padding: 0 32px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.p-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 220px);
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .p-gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+}
+
+.p-gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.p-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.85) saturate(0.85);
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.p-gallery-hover {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 16, 24, 0.2);
+  transition: background 0.3s ease;
+}
+
+.p-gallery-item:hover img {
+  transform: scale(1.06);
+  filter: brightness(1) saturate(1);
+}
+
+.p-gallery-item:hover .p-gallery-hover {
+  background: transparent;
+}
+
+/* ─── INFOS PRATIQUES ─── */
+.p-infos-section {
+  padding: 0 32px 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.p-infos-card {
+  background: var(--color-bg-secondary);
+  border-radius: 10px;
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.p-infos-icon-top {
+  color: var(--color-accent-turquoise);
+}
+
+.p-infos-heading {
+  font-family: var(--font-body);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.p-infos-items {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-top: 8px;
 }
 
-.contact-line {
+.p-info-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 15px;
-  opacity: 0.9;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 0 28px;
 }
 
-.contact-line svg {
-  color: var(--color-accent-gold);
+.p-info-item svg {
+  color: var(--color-accent-turquoise);
+  flex-shrink: 0;
+}
+
+.p-info-sep {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 768px) {
+  .p-infos-items { flex-direction: column; gap: 16px; }
+  .p-info-sep { display: none; }
+  .p-info-item { padding: 0; }
 }

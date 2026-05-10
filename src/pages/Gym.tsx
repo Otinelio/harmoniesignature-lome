@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Clock, Phone } from 'lucide-react';
+import { Clock, Phone, Zap, Dumbbell, Check } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Gym.css';
 
@@ -12,6 +12,30 @@ const gymImages = [
   'https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=1200&auto=format&fit=crop'
 ];
 
+const gymPlans = [
+  {
+    badge: null,
+    name: 'Séance unique',
+    tagline: 'À l\'unité, sans engagement',
+    price: '3 000',
+    highlight: false,
+  },
+  {
+    badge: 'Réduction périodique',
+    name: 'Mensuel',
+    tagline: 'Accès illimité 30 jours',
+    price: '25 000',
+    highlight: false,
+  },
+  {
+    badge: 'Meilleure offre',
+    name: 'Annuel',
+    tagline: '12 mois · 2 mois offerts',
+    price: '200 000',
+    highlight: true,
+  },
+];
+
 const Gym = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
@@ -21,63 +45,91 @@ const Gym = () => {
     setLightboxOpen(true);
   };
 
+
+
+
   return (
     <div className="gym-page">
-      <section className="dept-hero">
-        <div className="dept-hero-bg" style={{ backgroundImage: `url(${gymImages[0]})`, filter: 'saturate(0.7) contrast(1.15)' }}></div>
-        <div className="dept-hero-overlay"></div>
-        <div className="dept-hero-content">
-          <h1 className="dept-title">Gym & Fitness</h1>
-        </div>
-      </section>
 
-      <section className="dept-presentation">
-        <div className="presentation-container">
-          <div className="presentation-text" style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-            <h2>Plus fort chaque jour.</h2>
-            <p>Découvrez notre espace d'entraînement industriel et moderne. Des équipements de musculation de pointe, des machines cardio de dernière génération et un espace dédié au renforcement libre. L'environnement idéal pour dépasser vos limites.</p>
+      {/* ─── HERO ─── */}
+      <section className="sp-hero">
+        <div className="sp-hero-bg" style={{ backgroundImage: `url(${gymImages[0]})` }}></div>
+        <div className="sp-hero-overlay"></div>
+        <div className="sp-hero-content">
+          <div className="sp-hero-logo-row">
+            <Dumbbell size={22} className="sp-hero-icon" />
+            <h1 className="sp-hero-title">Gym & Fitness</h1>
+          </div>
+          <div className="sp-hero-info-bar">
+            <span><Clock size={14} /> LUN–SAM 06H–22H</span>
+            <span><Phone size={14} /> +228 92 92 18 89</span>
           </div>
         </div>
       </section>
 
-      <section className="dept-gallery">
-        <div className="gallery-masonry" style={{ columnCount: 3 }}>
-          {gymImages.map((src, idx) => (
-            <div key={idx} className="gallery-item" onClick={() => openLightbox(idx)}>
-              <img src={src} alt={`Gym ${idx}`} style={{ filter: 'saturate(0.7) contrast(1.15)' }} />
-              <div className="gallery-overlay"></div>
+      {/* ─── PRICING CARDS ─── */}
+      <section className="sp-soins-section">
+        <h2 className="sp-soins-title">Nos formules</h2>
+        <p className="sp-soins-subtitle">Choisissez la formule adaptée à votre rythme d'entraînement.</p>
+        <div className="gym-plans-grid">
+          {gymPlans.map((plan, i) => (
+            <div key={i} className={`gym-plan-card ${plan.highlight ? 'gym-plan-highlight' : ''}`}>
+              {plan.badge && <div className="gym-plan-badge">{plan.badge}</div>}
+              <div className="gym-plan-name">{plan.name}</div>
+              <div className="gym-plan-price">{plan.price} <span>FCFA</span></div>
+              <div className="gym-plan-tagline">{plan.tagline}</div>
+              <a
+                href={`https://wa.me/22892921889?text=Bonjour%20Harmonie%20Signature%2C%20je%20souhaite%20des%20infos%20sur%20la%20formule%20%22${encodeURIComponent(plan.name)}%22%20de%20la%20Gym.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="gym-plan-btn"
+              >
+                Infos via WhatsApp
+              </a>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="gym-pricing-section">
-        <div className="gym-pricing-container">
-          <div className="gym-plan">
-            <h3>Séance</h3>
-            <div className="plan-price">2 000 FCFA</div>
-            <p className="plan-desc">Accès d'une journée à toutes les machines.</p>
-          </div>
-          <div className="gym-plan">
-            <div className="plan-badge">Réduction périodique disponible</div>
-            <h3>Mensuel</h3>
-            <div className="plan-price">25 000 FCFA</div>
-            <p className="plan-desc">Accès illimité pendant 30 jours.</p>
-          </div>
-          <div className="gym-plan featured">
-            <div className="plan-badge featured-badge">Meilleure offre</div>
-            <h3>Annuel</h3>
-            <div className="plan-price">250 000 FCFA</div>
-            <p className="plan-desc">Accès illimité toute l'année avec avantages.</p>
-          </div>
-        </div>
-
-        <div className="contact-card" style={{ maxWidth: '600px', margin: '64px auto 0' }}>
-          <h3>Informations</h3>
-          <div className="contact-line"><Clock size={18} /><span>Lun – Sam : 06h00 – 22h00</span></div>
-          <div className="contact-line"><Phone size={18} /><span>(+228) 92 92 18 89</span></div>
+      {/* ─── GALERIE ─── */}
+      <section className="sp-gallery-section">
+        <h2 className="sp-gallery-title">La Gym en images</h2>
+        <div className="sp-gallery-grid">
+          {gymImages.map((src, idx) => (
+            <div key={idx} className="sp-gallery-item" onClick={() => openLightbox(idx)}>
+              <img src={src} alt={`Gym ${idx + 1}`} />
+              <div className="sp-gallery-hover"></div>
+            </div>
+          ))}
         </div>
       </section>
+
+      {/* ─── INFOS PRATIQUES ─── */}
+      <section className="sp-infos-section">
+        <div className="sp-infos-card">
+          <div className="sp-infos-icon-top">
+            <Zap size={28} />
+          </div>
+          <p className="sp-infos-heading">Informations pratiques</p>
+          <div className="sp-infos-items">
+            <div className="sp-info-item">
+              <Clock size={16} />
+              <span>Ouvert 6j/7 de 06h00 à 22h00</span>
+            </div>
+            <div className="sp-info-sep"></div>
+            <div className="sp-info-item">
+              <Phone size={16} />
+              <span>Contact : +228 92 92 18 89</span>
+            </div>
+            <div className="sp-info-sep"></div>
+            <div className="sp-info-item">
+              <Zap size={16} />
+              <span>Seance : 2 000 FCFA</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       <Lightbox 
         images={gymImages}
@@ -85,6 +137,7 @@ const Gym = () => {
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}
         onNavigate={setCurrentImage}
+        backgroundColor="rgba(24, 32, 48, 0.98)"
       />
     </div>
   );
