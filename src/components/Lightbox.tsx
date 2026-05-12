@@ -27,21 +27,38 @@ const Lightbox: React.FC<LightboxProps> = ({ images, currentIndex, isOpen, onClo
   if (!isOpen) return null;
 
   return (
-    <div className="lightbox-overlay" style={{ backgroundColor }}>
-      <button className="lightbox-close" onClick={onClose}>
-        <X size={32} />
-      </button>
-
-      <button className="lightbox-nav prev" onClick={() => onNavigate((currentIndex - 1 + images.length) % images.length)}>
-        <ChevronLeft size={48} />
-      </button>
-
-      <div className="lightbox-content">
-        <img src={images[currentIndex]} alt={`Gallery ${currentIndex}`} />
+    <div 
+      className="lightbox-overlay" 
+      style={{ backgroundColor }}
+      onClick={onClose}
+    >
+      <div className="lightbox-top-bar" onClick={(e) => e.stopPropagation()}>
+        <span className="lightbox-counter">{currentIndex + 1} / {images.length}</span>
+        <button className="lightbox-close" onClick={onClose}>
+          <X size={24} />
+        </button>
       </div>
 
-      <button className="lightbox-nav next" onClick={() => onNavigate((currentIndex + 1) % images.length)}>
-        <ChevronRight size={48} />
+      <button 
+        className="lightbox-nav prev" 
+        onClick={(e) => { e.stopPropagation(); onNavigate((currentIndex - 1 + images.length) % images.length); }}
+      >
+        <ChevronLeft size={40} />
+      </button>
+
+      <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+        <img 
+          src={images[currentIndex]} 
+          alt={`Gallery ${currentIndex}`} 
+          className="lightbox-image"
+        />
+      </div>
+
+      <button 
+        className="lightbox-nav next" 
+        onClick={(e) => { e.stopPropagation(); onNavigate((currentIndex + 1) % images.length); }}
+      >
+        <ChevronRight size={40} />
       </button>
     </div>
   );

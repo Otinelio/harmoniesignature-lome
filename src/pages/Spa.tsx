@@ -3,14 +3,19 @@ import { createPortal } from 'react-dom';
 import { Clock, Phone, X, CalendarCheck, Sparkles } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Spa.css';
+import harmonieImg from '../images/harmonie.png';
+
+// import spa1 from '../images/spa/spa-1.jpg';
+import spa2 from '../images/spa/spa-2.jpg';
+import spa3 from '../images/spa/spa-3.jpg';
+import spa4 from '../images/spa/spa-4.jpg';
 
 const spaImages = [
-  'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1596178065887-1198b6148b2b?q=80&w=1400&auto=format&fit=crop',
+  // spa1,
+  spa2,
+  spa3,
+  spa4,
+  harmonieImg
 ];
 
 const soins = [
@@ -113,12 +118,12 @@ const Spa = () => {
           <div className="sp-form-row">
             <div className="sp-form-group">
               <label>Date</label>
-              <input type="date" value={formState.date} onChange={e => setFormState({...formState, date: e.target.value})} min={new Date().toISOString().split('T')[0]} required />
+              <input type="date" value={formState.date} onChange={e => setFormState({ ...formState, date: e.target.value })} min={new Date().toISOString().split('T')[0]} required />
             </div>
             <div className="sp-form-group">
               <label>Heure</label>
-              <select value={formState.heure} onChange={e => setFormState({...formState, heure: e.target.value})} required>
-                {['09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'].map(h => (
+              <select value={formState.heure} onChange={e => setFormState({ ...formState, heure: e.target.value })} required>
+                {['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'].map(h => (
                   <option key={h} value={h}>{h}</option>
                 ))}
               </select>
@@ -126,15 +131,15 @@ const Spa = () => {
           </div>
           <div className="sp-form-group">
             <label>Prénom & Nom</label>
-            <input type="text" placeholder="Votre nom complet" value={formState.nom} onChange={e => setFormState({...formState, nom: e.target.value})} required />
+            <input type="text" placeholder="Votre nom complet" value={formState.nom} onChange={e => setFormState({ ...formState, nom: e.target.value })} required />
           </div>
           <div className="sp-form-group">
             <label>Téléphone WhatsApp</label>
-            <input type="tel" placeholder="+228 XX XX XX XX" value={formState.telephone} onChange={e => setFormState({...formState, telephone: e.target.value})} required />
+            <input type="tel" placeholder="+228 XX XX XX XX" value={formState.telephone} onChange={e => setFormState({ ...formState, telephone: e.target.value })} required />
           </div>
           <div className="sp-form-group">
             <label>Message (optionnel)</label>
-            <textarea rows={3} placeholder="Précisions, préférences…" value={formState.message} onChange={e => setFormState({...formState, message: e.target.value})}></textarea>
+            <textarea rows={3} placeholder="Précisions, préférences…" value={formState.message} onChange={e => setFormState({ ...formState, message: e.target.value })}></textarea>
           </div>
           <button type="submit" className="sp-submit-btn">
             <CalendarCheck size={18} /> Confirmer via WhatsApp
