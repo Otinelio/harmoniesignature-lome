@@ -3,13 +3,18 @@ import { Clock, Phone, Check, Sun, Zap } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Bowling.css';
 import logoBowling from '../images/logo/logo_bowling.png';
+import bowling1 from '../images/bowling/bowling_1.jpg';
+import bowling2 from '../images/bowling/bowling_2.jpg';
+import bowling3 from '../images/bowling/bowling_3.jpg';
+import bowling4 from '../images/bowling/bowling_4.jpg';
+import bowling5 from '../images/bowling/bowling_5.jpg';
 
 const bowlingImages = [
-  'https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1575361204480-aadea25e6e68?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1520627685600-e9e99a8341da?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1511216113888-0fa3debf4401?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1481515259972-005bf5541e2d?q=80&w=1400&auto=format&fit=crop',
+  bowling1,
+  bowling2,
+  bowling3,
+  bowling4,
+  bowling5,
 ];
 
 const plans = [

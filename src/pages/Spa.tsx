@@ -4,7 +4,6 @@ import { Clock, Phone, X, CalendarCheck, Sparkles } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Piscine.css';
 import './Spa.css';
-import harmonieImg from '../images/harmonie.png';
 import logoSpa from '../images/logo/logo_spa.png';
 
 import spa2 from '../images/spa/spa-2.jpg';
@@ -18,7 +17,7 @@ const spaImages = [
   spa3,
   spa4,
   spa5,
-  harmonieImg
+  spa5,
 ];
 
 const soins = [
@@ -159,7 +158,7 @@ const Spa = () => {
 
       {/* ─── HERO (même bannière que Piscine : classes p-hero / Piscine.css) ─── */}
       <section className="p-hero">
-        <div className="p-hero-bg" style={{ backgroundImage: `url(${spaImages[0]})` }}></div>
+        <div className="p-hero-bg" style={{ backgroundImage: `url(${spaImages[2]})` }}></div>
         <div className="p-hero-overlay"></div>
         <div className="p-hero-content">
           <div className="spa-hero-brand">

@@ -4,14 +4,20 @@ import Lightbox from '../components/Lightbox';
 import './Piscine.css';
 import './Gym.css';
 import logoGym from '../images/logo/logo_gym.png';
+import gym2 from '../images/salles/gym-2.jpg';
+import gym3 from '../images/salles/gym-3.jpg';
+import gym4 from '../images/salles/gym-4.jpg';
+import gym5 from '../images/salles/gym-5.jpg';
+import gym6 from '../images/salles/gym-6.jpg';
+import gym7 from '../images/salles/gym-7.jpg';
 
 const gymImages = [
-  'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1200&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=1200&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=1200&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1200&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1593079831268-3381b0c1352b?q=80&w=1200&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1574680096145-d05b474e2155?q=80&w=1200&auto=format&fit=crop'
+  gym2,
+  gym3,
+  gym4,
+  gym5,
+  gym6,
+  gym7
 ];
 
 const gymPlans = [
