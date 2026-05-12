@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Clock, Phone, Check, Sun, Zap } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Bowling.css';
+import logoBowling from '../images/logo/logo_bowling.png';
 
 const bowlingImages = [
   'https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?q=80&w=1400&auto=format&fit=crop',
@@ -58,16 +59,7 @@ const Bowling = () => {
           <span></span><span></span><span></span>
         </div>
         <div className="bw-hero-content">
-          <div className="bw-hero-eyebrow">Harmonie Signature · Loisirs</div>
-          <h1 className="bw-hero-title">
-            <span className="bw-neon-letter" style={{ '--i': 0 } as React.CSSProperties}>B</span>
-            <span className="bw-neon-letter" style={{ '--i': 1 } as React.CSSProperties}>O</span>
-            <span className="bw-neon-letter" style={{ '--i': 2 } as React.CSSProperties}>W</span>
-            <span className="bw-neon-letter" style={{ '--i': 3 } as React.CSSProperties}>L</span>
-            <span className="bw-neon-letter" style={{ '--i': 4 } as React.CSSProperties}>I</span>
-            <span className="bw-neon-letter" style={{ '--i': 5 } as React.CSSProperties}>N</span>
-            <span className="bw-neon-letter" style={{ '--i': 6 } as React.CSSProperties}>G</span>
-          </h1>
+          <img src={logoBowling} alt="Bowling Harmonie Signature" className="bw-hero-dept-logo" />
           <p className="bw-hero-sub">PISTES ILLUMINÉES · SON IMMERSIF · AMBIANCE ÉLECTRIQUE</p>
         </div>
       </section>

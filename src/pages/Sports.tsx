@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { Phone, Clock, Target, Trophy, Users } from 'lucide-react';
+import { Phone, Clock, Target, Trophy, Users, X, CalendarCheck } from 'lucide-react';
+import { createPortal } from 'react-dom';
 import Lightbox from '../components/Lightbox';
+import './Piscine.css';
 import './Sports.css';
+import logoBowling from '../images/logo/logo_bowling.png';
 
 const tennisImages = [
   'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=1200&auto=format&fit=crop',
@@ -80,16 +83,15 @@ const Sports = () => {
     <div className="sports-page">
 
       {/* ─── HERO ─── */}
-      <section className="sp-hero">
-        <div className="sp-hero-bg" style={{ backgroundImage: `url(${tennisImages[0]})` }}></div>
-        <div className="sp-hero-overlay"></div>
-        <div className="sp-hero-content">
-          <div className="sp-hero-logo-row">
-            <Trophy size={22} className="sp-hero-icon" />
-            <h1 className="sp-hero-title">Sports Extérieurs</h1>
+      <section className="p-hero">
+        <div className="p-hero-bg" style={{ backgroundImage: `url(${tennisImages[0]})` }}></div>
+        <div className="p-hero-overlay"></div>
+        <div className="p-hero-content">
+          <div className="spa-hero-brand">
+            <img src={logoBowling} alt="Sports Harmonie Signature" className="spa-hero-dept-logo" />
           </div>
-          <div className="sp-hero-info-bar">
-            <span><Clock size={14} /> LUN–DIM 08H–22H</span>
+          <div className="spa-hero-info-bar">
+            <span><Clock size={14} /> LUN–DIM 08H–22H  </span>
             <span><Phone size={14} /> +228 92 92 18 89</span>
           </div>
         </div>

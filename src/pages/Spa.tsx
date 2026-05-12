@@ -2,19 +2,22 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Clock, Phone, X, CalendarCheck, Sparkles } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
+import './Piscine.css';
 import './Spa.css';
 import harmonieImg from '../images/harmonie.png';
+import logoSpa from '../images/logo/logo_spa.png';
 
-// import spa1 from '../images/spa/spa-1.jpg';
 import spa2 from '../images/spa/spa-2.jpg';
 import spa3 from '../images/spa/spa-3.jpg';
 import spa4 from '../images/spa/spa-4.jpg';
+import spa5 from '../images/spa/spa-5.jpg';
 
+// spaImages indices: 0=spa2, 1=spa3, 2=spa4, 3=spa5, 4=harmonieImg
 const spaImages = [
-  // spa1,
   spa2,
   spa3,
   spa4,
+  spa5,
   harmonieImg
 ];
 
@@ -34,7 +37,7 @@ const soins = [
     price: '18 000',
   },
   {
-    image: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1400&auto=format&fit=crop',
+    image: spaImages[3],
     name: 'Jacuzzi Privatif',
     duration: '30 min',
     desc: 'Bain à jets, accès privé pour son ressourcement.',
@@ -48,7 +51,7 @@ const soins = [
     price: '20 000',
   },
   {
-    image: 'https://images.unsplash.com/photo-1573461160327-f89d31f6d50f?q=80&w=1400&auto=format&fit=crop',
+    image: spaImages[0],
     name: 'Massage en duo et jacuzzi',
     duration: '90 min',
     desc: 'Combo massage relaxant + accès jacuzzi privatif.',
@@ -154,16 +157,15 @@ const Spa = () => {
   return (
     <div className="spa-page">
 
-      {/* ─── HERO ─── */}
-      <section className="sp-hero">
-        <div className="sp-hero-bg" style={{ backgroundImage: `url(${spaImages[0]})` }}></div>
-        <div className="sp-hero-overlay"></div>
-        <div className="sp-hero-content">
-          <div className="sp-hero-logo-row">
-            <Sparkles size={22} className="sp-hero-icon" />
-            <h1 className="sp-hero-title">Le Spa Harmonie</h1>
+      {/* ─── HERO (même bannière que Piscine : classes p-hero / Piscine.css) ─── */}
+      <section className="p-hero">
+        <div className="p-hero-bg" style={{ backgroundImage: `url(${spaImages[0]})` }}></div>
+        <div className="p-hero-overlay"></div>
+        <div className="p-hero-content">
+          <div className="spa-hero-brand">
+            <img src={logoSpa} alt="Spa Harmonie Signature" className="spa-hero-dept-logo" />
           </div>
-          <div className="sp-hero-info-bar">
+          <div className="spa-hero-info-bar">
             <span><Clock size={14} /> LUN–DIM 09H–21H</span>
             <span><Phone size={14} /> +228 92 92 18 89</span>
           </div>

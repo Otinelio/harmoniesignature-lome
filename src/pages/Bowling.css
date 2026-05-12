@@ -17,6 +17,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  border-radius: 0 0 10% 10%;
 }
 
 .bw-hero-bg {
@@ -82,15 +83,17 @@
   gap: 20px;
 }
 
-.bw-hero-eyebrow {
-  font-family: var(--font-body);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  color: rgba(255, 255, 255, 0.4);
+.bw-hero-dept-logo {
+  display: block;
+  max-height: clamp(80px, 14vw, 132px);
+  width: auto;
+  max-width: min(380px, 90vw);
+  object-fit: contain;
+  filter: drop-shadow(0 12px 36px rgba(0, 0, 0, 0.55))
+    drop-shadow(0 0 24px rgba(123, 40, 255, 0.25));
 }
 
-/* Neon letter animation */
+/* Neon letter animation (legacy hero title — conservé si réutilisation) */
 .bw-hero-title {
   display: flex;
   gap: 0;

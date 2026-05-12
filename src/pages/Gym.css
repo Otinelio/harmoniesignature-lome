@@ -8,80 +8,13 @@
   color: #ffffff;
 }
 
-/* ─── HERO ─── */
-.sp-hero {
-  position: relative;
-  height: 42vh;
-  min-height: 280px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  overflow: hidden;
+.gym-page .spa-hero-dept-logo {
+  display: block;
+  max-height: clamp(80px, 15vw, 160px);
+  width: auto;
+  max-width: min(380px, 90vw);
+  object-fit: contain;
 }
-
-.sp-hero-bg {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center top;
-  filter: brightness(0.40) saturate(0.7);
-}
-
-.sp-hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(14, 17, 24, 0.95) 0%,
-    rgba(14, 17, 24, 0.4) 50%,
-    transparent 100%
-  );
-}
-
-.sp-hero-content {
-  position: relative;
-  z-index: 10;
-  padding: 0 40px 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.sp-hero-logo-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.sp-hero-icon { color: #C8A84B; }
-
-.sp-hero-title {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: clamp(30px, 4.5vw, 48px);
-  color: #ffffff;
-  line-height: 1;
-  margin: 0;
-}
-
-.sp-hero-info-bar {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.sp-hero-info-bar span {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-family: var(--font-body);
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: rgba(255,255,255,0.5);
-}
-
-.sp-hero-info-bar svg { color: #C8A84B; }
 
 /* ─── SOINS GRID ─── */
 .sp-soins-section {

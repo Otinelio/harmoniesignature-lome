@@ -15,6 +15,7 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 32px;
+  border-radius: 0 0 10% 10%;
 }
 
 .rest-hero-bg {
