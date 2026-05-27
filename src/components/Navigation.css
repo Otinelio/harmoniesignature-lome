@@ -27,17 +27,37 @@
   align-items: center;
 }
 
+.nav-container-centered {
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 16px;
+    /* Enhanced edge spacing on mobile */
+  }
+}
+
 .nav-logo {
   display: flex;
   align-items: center;
 }
 
 .nav-logo-img {
-  height: 72px;
+  height: 95px;
   width: auto;
   object-fit: contain;
-  transform: scale(1.6);
+  transform: scale(1.15);
+  /* Reduced scale on mobile to keep it perfectly left-aligned and compact */
   transform-origin: left center;
+  transition: transform 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .nav-logo-img {
+    transform: scale(1.6);
+    /* Large premium size on desktop layout */
+  }
 }
 
 .nav-desktop {

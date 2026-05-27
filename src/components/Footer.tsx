@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebook, FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6';
+import { FaInstagram, FaTiktok } from 'react-icons/fa6';
 import { MapPin, Phone, Clock } from 'lucide-react';
 import './Footer.css';
 
@@ -14,10 +14,8 @@ const Footer = () => {
             <img src="/logo-harmonie.png" alt="Harmonie Signature Logo" className="footer-logo-img" />
             <p className="footer-tagline">Détente complète à Lomé</p>
             <div className="social-links">
-              <a href="https://facebook.com/harmoniesignature" target="_blank" rel="noreferrer"><FaFacebook size={20} /></a>
               <a href="https://tiktok.com/@harmoniesignature" target="_blank" rel="noreferrer"><FaTiktok size={20} /></a>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer"><FaInstagram size={20} /></a>
-              <a href="https://x.com/HarmonieSigna" target="_blank" rel="noreferrer"><FaXTwitter size={20} /></a>
+              <a href="https://www.instagram.com/harmoniesignature" target="_blank" rel="noreferrer"><FaInstagram size={20} /></a>
             </div>
           </div>
 

@@ -27,13 +27,18 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  align-items: flex-start;
+  /* Garantit un alignement strict à gauche de tous les éléments (logo, texte, etc.) */
+  text-align: left;
 }
 
 .footer-logo-img {
-  width: 200px;
+  width: 190px;
   height: auto;
   object-fit: contain;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
+  margin-left: -35px;
+  /* Compense la marge vide à gauche intégrée dans le fichier PNG pour un alignement parfait avec le texte du dessous */
 }
 
 .footer-tagline {
@@ -118,15 +123,25 @@
 }
 
 /* Animations */
-.animate-col-1, .animate-col-2, .animate-col-3 {
+.animate-col-1,
+.animate-col-2,
+.animate-col-3 {
   animation: slideUpFade 0.6s ease-out forwards;
   opacity: 0;
   transform: translateY(20px);
 }
 
-.animate-col-1 { animation-delay: 0.1s; }
-.animate-col-2 { animation-delay: 0.22s; }
-.animate-col-3 { animation-delay: 0.34s; }
+.animate-col-1 {
+  animation-delay: 0.1s;
+}
+
+.animate-col-2 {
+  animation-delay: 0.22s;
+}
+
+.animate-col-3 {
+  animation-delay: 0.34s;
+}
 
 @keyframes slideUpFade {
   to {

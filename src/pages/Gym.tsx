@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Clock, Phone, Zap, Dumbbell, Check } from 'lucide-react';
+import { Clock, Phone, Zap, Dumbbell, Sparkles } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Piscine.css';
 import './Gym.css';
@@ -21,40 +21,173 @@ const gymImages = [
 ];
 
 const gymPlans = [
+  // ACCES GYM
   {
+    category: 'Accès Gym',
+    name: 'Séance Unique',
+    price: '6.000',
+    desc: 'Accès libre à tous les équipements pour une séance unique sans engagement.',
+    duration: '1 Séance',
     badge: null,
-    name: 'Séance unique',
-    tagline: 'À l\'unité, sans engagement',
-    price: '3 000',
-    highlight: false,
   },
   {
-    badge: 'Réduction périodique',
-    name: 'Mensuel',
-    tagline: 'Accès illimité 30 jours',
-    price: '25 000',
-    highlight: false,
+    category: 'Accès Gym',
+    name: 'Abonnement Hebdomadaire',
+    price: '15.000',
+    desc: 'Accès illimité à la salle de sport pendant 7 jours consécutifs.',
+    duration: '1 Semaine',
+    badge: null,
   },
   {
-    badge: 'Meilleure offre',
-    name: 'Annuel',
-    tagline: '12 mois · 2 mois offerts',
-    price: '200 000',
-    highlight: true,
+    category: 'Accès Gym',
+    name: 'Abonnement 2 Semaines',
+    price: '30.000',
+    desc: 'Accès illimité à l\'espace fitness pendant 14 jours consécutifs.',
+    duration: '2 Semaines',
+    badge: null,
   },
+  {
+    category: 'Accès Gym',
+    name: 'Abonnement 3 Semaines',
+    price: '40.000',
+    desc: 'Accès illimité à l\'espace fitness pendant 21 jours consécutifs.',
+    duration: '3 Semaines',
+    badge: null,
+  },
+  {
+    category: 'Accès Gym',
+    name: 'Abonnement Mensuel',
+    price: '50.000',
+    desc: 'Formule idéale pour un entraînement régulier. Accès illimité pendant 30 jours.',
+    duration: '1 Mois',
+    badge: 'Populaire',
+  },
+  {
+    category: 'Accès Gym',
+    name: 'Abonnement Trimestriel',
+    price: '130.000',
+    desc: 'Accès illimité pendant 3 mois. Suivi et progression garantis.',
+    duration: '3 Mois',
+    badge: null,
+  },
+  {
+    category: 'Accès Gym',
+    name: 'Abonnement Semestriel',
+    price: '230.000',
+    desc: 'Accès illimité pendant 6 mois pour un engagement de santé à moyen terme.',
+    duration: '6 Mois',
+    badge: null,
+  },
+  {
+    category: 'Accès Gym',
+    name: 'Abonnement Annuel',
+    price: '360.000',
+    desc: 'Accès illimité pendant 1 an. La formule suprême pour un mode de vie sain.',
+    duration: '1 An',
+    badge: 'Économique',
+  },
+
+  // GYM + PISCINE (COMBINE)
+  {
+    category: 'Gym + Piscine (Combiné)',
+    name: 'Séance Combinée unique',
+    price: '10.000',
+    desc: 'Accès combiné à la salle de sport et à la piscine olympique pour une journée.',
+    duration: '1 Séance',
+    badge: 'Duo Journée',
+  },
+  {
+    category: 'Gym + Piscine (Combiné)',
+    name: 'Abonnement Mensuel Combiné',
+    price: '90.000',
+    desc: 'Accès illimité à la gym et à la piscine olympique pendant 1 mois.',
+    duration: '1 Mois',
+    badge: 'Recommandé',
+  },
+  {
+    category: 'Gym + Piscine (Combiné)',
+    name: 'Abonnement Trimestriel Combiné',
+    price: '260.000',
+    desc: 'Le compromis parfait. Accès illimité gym et piscine pendant 3 mois.',
+    duration: '3 Mois',
+    badge: null,
+  },
+  {
+    category: 'Gym + Piscine (Combiné)',
+    name: 'Abonnement Semestriel Combiné',
+    price: '475.000',
+    desc: 'Accès illimité total à notre complexe sportif de prestige pendant 6 mois.',
+    duration: '6 Mois',
+    badge: null,
+  },
+  {
+    category: 'Gym + Piscine (Combiné)',
+    name: 'Abonnement Annuel Combiné',
+    price: '600.000',
+    desc: 'Accès illimité absolu 365 jours de l\'année. Formule ultime Harmonie Gold.',
+    duration: '1 An',
+    badge: 'Prestige VIP',
+  },
+
+  // COURS & ACTIVITES
+  {
+    category: 'Cours & Activités',
+    name: 'Séance de Cours Gym',
+    price: '3.000',
+    desc: 'Participation à une séance collective encadrée par nos coachs certifiés.',
+    duration: 'Séance',
+    badge: null,
+  },
+  {
+    category: 'Cours & Activités',
+    name: 'Abonnement Mensuel Cours Gym',
+    price: '20.000',
+    desc: 'Accès illimité aux cours collectifs de fitness et gym pendant un mois.',
+    duration: '1 Mois',
+    badge: null,
+  },
+  {
+    category: 'Cours & Activités',
+    name: 'Cours de Combat',
+    price: '30.000',
+    desc: 'Soin de self-défense, boxe et arts martiaux encadrés par des professionnels.',
+    duration: 'Tarif Mensuel',
+    badge: 'Nouveau',
+  },
+  {
+    category: 'Cours & Activités',
+    name: 'Aqua-Gym',
+    price: '30.000',
+    desc: 'Gymnastique aquatique tonifiante et douce pour les articulations.',
+    duration: 'Tarif Mensuel',
+    badge: null,
+  },
+];
+
+const categories = [
+  'Tous',
+  'Accès Gym',
+  'Gym + Piscine (Combiné)',
+  'Cours & Activités'
 ];
 
 const Gym = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState('Tous');
 
   const openLightbox = (index: number) => {
     setCurrentImage(index);
     setLightboxOpen(true);
   };
 
+  const getPlansByCategory = (cat: string) => {
+    return gymPlans.filter(p => p.category === cat);
+  };
 
-
+  const formatWhatsAppMessage = (name: string, price: string, cat: string) => {
+    return `https://wa.me/22892921889?text=Bonjour%20Harmonie%20Signature%2C%20je%20souhaite%20m'abonner%20%C3%A0%20la%20formule%20%22${encodeURIComponent(name)}%22%20de%20cat%C3%A9gorie%20${encodeURIComponent(cat)}%20au%20prix%20de%20${encodeURIComponent(price)}%20FCFA.`;
+  };
 
   return (
     <div className="gym-page">
@@ -74,27 +207,73 @@ const Gym = () => {
         </div>
       </section>
 
-      {/* ─── PRICING CARDS ─── */}
-      <section className="sp-soins-section">
-        <h2 className="sp-soins-title">Nos formules</h2>
-        <p className="sp-soins-subtitle">Choisissez la formule adaptée à votre rythme d'entraînement.</p>
-        <div className="gym-plans-grid">
-          {gymPlans.map((plan, i) => (
-            <div key={i} className={`gym-plan-card ${plan.highlight ? 'gym-plan-highlight' : ''}`}>
-              {plan.badge && <div className="gym-plan-badge">{plan.badge}</div>}
-              <div className="gym-plan-name">{plan.name}</div>
-              <div className="gym-plan-price">{plan.price} <span>FCFA</span></div>
-              <div className="gym-plan-tagline">{plan.tagline}</div>
-              <a
-                href={`https://wa.me/22892921889?text=Bonjour%20Harmonie%20Signature%2C%20je%20souhaite%20des%20infos%20sur%20la%20formule%20%22${encodeURIComponent(plan.name)}%22%20de%20la%20Gym.`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="gym-plan-btn"
-              >
-                Infos via WhatsApp
-              </a>
-            </div>
+      {/* ─── TABS SELECTOR ─── */}
+      <section className="sp-tabs-section">
+        <div className="sp-tabs-container">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              className={`sp-tab-btn ${selectedCategory === cat ? 'active' : ''}`}
+              onClick={() => setSelectedCategory(cat)}
+            >
+              {cat}
+            </button>
           ))}
+        </div>
+      </section>
+
+      {/* ─── PRICING CARTE MENU ─── */}
+      <section className="sp-soins-section">
+        <div className="sp-menu-wrapper">
+          {categories.filter(c => c !== 'Tous').map(cat => {
+            const catPlans = getPlansByCategory(cat);
+            const isVisible = selectedCategory === 'Tous' || selectedCategory === cat;
+
+            if (catPlans.length === 0 || !isVisible) return null;
+
+            const isCombo = cat.includes('Combiné');
+
+            return (
+              <div key={cat} className={`sp-menu-category-block ${isCombo ? 'club-combo-block' : ''}`}>
+                <div className="sp-menu-category-title-wrap">
+                  <span className="sp-menu-cat-sparkle"><Sparkles size={16} /></span>
+                  <h2 className="sp-menu-category-title">{cat.toUpperCase()}</h2>
+                  <span className="sp-menu-cat-sparkle"><Sparkles size={16} /></span>
+                </div>
+                <div className="sp-menu-items-grid">
+                  {catPlans.map((plan, idx) => (
+                    <div 
+                      key={idx} 
+                      className={`sp-menu-item-row ${plan.badge ? 'sp-menu-item-featured' : ''}`}
+                      onClick={() => window.open(formatWhatsAppMessage(plan.name, plan.price, plan.category), '_blank')}
+                    >
+                      <div className="sp-menu-item-top">
+                        <span className="sp-menu-item-name">
+                          {plan.name}
+                          {plan.badge && <span className="sp-menu-item-badge">{plan.badge}</span>}
+                        </span>
+                        <span className="sp-menu-item-dots"></span>
+                        <span className="sp-menu-item-price">{plan.price} F</span>
+                      </div>
+                      <div className="sp-menu-item-bottom">
+                        <span className="sp-menu-item-duration">{plan.duration}</span>
+                        <p className="sp-menu-item-desc">{plan.desc}</p>
+                        <a 
+                          href={formatWhatsAppMessage(plan.name, plan.price, plan.category)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="sp-menu-item-book"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          S'abonner
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -126,17 +305,16 @@ const Gym = () => {
             <div className="sp-info-sep"></div>
             <div className="sp-info-item">
               <Phone size={16} />
-              <span>Contact : +228 92 9290 18 89</span>
+              <span>Contact : +228 92 92 18 89</span>
             </div>
             <div className="sp-info-sep"></div>
             <div className="sp-info-item">
-              <Zap size={16} />
-              <span>Seance : 2 000 FCFA</span>
+              <Dumbbell size={16} />
+              <span>Coaching personnalisé sur place</span>
             </div>
           </div>
         </div>
       </section>
-
 
       <Lightbox 
         images={gymImages}

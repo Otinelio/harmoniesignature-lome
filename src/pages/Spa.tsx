@@ -11,7 +11,7 @@ import spa3 from '../images/spa/spa-3.jpg';
 import spa4 from '../images/spa/spa-4.jpg';
 import spa5 from '../images/spa/spa-5.jpg';
 
-// spaImages indices: 0=spa2, 1=spa3, 2=spa4, 3=spa5, 4=harmonieImg
+// spaImages indices for lightbox
 const spaImages = [
   spa2,
   spa3,
@@ -21,55 +21,340 @@ const spaImages = [
 ];
 
 const soins = [
+  // SOINS DU CORPS
   {
-    image: spaImages[0],
-    name: 'Massage Thaï traditionnel',
+    category: 'Soins du Corps',
+    name: 'Massage Aromathérapie 1h',
     duration: '60 min',
-    desc: 'Technique ancestrale Thaïlandaise, pressions et étirements doux.',
-    price: '25 000',
+    desc: 'Soin relaxant profond associant les vertus thérapeutiques des huiles essentielles.',
+    price: '30.000',
   },
   {
-    image: spaImages[1],
-    name: 'Massage relaxant',
-    duration: '45 min',
-    desc: 'Détente musculaire profonde aux huiles essentielles.',
-    price: '18 000',
-  },
-  {
-    image: spaImages[3],
-    name: 'Jacuzzi Privatif',
+    category: 'Soins du Corps',
+    name: 'Relax Touche 30min',
     duration: '30 min',
-    desc: 'Bain à jets, accès privé pour son ressourcement.',
-    price: '12 000',
+    desc: 'Massage ciblé rapide pour libérer les tensions accumulées.',
+    price: '15.000',
   },
   {
-    image: spaImages[4],
-    name: 'Soin du Visage',
-    duration: '45 min',
-    desc: 'Nettoyage en profondeur, masque hydratant.',
-    price: '20 000',
+    category: 'Soins du Corps',
+    name: 'Relax Touche 1h',
+    duration: '60 min',
+    desc: 'Massage relaxant complet pour apaiser le corps et l\'esprit.',
+    price: '25.000',
   },
   {
-    image: spaImages[0],
-    name: 'Massage en duo et jacuzzi',
-    duration: '90 min',
-    desc: 'Combo massage relaxant + accès jacuzzi privatif.',
-    price: '40 000',
+    category: 'Soins du Corps',
+    name: 'Massage Pierres Chaudes',
+    duration: '60 min',
+    desc: 'Massage réconfortant avec des pierres de basalte volcaniques chauffées.',
+    price: '40.000',
   },
   {
-    image: spaImages[2],
-    name: 'Corps de Gommage',
+    category: 'Soins du Corps',
+    name: 'Four Hands 50min',
     duration: '50 min',
-    desc: 'Exfoliation douce aux extraits naturels.',
-    price: '15 000',
+    desc: 'Une harmonie parfaite réalisée par deux praticiens pour une relaxation absolue.',
+    price: '40.000',
   },
+  {
+    category: 'Soins du Corps',
+    name: 'Escale Plantaire 30min',
+    duration: '30 min',
+    desc: 'Massage relaxant des pieds inspiré de la réflexologie plantaire.',
+    price: '17.000',
+  },
+  {
+    category: 'Soins du Corps',
+    name: 'Duo Force Vital 1h',
+    duration: '60 min',
+    desc: 'Partagez un moment d\'énergie et de complicité à deux en cabine double.',
+    price: '55.000',
+  },
+  {
+    category: 'Soins du Corps',
+    name: 'Duo Toucher Apaisant 1h',
+    duration: '60 min',
+    desc: 'Massage relaxant à deux pour une évasion sensorielle partagée.',
+    price: '40.000',
+  },
+  {
+    category: 'Soins du Corps',
+    name: 'Duo Pierres Chaudes 1h30',
+    duration: '90 min',
+    desc: 'Expérience sensorielle divine à deux avec des pierres volcaniques chaudes.',
+    price: '70.000',
+  },
+  {
+    category: 'Soins du Corps',
+    name: 'Force Vital 30min',
+    duration: '30 min',
+    desc: 'Soin dynamisant rapide pour relancer l\'énergie corporelle.',
+    price: '20.000',
+  },
+  {
+    category: 'Soins du Corps',
+    name: 'Force Vital 1h',
+    duration: '60 min',
+    desc: 'Soin énergétique complet pour retrouver vitalité et équilibre.',
+    price: '30.000',
+  },
+
+  // GOMMAGE
+  {
+    category: 'Gommage',
+    name: 'Gommage du Corps 30min',
+    duration: '30 min',
+    desc: 'Exfoliation douce pour éliminer les cellules mortes et sublimer la peau.',
+    price: '22.000',
+  },
+
+  // EPILATION A LA CIRE
+  {
+    category: 'Épilation à la Cire',
+    name: 'Épilation Jambes, Bras, Maillot Intégral & Aisselles',
+    duration: 'Prestation',
+    desc: 'Formule complète pour une douceur absolue de tout le corps.',
+    price: '32.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Épilation Jambes, Maillot Intégral & Aisselles',
+    duration: 'Prestation',
+    desc: 'Formule corps essentielle pour une peau lisse et douce.',
+    price: '26.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Épilation Jambes, Bras & Aisselles',
+    duration: 'Prestation',
+    desc: 'Formule douce pour les zones visibles du corps.',
+    price: '22.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Cire Jambes Complètes',
+    duration: 'Prestation',
+    desc: 'Épilation soignée de toute la longueur des jambes.',
+    price: '12.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Cire Jambes Demi',
+    duration: 'Prestation',
+    desc: 'Épilation rapide des demi-jambes.',
+    price: '6.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Cire Bras Completes',
+    duration: 'Prestation',
+    desc: 'Épilation complète des bras pour une douceur uniforme.',
+    price: '7.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Cire Bras Demi',
+    duration: 'Prestation',
+    desc: 'Épilation des avant-bras ou demi-bras.',
+    price: '4.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Cire Maillot Integral Completes',
+    duration: 'Prestation',
+    desc: 'Épilation intégrale professionnelle du maillot.',
+    price: '12.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Cire Maillot Integral Demi',
+    duration: 'Prestation',
+    desc: 'Épilation classique ou demi-maillot.',
+    price: '6.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Torse Femme',
+    duration: 'Prestation',
+    desc: 'Épilation douce et nette du torse pour femme.',
+    price: '10.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Torse Homme',
+    duration: 'Prestation',
+    desc: 'Épilation nette et soignée du torse pour homme.',
+    price: '15.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Moustache',
+    duration: 'Prestation',
+    desc: 'Épilation précise de la lèvre supérieure.',
+    price: '3.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Aisselles',
+    duration: 'Prestation',
+    desc: 'Épilation classique des aisselles.',
+    price: '5.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Visage Complet',
+    duration: 'Prestation',
+    desc: 'Épilation intégrale du visage (sourcils, lèvre, menton, joues).',
+    price: '10.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Sourcil',
+    duration: 'Prestation',
+    desc: 'Restructuration et épilation précise de la ligne des sourcils.',
+    price: '5.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Dos Femme Complet',
+    duration: 'Prestation',
+    desc: 'Épilation soignée de l\'intégralité du dos pour femme.',
+    price: '10.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Dos Homme Complet',
+    duration: 'Prestation',
+    desc: 'Épilation de l\'intégralité du dos pour homme.',
+    price: '12.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Fesse Femme',
+    duration: 'Prestation',
+    desc: 'Épilation douce de la zone des fessiers pour femme.',
+    price: '10.000',
+  },
+  {
+    category: 'Épilation à la Cire',
+    name: 'Fesse Homme',
+    duration: 'Prestation',
+    desc: 'Épilation professionnelle de la zone des fessiers pour homme.',
+    price: '12.000',
+  },
+
+  // BEAUTE DES MAINS/PIEDS
+  {
+    category: 'Beauté des Mains & Pieds',
+    name: 'Manucure',
+    duration: 'Soin',
+    desc: 'Mise en beauté complète des mains : limage, cuticules et hydratation.',
+    price: '7.000',
+  },
+  {
+    category: 'Beauté des Mains & Pieds',
+    name: 'Pédicure',
+    duration: 'Soin',
+    desc: 'Soin complet des pieds pour retrouver une peau douce et des ongles parfaits.',
+    price: '10.000',
+  },
+  {
+    category: 'Beauté des Mains & Pieds',
+    name: 'Manucure et Pédicure',
+    duration: 'Soin',
+    desc: 'Formule combinée pour une beauté totale des mains et des pieds.',
+    price: '15.000',
+  },
+  {
+    category: 'Beauté des Mains & Pieds',
+    name: 'Vernis Semi Permanent Mains',
+    duration: 'Soin',
+    desc: 'Pose de vernis semi-permanent longue tenue pour les mains.',
+    price: '5.000',
+  },
+  {
+    category: 'Beauté des Mains & Pieds',
+    name: 'Vernis Semi Permanent Pieds',
+    duration: 'Soin',
+    desc: 'Pose de vernis semi-permanent longue tenue pour les pieds.',
+    price: '8.000',
+  },
+  {
+    category: 'Beauté des Mains & Pieds',
+    name: 'Pose Vernis Mains/Pieds',
+    duration: 'Soin',
+    desc: 'Pose de vernis à ongles classique de haute qualité.',
+    price: '3.000',
+  },
+  {
+    category: 'Beauté des Mains & Pieds',
+    name: 'Pose Capsule',
+    duration: 'Soin',
+    desc: 'Extension des ongles avec capsules pour un rendu parfait et résistant.',
+    price: '10.000',
+  },
+  {
+    category: 'Beauté des Mains & Pieds',
+    name: 'Dépose',
+    duration: 'Soin',
+    desc: 'Retrait soigné et respectueux du vernis semi-permanent ou des capsules.',
+    price: '5.000',
+  },
+  {
+    category: 'Beauté des Mains & Pieds',
+    name: 'Soin Jelly Main ou Pieds',
+    duration: 'Soin',
+    desc: 'Bain de gelée sensorielle hydratante et relaxante.',
+    price: '4.000',
+  },
+
+  // JACUZZI - SAUNA
+  {
+    category: 'Jacuzzi & Sauna',
+    name: 'Jacuzzi 30min/Personne',
+    duration: '30 min',
+    desc: 'Bain bouillonnant relaxant individuel dans notre espace bien-être.',
+    price: '10.000',
+  },
+  {
+    category: 'Jacuzzi & Sauna',
+    name: 'Sauna 30min/Personne',
+    duration: '30 min',
+    desc: 'Bain de chaleur sèche bienfaisant pour éliminer les toxines.',
+    price: '10.000',
+  },
+  {
+    category: 'Jacuzzi & Sauna',
+    name: 'Jacuzzi 1h/Personne',
+    duration: '60 min',
+    desc: 'Séance prolongée de balnéothérapie relaxante pour une détente totale.',
+    price: '18.000',
+  },
+  {
+    category: 'Jacuzzi & Sauna',
+    name: 'Sauna 1h/Personne',
+    duration: '60 min',
+    desc: 'Séance complète de détoxification et relaxation par la chaleur sèche.',
+    price: '18.000',
+  },
+];
+
+const categories = [
+  'Tous',
+  'Soins du Corps',
+  'Gommage',
+  'Épilation à la Cire',
+  'Beauté des Mains & Pieds',
+  'Jacuzzi & Sauna'
 ];
 
 const Spa = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
   const [bookingOpen, setBookingOpen] = useState(false);
-  const [selectedSoin, setSelectedSoin] = useState('Massage Thaï traditionnel');
+  const [selectedSoin, setSelectedSoin] = useState('Massage Aromathérapie 1h');
+  const [selectedCategory, setSelectedCategory] = useState('Tous');
   const [formState, setFormState] = useState({
     date: '',
     heure: '10:00',
@@ -98,6 +383,11 @@ const Spa = () => {
     setFormState({ date: '', heure: '10:00', nom: '', telephone: '', message: '' });
   };
 
+  // Group soins by category for structured layout
+  const getSoinsByCategory = (cat: string) => {
+    return soins.filter(s => s.category === cat);
+  };
+
   // Booking popup portal
   const bookingPortal = createPortal(
     <>
@@ -114,7 +404,7 @@ const Spa = () => {
           <div className="sp-form-group">
             <label>Soin souhaité</label>
             <select value={selectedSoin} onChange={e => setSelectedSoin(e.target.value)} required>
-              {soins.map(s => <option key={s.name} value={s.name}>{s.name}</option>)}
+              {soins.map(s => <option key={s.name} value={s.name}>{s.name} ({s.duration}) - {s.price} F</option>)}
             </select>
           </div>
           <div className="sp-form-row">
@@ -171,29 +461,64 @@ const Spa = () => {
         </div>
       </section>
 
-      {/* ─── SOINS CARDS ─── */}
-      <section className="sp-soins-section">
-        <div className="sp-soins-grid">
-          {soins.map((soin, i) => (
-            <div key={i} className="sp-soin-card">
-              <div className="sp-soin-img-wrap">
-                <img src={soin.image} alt={soin.name} />
-              </div>
-              <div className="sp-soin-body">
-                <div className="sp-soin-header">
-                  <h3>{soin.name}</h3>
-                  <span className="sp-soin-duration">{soin.duration}</span>
-                </div>
-                <p className="sp-soin-desc">{soin.desc}</p>
-                <div className="sp-soin-footer">
-                  <span className="sp-soin-price">{soin.price} FCFA</span>
-                  <button className="sp-soin-btn" onClick={() => openBooking(soin.name)}>
-                    Réserver ce soin
-                  </button>
-                </div>
-              </div>
-            </div>
+      {/* ─── CATEGORY TABS SELECTOR ─── */}
+      <section className="sp-tabs-section">
+        <div className="sp-tabs-container">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              className={`sp-tab-btn ${selectedCategory === cat ? 'active' : ''}`}
+              onClick={() => setSelectedCategory(cat)}
+            >
+              {cat}
+            </button>
           ))}
+        </div>
+      </section>
+
+      {/* ─── SOINS CARTE MENU ─── */}
+      <section className="sp-soins-section">
+        <div className="sp-menu-wrapper">
+          {categories.filter(c => c !== 'Tous').map(cat => {
+            const catSoins = getSoinsByCategory(cat);
+            const isVisible = selectedCategory === 'Tous' || selectedCategory === cat;
+            
+            if (catSoins.length === 0 || !isVisible) return null;
+
+            return (
+              <div key={cat} className="sp-menu-category-block">
+                <div className="sp-menu-category-title-wrap">
+                  <span className="sp-menu-cat-sparkle"><Sparkles size={16} /></span>
+                  <h2 className="sp-menu-category-title">{cat.toUpperCase()}</h2>
+                  <span className="sp-menu-cat-sparkle"><Sparkles size={16} /></span>
+                </div>
+                <div className="sp-menu-items-grid">
+                  {catSoins.map((soin, idx) => (
+                    <div key={idx} className="sp-menu-item-row" onClick={() => openBooking(soin.name)}>
+                      <div className="sp-menu-item-top">
+                        <span className="sp-menu-item-name">{soin.name}</span>
+                        <span className="sp-menu-item-dots"></span>
+                        <span className="sp-menu-item-price">{soin.price} FCFA</span>
+                      </div>
+                      <div className="sp-menu-item-bottom">
+                        <span className="sp-menu-item-duration">{soin.duration}</span>
+                        <p className="sp-menu-item-desc">{soin.desc}</p>
+                        <button 
+                          className="sp-menu-item-book"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openBooking(soin.name);
+                          }}
+                        >
+                          Réserver
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -230,7 +555,7 @@ const Spa = () => {
             <div className="sp-info-sep"></div>
             <div className="sp-info-item">
               <CalendarCheck size={16} />
-              <span>Réservation 24h à l'avance</span>
+              <span>Réservation 24h à l\'avance</span>
             </div>
           </div>
         </div>

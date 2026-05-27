@@ -3,13 +3,14 @@ import { createPortal } from 'react-dom';
 import { ShoppingCart, Plus, Minus, Trash2, X, MessageCircle, Phone, ArrowLeft, ArrowRight, Clock } from 'lucide-react';
 import { getRestaurants, Restaurant, MenuItem, CartItem, getCart, saveCart } from '../utils/storage';
 import './Restauration.css';
+import logoTropicana from '../images/logo/logo_tropicana.png';
 
 const Restauration = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [activeTab, setActiveTab] = useState(0);
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
-  
+  const [activeCategory, setActiveCategory] = useState('Tous');
   // Checkout form
   const [checkoutName, setCheckoutName] = useState('');
   const [checkoutTime, setCheckoutTime] = useState('19:00');
@@ -80,6 +81,37 @@ const Restauration = () => {
   if (restaurants.length === 0) return null;
 
   const currentRest = restaurants[activeTab];
+  const categories = ['Tous', ...Array.from(new Set(currentRest.menu.map(item => item.category)))];
+  const filteredMenu = activeCategory === 'Tous'
+    ? currentRest.menu
+    : currentRest.menu.filter(item => item.category === activeCategory);
+
+  
+
+  const CATEGORY_ORDER = [
+    'Entrée',
+    'Pizza',
+    'Plat & Grillade',
+    'Sandwich & Burger',
+    'Accompagnement',
+    'Menu Enfant',
+    'Dessert',
+    'Boisson'
+  ];
+
+  const groupedMenu = CATEGORY_ORDER.reduce((acc, cat) => {
+    const items = filteredMenu.filter(item => item.category === cat);
+    if (items.length > 0) {
+      acc.push({ category: cat, items });
+    }
+    return acc;
+  }, [] as { category: string; items: MenuItem[] }[]);
+  filteredMenu.forEach(item => {
+    if (!CATEGORY_ORDER.includes(item.category) && !groupedMenu.some(g => g.category === item.category)) {
+      const items = filteredMenu.filter(i => i.category === item.category);
+      groupedMenu.push({ category: item.category, items });
+    }
+  });
   const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -121,7 +153,9 @@ const Restauration = () => {
           ) : (
             cart.map(item => (
               <div key={item.id} className="cart-item">
-                <div className="cart-item-img" style={{ backgroundImage: `url(${item.image})` }}></div>
+                {item.image && (
+                  <div className="cart-item-img" style={{ backgroundImage: `url(${item.image})` }}></div>
+                )}
                 <div className="cart-item-info">
                   <div className="cart-item-name">{item.name}</div>
                   <div className="cart-item-price">{(item.price * item.quantity).toLocaleString('fr-FR')} FCFA</div>
@@ -178,34 +212,13 @@ const Restauration = () => {
 
   return (
     <div className="restauration-page">
-      <section className="rest-hero-banner">
-        <div className="rest-hero-bg" style={{ backgroundImage: `url(${heroImages[activeTab % heroImages.length]})` }}></div>
+      <section className="rest-hero-banner simple-hero">
+        <div className="rest-hero-bg"></div>
         <div className="rest-hero-overlay"></div>
-        <div className="rest-hero-content">
-          <h1 className="rest-hero-title">Restauration</h1>
-          
-          <div className="rest-banner-cards">
-            {restaurants.map((rest, idx) => (
-              <button 
-                key={rest.id} 
-                className={`rest-banner-card ${activeTab === idx ? 'active' : ''}`}
-                onClick={() => {
-                  if (cart.length > 0 && activeTab !== idx) {
-                    const confirmChange = window.confirm('Vous avez des articles dans votre panier actuel. Vider le panier et changer de restaurant ?');
-                    if (confirmChange) {
-                      setCart([]);
-                      setActiveTab(idx);
-                    }
-                  } else {
-                    setActiveTab(idx);
-                  }
-                }}
-              >
-                <div className="rest-card-logo" style={{ backgroundImage: `url(${heroImages[idx % heroImages.length]})` }}></div>
-                <div className="rest-card-name">{rest.name}</div>
-              </button>
-            ))}
-          </div>
+        <div className="rest-hero-content rest-hero-logo-only">
+          {currentRest && currentRest.id === 'tropicana' && (
+            <img src={logoTropicana} alt={`${currentRest.name} logo`} className="rest-hero-logo" />
+          )}
         </div>
       </section>
 
@@ -224,22 +237,47 @@ const Restauration = () => {
           </div>
         )}
 
+        <div className="menu-categories-section">
+          <div className="categories-tabs">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                className={`category-tab-btn ${activeCategory === cat ? 'active' : ''}`}
+                onClick={() => setActiveCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* sort control removed as requested */}
+        </div>
+
         <div className="classic-menu-list">
-          {currentRest.menu.map(item => (
-            <div key={item.id} className="classic-menu-item">
-              <div className="c-menu-img" style={{ backgroundImage: `url(${item.image})` }}></div>
-              <div className="c-menu-body">
-                <div className="c-menu-header">
-                  <h3 className="c-menu-name">{item.name}</h3>
-                  <div className="c-menu-dots"></div>
-                  <span className="c-menu-price">{item.price.toLocaleString('fr-FR')} FCFA</span>
-                </div>
-                <p className="c-menu-desc">{item.description}</p>
-                <div className="c-menu-actions">
-                  <button className="c-menu-add-btn" onClick={() => addToCart(item)} disabled={!currentRest.isOpen}>
-                    <Plus size={14} /> Ajouter au panier
-                  </button>
-                </div>
+          {groupedMenu.map(group => (
+            <div key={group.category} className="menu-category-group">
+              <h2 className="menu-group-title">{group.category}</h2>
+              <div className="menu-group-items">
+                {group.items.map(item => (
+                  <div key={item.id} className={`classic-menu-item ${!item.image ? 'no-image' : ''}`}>
+                    {item.image && (
+                      <div className="c-menu-img" style={{ backgroundImage: `url(${item.image})` }}></div>
+                    )}
+                    <div className="c-menu-body">
+                      <div className="c-menu-header">
+                        <h3 className="c-menu-name">{item.name}</h3>
+                        <div className="c-menu-dots"></div>
+                        <span className="c-menu-price">{item.price.toLocaleString('fr-FR')} FCFA</span>
+                      </div>
+                      <p className="c-menu-desc">{item.description}</p>
+                      <div className="c-menu-actions">
+                        <button className="c-menu-add-btn" onClick={() => addToCart(item)} disabled={!currentRest.isOpen}>
+                          <Plus size={14} /> Ajouter au panier
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           ))}

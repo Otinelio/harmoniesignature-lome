@@ -6,6 +6,9 @@ import './Home.css';
 
 import imgGym from '../images/salles/gym-2.jpg';
 import imgHarmonie from '../images/harmonie.png';
+import videoDeo1 from '../images/spa/spaDeo/SpaDeo1.mp4';
+import videoDeo2 from '../images/spa/spaDeo/SpaDeo2.mp4';
+import videoDeo3 from '../images/spa/spaDeo/SpaDeo3.mp4';
 
 const Home = () => {
   const [hoveredUnivers, setHoveredUnivers] = useState<string>('piscine');
@@ -21,27 +24,6 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* HERO */}
-      <section className="hero-section">
-        <div className="hero-bg" style={{ backgroundImage: `url(${imgHarmonie})` }}></div>
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          <div className="hero-logo-container">
-            <img src="/logo-harmonie.png" alt="Harmonie Signature Logo" className="hero-logo-img" />
-          </div>
-          <p className="hero-subtitle">
-            Piscine · Bowling · Spa · Restaurants · Tennis · Basket · Gym
-          </p>
-          <div className="hero-actions">
-            <Link to="/spa" className="cta-pill">Réserver au Spa</Link>
-            <Link to="/departements" className="cta-ghost">Découvrir</Link>
-          </div>
-        </div>
-        <div className="scroll-indicator">
-          <ChevronDown size={22} />
-        </div>
-      </section>
-
       {/* SECTION VIDÉO */}
       <section className="video-section">
         <video
@@ -65,9 +47,10 @@ const Home = () => {
           <h2>Votre complexe de référence à Lomé</h2>
           <p>Rue 243 Tot Ancien BSL, Résidence du Bénin · Lun - Sam : 07h00 - 23h00</p>
         </div>
+        <div className="scroll-indicator">
+          <ChevronDown size={22} />
+        </div>
       </section>
-
-
 
       {/* SECTION CAROUSEL UNIVERS */}
       <section className="carousel-univers-section">
@@ -91,42 +74,87 @@ const Home = () => {
             </Link>
           ))}
         </div>
+      </section>
 
-        {/* SECTION INFOS PRATIQUES (STYLE DÉPARTEMENT) */}
-        <div className="home-infos-section">
-          <div className="sp-infos-card">
-            <div className="sp-infos-icon-top"><Phone size={24} /></div>
-            <p className="sp-infos-heading">Contact & Horaires</p>
-            <div className="sp-infos-items">
-              <div className="sp-info-item">
-                <Phone size={16} />
-                <span>Accueil : (+228) 92 92 18 89</span>
-              </div>
-              <div className="sp-info-sep"></div>
-              <div className="sp-info-item">
-                <Clock size={16} />
-                <span>Lun – Sam : 07h00 – 23h00</span>
-              </div>
-              <div className="sp-info-sep"></div>
-              <div className="sp-info-item">
-                <MapPin size={16} />
-                <span>Résidence du Bénin, Lomé</span>
-              </div>
-            </div>
+      {/* HERO */}
+      <section className="hero-section">
+        <div className="hero-bg" style={{ backgroundImage: `url(${imgHarmonie})` }}></div>
+        <div className="hero-overlay"></div>
+        <div className="hero-content">
+          <div className="hero-logo-container">
+            <img src="/logo-harmonie.png" alt="Harmonie Signature Logo" className="hero-logo-img" />
+          </div>
+          <p className="hero-subtitle">
+            Piscine · Bowling · Spa · Restaurants · Tennis · Basket · Gym
+          </p>
+          <div className="hero-actions">
+            <Link to="/contact" className="cta-primary-hero">Nous contacter</Link>
           </div>
         </div>
       </section>
 
       {/* SECTION CTA SPA ACCUEIL */}
       <section className="cta-spa-section">
-        <div className="cta-spa-content">
-          <Sparkles size={32} className="cta-spa-icon" />
-          <h2 className="cta-spa-title">Le Spa vous attend</h2>
-          <p className="cta-spa-desc">Prenez soin de vous dans un cadre luxueux et apaisant au cœur de Lomé.</p>
-          <Link to="/spa" className="cta-dark-btn">Découvrir les soins</Link>
+        <div className="spa-cta-card">
+          <div className="spa-cta-copy">
+           
+            <h2 className="spa-cta-title">Le Spa vous attend</h2>
+            <p className="spa-cta-desc">Prenez soin de vous dans un cadre luxueux et apaisant au cœur de Lomé.</p>
+            <div className="spa-cta-info">
+              <div className="spa-cta-info-item">Massages personnalisés</div>
+              <div className="spa-cta-info-item">Jacuzzi privé</div>
+              <div className="spa-cta-info-item">Rituels bien-être</div>
+            </div>
+            <Link to="/spa" className="spa-cta-button">Découvrir les soins</Link>
+          </div>
+
+          <div className="spa-videos-frame">
+            <div className="spa-videos-trio">
+              <div className="spa-video-card">
+                <video className="spa-video-item" autoPlay muted loop playsInline preload="metadata">
+                  <source src={videoDeo1} type="video/mp4" />
+                </video>
+                <div className="spa-video-label">Spa à l'honneur</div>
+              </div>
+              <div className="spa-video-card">
+                <video className="spa-video-item" autoPlay muted loop playsInline preload="metadata">
+                  <source src={videoDeo2} type="video/mp4" />
+                </video>
+                <div className="spa-video-label">Espace détente</div>
+              </div>
+              <div className="spa-video-card">
+                <video className="spa-video-item" autoPlay muted loop playsInline preload="metadata">
+                  <source src={videoDeo3} type="video/mp4" />
+                </video>
+                <div className="spa-video-label">Rituels bien-être</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
+      {/* SECTION INFOS PRATIQUES (STYLE DÉPARTEMENT) - En dernière position */}
+      <div className="home-infos-section" id="contact">
+        <div className="sp-infos-card">
+          <p className="sp-infos-heading">Contact & Horaires</p>
+          <div className="sp-infos-items">
+            <div className="sp-info-item">
+              <Phone size={16} />
+              <span>Accueil : (+228) 92 92 18 89</span>
+            </div>
+            <div className="sp-info-sep"></div>
+            <div className="sp-info-item">
+              <Clock size={16} />
+              <span>Lun – Sam : 07h00 – 23h00</span>
+            </div>
+            <div className="sp-info-sep"></div>
+            <div className="sp-info-item">
+              <MapPin size={16} />
+              <span>Résidence du Bénin, Lomé</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

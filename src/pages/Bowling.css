@@ -11,86 +11,84 @@
 /* ─── HERO ─── */
 .bw-hero {
   position: relative;
-  height: 65vh;
-  min-height: 440px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 55vh;
+  min-height: 420px;
+  width: 100%;
   overflow: hidden;
-  border-radius: 0 0 10% 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0 32px 32px;
+  border-bottom: 1px solid rgba(200, 168, 75, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  background-color: #000;
 }
 
 .bw-hero-bg {
   position: absolute;
   inset: 0;
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.3) saturate(0.6);
-  transform: scale(1.05);
-  animation: heroZoom 14s ease-in-out infinite alternate;
+  opacity: 0;
+  visibility: hidden;
 }
 
-@keyframes heroZoom {
-  from { transform: scale(1.05); }
-  to   { transform: scale(1.12); }
+.bw-hero:hover .bw-hero-bg {
+  transform: scale(1.08);
 }
 
 .bw-hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(14, 165, 233, 0.12) 0%,
-    rgba(10, 12, 20, 0.85) 70%
-  );
+  background: linear-gradient(to top, var(--color-bg-primary) 0%, rgba(12, 16, 24, 0.4) 60%, rgba(12, 16, 24, 0.8) 100%);
 }
 
-/* Neon horizontal scan lines */
 .bw-neon-lines {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.bw-neon-lines span {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.25), transparent);
-  animation: scanLine 4s linear infinite;
-}
-
-.bw-neon-lines span:nth-child(1) { animation-delay: 0s; }
-.bw-neon-lines span:nth-child(2) { animation-delay: 1.3s; }
-.bw-neon-lines span:nth-child(3) { animation-delay: 2.7s; }
-
-@keyframes scanLine {
-  from { top: -2px; opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  to   { top: 100%; opacity: 0; }
+  display: none;
 }
 
 .bw-hero-content {
   position: relative;
   z-index: 10;
-  text-align: center;
+  width: 100%;
+  max-width: 860px;
+  padding: 0 24px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
+  gap: 18px;
   align-items: center;
-  gap: 20px;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+  min-height: 100%;
 }
 
 .bw-hero-dept-logo {
-  display: block;
-  max-height: clamp(110px, 18vw, 180px);
-  width: auto;
-  max-width: min(420px, 95vw);
+  width: min(450px, 85vw);
+  height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 12px 36px rgba(0, 0, 0, 0.55))
-    drop-shadow(0 0 24px rgba(14, 165, 233, 0.25));
+  margin: 72px 0 12px;
+  animation: logoFloat 5s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0);
+    filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 15px rgba(200, 168, 75, 0.15));
+  }
+  50% {
+    transform: translateY(-10px);
+    filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 30px rgba(200, 168, 75, 0.45));
+  }
+}
+
+.bw-hero-logo-only {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Neon letter animation (legacy hero title — conservé si réutilisation) */
@@ -297,23 +295,41 @@
   margin: 0 auto;
 }
 
-.bw-gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+.bw-square-gallery-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
 }
 
-@media (max-width: 768px) {
-  .bw-gallery-grid { grid-template-columns: 1fr 1fr; }
+.bw-square-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 12px;
+  width: 90%;
+  max-width: 900px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  position: relative;
+  background: rgba(18, 21, 31, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 16px;
+  border-radius: 20px;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    inset 0 0 40px rgba(255, 255, 255, 0.02);
 }
 
 .bw-gallery-item {
   position: relative;
-  height: 200px;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #0c1018;
 }
 
 .bw-gallery-item img {
@@ -321,24 +337,141 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: brightness(0.75) saturate(0.7);
-  transition: transform 0.45s ease, filter 0.45s ease;
+  filter: brightness(0.6) saturate(0.85);
+  transition: all 0.3s ease;
 }
 
 .bw-gallery-hover {
   position: absolute;
   inset: 0;
-  background: rgba(14, 165, 233, 0.05);
+  background: rgba(0, 0, 0, 0.2);
   transition: background 0.3s ease;
 }
 
 .bw-gallery-item:hover img {
-  transform: scale(1.06);
-  filter: brightness(0.9) saturate(1);
+  transform: scale(1.05);
+  filter: brightness(1) saturate(1.1);
 }
 
 .bw-gallery-item:hover .bw-gallery-hover {
-  background: rgba(14, 165, 233, 0.15);
+  background: rgba(200, 168, 75, 0.05);
+}
+
+/* Highlight style when the outer item is active (corresponds to active center image) */
+.bw-gallery-item.active-slot {
+  border-color: var(--color-accent-gold);
+  box-shadow: 
+    0 0 15px rgba(200, 168, 75, 0.5),
+    inset 0 0 10px rgba(200, 168, 75, 0.3);
+}
+
+.bw-gallery-item.active-slot img {
+  filter: brightness(1.05) saturate(1.15);
+}
+
+.bw-gallery-item.active-slot .bw-gallery-hover {
+  background: transparent;
+}
+
+/* Center Spanned active display block */
+.bw-gallery-center {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  cursor: pointer;
+  border: 2px solid var(--color-accent-gold);
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.6),
+    0 0 25px rgba(200, 168, 75, 0.3);
+  background-color: #0c1018;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bw-gallery-center img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Fade transitions controlled by React state */
+.bw-gallery-center.fade-out img {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.bw-gallery-center.fade-in img {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.bw-gallery-center:hover {
+  border-color: #f1dc96;
+  box-shadow: 
+    0 15px 50px rgba(0, 0, 0, 0.7),
+    0 0 35px rgba(200, 168, 75, 0.45);
+}
+
+/* Hover effect with "Agrandir" overlay */
+.bw-center-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 16, 24, 0.5);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bw-gallery-center:hover .bw-center-hover-overlay {
+  opacity: 1;
+}
+
+.bw-center-hover-text {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-accent-gold);
+  border: 1px solid var(--color-accent-gold);
+  padding: 8px 18px;
+  border-radius: 6px;
+  background: rgba(12, 16, 24, 0.8);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transform: translateY(10px);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bw-gallery-center:hover .bw-center-hover-text {
+  transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .bw-square-gallery {
+    gap: 6px;
+    padding: 8px;
+    border-radius: 14px;
+  }
+  .bw-gallery-item {
+    border-radius: 6px;
+  }
+  .bw-gallery-center {
+    border-radius: 8px;
+  }
+  .bw-center-hover-text {
+    font-size: 11px;
+    padding: 4px 10px;
+    letter-spacing: 0.1em;
+  }
 }
 
 /* ─── INFOS PRATIQUES ─── */

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Check, Sun, UtensilsCrossed, Waves } from 'lucide-react';
+import { Phone, Waves, Clock, Sun, Sparkles } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Piscine.css';
 
@@ -11,44 +11,149 @@ const poolImages = [
   'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=1400&auto=format&fit=crop',
 ];
 
-const plans = [
+const poolPlans = [
+  // ACCES PISCINE
   {
-    label: 'Adulte (Séance)',
-    price: '6 000',
-    features: ['Accès bassin olympique', 'Transats & Parasols', 'Vestiaires Impeccables'],
-    highlight: false,
+    category: 'Accès Piscine',
+    name: 'Séance Unique',
+    price: '5.000',
+    desc: 'Entrée unique donnant accès libre au grand bassin olympique, transats et parasols.',
+    duration: '1 Séance',
     badge: null,
   },
   {
-    label: 'Enfant (Séance)',
-    price: '3 000',
-    features: ['Accès bassin olympique', 'Transats & Parasols', 'Vestiaires Impeccables'],
-    highlight: false,
+    category: 'Accès Piscine',
+    name: 'Abonnement Hebdomadaire',
+    price: '15.000',
+    desc: 'Accès libre à la piscine olympique pendant 7 jours consécutifs.',
+    duration: '1 Semaine',
     badge: null,
   },
   {
-    label: 'Abonnement mensuel adulte',
-    price: '50 000',
-    features: ['Accès bassin olympique', 'Transats & Parasols', 'Vestiaires Impeccables'],
-    highlight: true,
-    badge: 'OFFRE MENSUELLE',
+    category: 'Accès Piscine',
+    name: 'Abonnement 2 Semaines',
+    price: '30.000',
+    desc: 'Accès libre à la piscine olympique pendant 14 jours consécutifs.',
+    duration: '2 Semaines',
+    badge: null,
   },
   {
-    label: 'Abonnement mensuel enfant',
-    price: '30 000',
-    features: ['Accès bassin olympique', 'Transats & Parasols', 'Vestiaires Impeccables'],
-    highlight: true,
-    badge: 'OFFRE MENSUELLE',
+    category: 'Accès Piscine',
+    name: 'Abonnement 3 Semaines',
+    price: '40.000',
+    desc: 'Accès libre à la piscine olympique pendant 21 jours consécutifs.',
+    duration: '3 Semaines',
+    badge: null,
   },
+  {
+    category: 'Accès Piscine',
+    name: 'Abonnement Mensuel',
+    price: '50.000',
+    desc: 'La formule mensuelle idéale pour les amateurs de natation régulière. 30 jours.',
+    duration: '1 Mois',
+    badge: 'Populaire',
+  },
+  {
+    category: 'Accès Piscine',
+    name: 'Abonnement Trimestriel',
+    price: '130.000',
+    desc: 'Accès libre pendant 3 mois à nos installations de baignade de prestige.',
+    duration: '3 Mois',
+    badge: null,
+  },
+  {
+    category: 'Accès Piscine',
+    name: 'Abonnement Semestriel',
+    price: '230.000',
+    desc: 'Accès libre pendant 6 mois. Idéal pour s\'entraîner tout au long des saisons.',
+    duration: '6 Mois',
+    badge: null,
+  },
+  {
+    category: 'Accès Piscine',
+    name: 'Abonnement Annuel',
+    price: '360.000',
+    desc: 'Accès complet et illimité 365 jours de l\'année. Économisez sur la durée.',
+    duration: '1 An',
+    badge: 'Économique',
+  },
+
+  // GYM + PISCINE (COMBINE)
+  {
+    category: 'Gym + Piscine (Combiné)',
+    name: 'Séance Combinée unique',
+    price: '10.000',
+    desc: 'Accès combiné à la salle de sport et à la piscine olympique pour une journée.',
+    duration: '1 Séance',
+    badge: 'Duo Journée',
+  },
+  {
+    category: 'Gym + Piscine (Combiné)',
+    name: 'Abonnement Mensuel Combiné',
+    price: '90.000',
+    desc: 'Accès illimité à la gym et à la piscine olympique pendant 1 mois.',
+    duration: '1 Mois',
+    badge: 'Recommandé',
+  },
+  {
+    category: 'Gym + Piscine (Combiné)',
+    name: 'Abonnement Trimestriel Combiné',
+    price: '260.000',
+    desc: 'Le compromis parfait. Accès illimité gym et piscine pendant 3 mois.',
+    duration: '3 Mois',
+    badge: null,
+  },
+  {
+    category: 'Gym + Piscine (Combiné)',
+    name: 'Abonnement Semestriel Combiné',
+    price: '475.000',
+    desc: 'Accès illimité total à notre complexe sportif de prestige pendant 6 mois.',
+    duration: '6 Mois',
+    badge: null,
+  },
+  {
+    category: 'Gym + Piscine (Combiné)',
+    name: 'Abonnement Annuel Combiné',
+    price: '600.000',
+    desc: 'Accès illimité absolu 365 jours de l\'année. Formule ultime Harmonie Gold.',
+    duration: '1 An',
+    badge: 'Prestige VIP',
+  },
+
+  // COURS DE NATATION
+  {
+    category: 'Cours de Natation',
+    name: 'Séance de Natation coachée',
+    price: '5.000',
+    desc: 'Apprentissage ou perfectionnement des techniques de nage avec notre maître-nageur certifié.',
+    duration: 'Séance unique',
+    badge: 'Coach individuel',
+  },
+];
+
+const categories = [
+  'Tous',
+  'Accès Piscine',
+  'Gym + Piscine (Combiné)',
+  'Cours de Natation'
 ];
 
 const Piscine = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState('Tous');
 
   const openLightbox = (index: number) => {
     setCurrentImage(index);
     setLightboxOpen(true);
+  };
+
+  const getPlansByCategory = (cat: string) => {
+    return poolPlans.filter(p => p.category === cat);
+  };
+
+  const formatWhatsAppMessage = (name: string, price: string, cat: string) => {
+    return `https://wa.me/22892921889?text=Bonjour%20Harmonie%20Signature%2C%20je%20souhaite%20m'abonner%20%C3%A0%20la%20formule%20%22${encodeURIComponent(name)}%22%20de%20cat%C3%A9gorie%20${encodeURIComponent(cat)}%20au%20prix%20de%20${encodeURIComponent(price)}%20FCFA%20pour%20la%20Piscine.`;
   };
 
   return (
@@ -64,32 +169,73 @@ const Piscine = () => {
         </div>
       </section>
 
-      {/* ─── PLANS TARIFAIRES ─── */}
-      <section className="p-plans-section">
-        <h2 className="p-section-title">Accès et abonnements</h2>
-        <div className="p-plans-grid">
-          {plans.map((plan, i) => (
-            <div key={i} className={`p-plan-card ${plan.highlight ? 'highlighted' : ''}`}>
-              {plan.badge && <div className="p-plan-badge">{plan.badge}</div>}
-              <div className="p-plan-label">{plan.label}</div>
-              <div className="p-plan-price">
-                {plan.price} <span>FCFA</span>
-              </div>
-              <ul className="p-plan-features">
-                {plan.features.map((f, j) => (
-                  <li key={j}><Check size={14} /> {f}</li>
-                ))}
-              </ul>
-              <a
-                href={`https://wa.me/22892921889?text=Bonjour%20Harmonie%20Signature%2C%20je%20souhaite%20avoir%20des%20informations%20sur%20la%20formule%20%22${encodeURIComponent(plan.label)}%22%20pour%20la%20piscine.`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-plan-btn"
-              >
-                <Phone size={13} /> Infos via WhatsApp
-              </a>
-            </div>
+      {/* ─── TABS SELECTOR ─── */}
+      <section className="sp-tabs-section">
+        <div className="sp-tabs-container">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              className={`sp-tab-btn ${selectedCategory === cat ? 'active' : ''}`}
+              onClick={() => setSelectedCategory(cat)}
+            >
+              {cat}
+            </button>
           ))}
+        </div>
+      </section>
+
+      {/* ─── PRICING CARTE MENU ─── */}
+      <section className="sp-soins-section">
+        <div className="sp-menu-wrapper">
+          {categories.filter(c => c !== 'Tous').map(cat => {
+            const catPlans = getPlansByCategory(cat);
+            const isVisible = selectedCategory === 'Tous' || selectedCategory === cat;
+
+            if (catPlans.length === 0 || !isVisible) return null;
+
+            const isCombo = cat.includes('Combiné');
+
+            return (
+              <div key={cat} className={`sp-menu-category-block ${isCombo ? 'club-combo-block' : ''}`}>
+                <div className="sp-menu-category-title-wrap">
+                  <span className="sp-menu-cat-sparkle"><Sparkles size={16} /></span>
+                  <h2 className="sp-menu-category-title">{cat.toUpperCase()}</h2>
+                  <span className="sp-menu-cat-sparkle"><Sparkles size={16} /></span>
+                </div>
+                <div className="sp-menu-items-grid">
+                  {catPlans.map((plan, idx) => (
+                    <div 
+                      key={idx} 
+                      className={`sp-menu-item-row ${plan.badge ? 'sp-menu-item-featured' : ''}`}
+                      onClick={() => window.open(formatWhatsAppMessage(plan.name, plan.price, plan.category), '_blank')}
+                    >
+                      <div className="sp-menu-item-top">
+                        <span className="sp-menu-item-name">
+                          {plan.name}
+                          {plan.badge && <span className="sp-menu-item-badge">{plan.badge}</span>}
+                        </span>
+                        <span className="sp-menu-item-dots"></span>
+                        <span className="sp-menu-item-price">{plan.price} F</span>
+                      </div>
+                      <div className="sp-menu-item-bottom">
+                        <span className="sp-menu-item-duration">{plan.duration}</span>
+                        <p className="sp-menu-item-desc">{plan.desc}</p>
+                        <a 
+                          href={formatWhatsAppMessage(plan.name, plan.price, plan.category)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="sp-menu-item-book"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          S'abonner
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -125,8 +271,8 @@ const Piscine = () => {
             </div>
             <div className="p-info-sep"></div>
             <div className="p-info-item">
-              <UtensilsCrossed size={16} />
-              <span>Rafraîchissements au Snack Bar Tasty</span>
+              <Waves size={16} />
+              <span>Vestiaires et douches à disposition</span>
             </div>
           </div>
         </div>

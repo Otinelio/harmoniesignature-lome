@@ -324,3 +324,50 @@
   .p-info-sep { display: none; }
   .p-info-item { padding: 0; }
 }
+
+/* ─── HIGHLIGHT CLUB COMBINÉ ─── */
+.club-combo-block {
+  border: 1px dashed rgba(200, 168, 75, 0.4);
+  border-radius: 20px;
+  padding: 28px 24px;
+  background: linear-gradient(180deg, rgba(200, 168, 75, 0.02) 0%, rgba(12, 16, 24, 0) 100%);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.club-combo-block::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--color-accent-gold, #C8A84B), transparent);
+}
+
+.sp-menu-item-featured {
+  border-color: rgba(200, 168, 75, 0.15) !important;
+  background: rgba(200, 168, 75, 0.02) !important;
+}
+
+.sp-menu-item-featured:hover {
+  border-color: rgba(200, 168, 75, 0.35) !important;
+  background: rgba(200, 168, 75, 0.05) !important;
+}
+
+.sp-menu-item-badge {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #0e1118;
+  background: var(--color-accent-gold, #C8A84B);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 10px;
+  vertical-align: middle;
+  letter-spacing: 0.05em;
+  display: inline-block;
+}
+

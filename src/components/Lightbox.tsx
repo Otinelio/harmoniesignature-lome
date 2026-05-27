@@ -12,6 +12,18 @@ interface LightboxProps {
 }
 
 const Lightbox: React.FC<LightboxProps> = ({ images, currentIndex, isOpen, onClose, onNavigate, backgroundColor = 'rgba(12, 16, 24, 0.96)' }) => {
+  // Prevent background body scrolling when the Lightbox is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return;
@@ -46,11 +58,20 @@ const Lightbox: React.FC<LightboxProps> = ({ images, currentIndex, isOpen, onClo
         <ChevronLeft size={40} />
       </button>
 
-      <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+      <div 
+        className="lightbox-content" 
+        onClick={(e) => {
+          // Close Lightbox when clicking outside the active image on the empty container space
+          if (e.target === e.currentTarget) {
+            onClose();
+          }
+        }}
+      >
         <img 
           src={images[currentIndex]} 
           alt={`Gallery ${currentIndex}`} 
           className="lightbox-image"
+          onClick={(e) => e.stopPropagation()} // Clicking on the image itself should not close it
         />
       </div>
 

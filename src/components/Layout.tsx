@@ -19,6 +19,10 @@ const Layout = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   if (isAdminRoute) {
     return (
       <div className="admin-layout">
