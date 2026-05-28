@@ -15,7 +15,7 @@ const Tarifs = () => {
       <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 32px 100px' }}>
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '56px', marginBottom: '16px' }}>Nos Tarifs</h1>
-          <p style={{ opacity: 0.7, maxWidth: '600px', margin: '0 auto' }}>Découvrez la grille tarifaire complète de tous nos espaces. Des abonnements mensuels ou annuels sont également disponibles sur place.</p>
+          <p style={{ opacity: 0.7, maxWidth: '600px', margin: '0 auto' }}>Découvrez la grille tarifaire complète de tous nos espaces. Des formules mensuelles ou annuelles sont également disponibles sur place.</p>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>

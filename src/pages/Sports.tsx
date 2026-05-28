@@ -20,6 +20,23 @@ const basketImages = [
   'https://images.unsplash.com/photo-1608245449230-4ac19066d2d0?q=80&w=1200&auto=format&fit=crop'
 ];
 
+const sportsImages = [...tennisImages, ...basketImages];
+
+const outerSlots = [
+  { row: 1, col: 1, imgIndex: 0 },
+  { row: 1, col: 2, imgIndex: 1 },
+  { row: 1, col: 3, imgIndex: 2 },
+  { row: 1, col: 4, imgIndex: 3 },
+  { row: 2, col: 4, imgIndex: 4 },
+  { row: 3, col: 4, imgIndex: 5 },
+  { row: 4, col: 4, imgIndex: 6 },
+  { row: 4, col: 3, imgIndex: 7 },
+  { row: 4, col: 2, imgIndex: 0 },
+  { row: 4, col: 1, imgIndex: 1 },
+  { row: 3, col: 1, imgIndex: 2 },
+  { row: 2, col: 1, imgIndex: 3 },
+];
+
 const tennisServices = [
   {
     image: tennisImages[0],
@@ -71,10 +88,39 @@ const basketServices = [
 const Sports = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
-  const [activeGallery, setActiveGallery] = useState<string[]>([]);
 
-  const openLightbox = (images: string[], index: number) => {
-    setActiveGallery(images);
+  // Rotating square gallery states
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [fadeState, setFadeState] = useState(true);
+  const [timerTrigger, setTimerTrigger] = useState(0);
+
+  // Automatic 4-second random rotation interval
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => {
+        let nextIndex = prev;
+        while (nextIndex === prev) {
+          nextIndex = Math.floor(Math.random() * sportsImages.length);
+        }
+        return nextIndex;
+      });
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [timerTrigger]);
+
+  // Smooth fade transition on active image changes
+  React.useEffect(() => {
+    setFadeState(false);
+    const timeout = setTimeout(() => setFadeState(true), 50);
+    return () => clearTimeout(timeout);
+  }, [activeIndex]);
+
+  const selectImage = (index: number) => {
+    setActiveIndex(index);
+    setTimerTrigger((prev) => prev + 1); // Reset rotation timer
+  };
+
+  const openLightbox = (index: number) => {
     setCurrentImage(index);
     setLightboxOpen(true);
   };
@@ -166,21 +212,45 @@ const Sports = () => {
         </div>
       </section>
 
-      {/* ─── GALERIE ─── */}
+      {/* ─── GALERIE CARRÉE ROTATIVE ─── */}
       <section className="sp-gallery-section">
         <h2 className="sp-gallery-title">Les Sports en images</h2>
-        <div className="sp-gallery-grid">
-          {[...tennisImages, ...basketImages].map((src, idx) => (
-            <div key={idx} className="sp-gallery-item" onClick={() => openLightbox([...tennisImages, ...basketImages], idx)}>
-              <img src={src} alt={`Sport ${idx + 1}`} />
-              <div className="sp-gallery-hover"></div>
+        
+        <div className="bw-square-gallery-container">
+          <div className="bw-square-gallery">
+            {/* Perimeter Slots (12 images mapped to 8 actual files) */}
+            {outerSlots.map((slot, idx) => {
+              const isHighlighted = activeIndex === slot.imgIndex;
+              return (
+                <div
+                  key={idx}
+                  className={`bw-gallery-item ${isHighlighted ? 'active-slot' : ''}`}
+                  style={{ gridArea: `${slot.row} / ${slot.col}` }}
+                  onClick={() => selectImage(slot.imgIndex)}
+                >
+                  <img src={sportsImages[slot.imgIndex]} alt={`Sport Perimeter ${idx + 1}`} />
+                  <div className="bw-gallery-hover"></div>
+                </div>
+              );
+            })}
+
+            {/* Spanned Center Item (Active large image) */}
+            <div
+              className={`bw-gallery-center ${fadeState ? 'fade-in' : 'fade-out'}`}
+              style={{ gridArea: '2 / 2 / 4 / 4' }}
+              onClick={() => openLightbox(activeIndex)}
+            >
+              <img src={sportsImages[activeIndex]} alt="Sport Active Center" />
+              <div className="bw-center-hover-overlay">
+                <span className="bw-center-hover-text">Agrandir</span>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
       <Lightbox
-        images={activeGallery}
+        images={sportsImages}
         currentIndex={currentImage}
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}

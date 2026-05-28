@@ -11,8 +11,8 @@
 /* ─── HERO ─── */
 .bw-hero {
   position: relative;
-  height: 55vh;
-  min-height: 420px;
+  height: 48vh;
+  min-height: 380px;
   width: 100%;
   overflow: hidden;
   display: flex;
@@ -29,6 +29,7 @@
 .bw-hero-bg {
   position: absolute;
   inset: 0;
+  /* hide image background to use solid black like Tropicana */
   opacity: 0;
   visibility: hidden;
 }
@@ -40,7 +41,8 @@
 .bw-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, var(--color-bg-primary) 0%, rgba(12, 16, 24, 0.4) 60%, rgba(12, 16, 24, 0.8) 100%);
+  /* solid black overlay to match Tropicana banner */
+  background: #000;
 }
 
 .bw-neon-lines {
@@ -290,9 +292,14 @@
 
 /* ─── GALLERY ─── */
 .bw-gallery-section {
-  padding: 0 32px 80px;
-  max-width: 1200px;
+  padding: 0 12px 80px;
+  max-width: 1280px;
   margin: 0 auto;
+}
+
+.bw-gallery-section .bw-section-title {
+  padding: 0 24px;
+  margin-bottom: 32px;
 }
 
 .bw-square-gallery-container {
@@ -300,32 +307,30 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 10px 0;
+  padding: 0;
 }
 
 .bw-square-gallery {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  gap: 12px;
-  width: 90%;
-  max-width: 900px;
+  gap: 10px;
+  width: 96%;
+  max-width: 1100px;
   aspect-ratio: 1 / 1;
   margin: 0 auto;
   position: relative;
-  background: rgba(18, 21, 31, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  padding: 16px;
-  border-radius: 20px;
-  box-shadow: 
-    0 20px 50px rgba(0, 0, 0, 0.5),
-    inset 0 0 40px rgba(255, 255, 255, 0.02);
+  background: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 8px;
+  box-shadow: none;
 }
 
 .bw-gallery-item {
   position: relative;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 4px;
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -377,7 +382,7 @@
 .bw-gallery-center {
   position: relative;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 8px;
   cursor: pointer;
   border: 2px solid var(--color-accent-gold);
   box-shadow: 

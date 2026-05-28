@@ -6,18 +6,54 @@ import './Piscine.css';
 import './Spa.css';
 import logoSpa from '../images/logo/logo_spa.png';
 
+import spa1 from '../images/spa/spa-1.jpg';
 import spa2 from '../images/spa/spa-2.jpg';
 import spa3 from '../images/spa/spa-3.jpg';
 import spa4 from '../images/spa/spa-4.jpg';
 import spa5 from '../images/spa/spa-5.jpg';
+import spa6 from '../images/spa/spa-6.jpg';
+import spa7 from '../images/spa/spa-7.jpg';
+import spa8 from '../images/spa/spa-8.jpg';
+import spa9 from '../images/spa/spa-9.jpg';
+import spa10 from '../images/spa/spa-10.jpg';
+import spa11 from '../images/spa/spa-11.jpg';
+import spa12 from '../images/spa/spa-12.jpg';
+import spa13 from '../images/spa/spa-13.jpg';
+import spa14 from '../images/spa/spa-14.jpg';
+import spa15 from '../images/spa/spa-15.jpg';
 
 // spaImages indices for lightbox
 const spaImages = [
+  spa1,
   spa2,
   spa3,
   spa4,
   spa5,
-  spa5,
+  spa6,
+  spa7,
+  spa8,
+  spa9,
+  spa10,
+  spa11,
+  spa12,
+  spa13,
+  spa14,
+  spa15,
+];
+
+const outerSlots = [
+  { row: 1, col: 1, imgIndex: 0 },
+  { row: 1, col: 2, imgIndex: 1 },
+  { row: 1, col: 3, imgIndex: 2 },
+  { row: 1, col: 4, imgIndex: 3 },
+  { row: 2, col: 4, imgIndex: 4 },
+  { row: 3, col: 4, imgIndex: 5 },
+  { row: 4, col: 4, imgIndex: 6 },
+  { row: 4, col: 3, imgIndex: 7 },
+  { row: 4, col: 2, imgIndex: 8 },
+  { row: 4, col: 1, imgIndex: 9 },
+  { row: 3, col: 1, imgIndex: 10 },
+  { row: 2, col: 1, imgIndex: 11 },
 ];
 
 const soins = [
@@ -364,6 +400,31 @@ const Spa = () => {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Rotating square gallery states
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [fadeState, setFadeState] = useState(true);
+  const [timerTrigger, setTimerTrigger] = useState(0);
+
+  // Automatic 4-second sequential rotation to avoid repeated images too often
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % spaImages.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [timerTrigger]);
+
+  // Smooth fade transition on active image changes
+  React.useEffect(() => {
+    setFadeState(false);
+    const timeout = setTimeout(() => setFadeState(true), 50);
+    return () => clearTimeout(timeout);
+  }, [activeIndex]);
+
+  const selectImage = (index: number) => {
+    setActiveIndex(index);
+    setTimerTrigger((prev) => prev + 1); // Reset rotation timer
+  };
+
   const openLightbox = (index: number) => {
     setCurrentImage(index);
     setLightboxOpen(true);
@@ -377,7 +438,7 @@ const Spa = () => {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const text = `Demande de RDV Spa — Harmonie Signature%0ASoin : ${selectedSoin}%0ADate : ${formState.date} à ${formState.heure}%0ANom : ${formState.nom}%0ATel : ${formState.telephone}%0ADemande : ${formState.message}`;
-    window.open(`https://wa.me/22892921889?text=${text}`, '_blank');
+    window.open(`https://wa.me/22890000440?text=${text}`, '_blank');
     setIsSubmitted(true);
     setTimeout(() => { setIsSubmitted(false); setBookingOpen(false); }, 3000);
     setFormState({ date: '', heure: '10:00', nom: '', telephone: '', message: '' });
@@ -446,18 +507,12 @@ const Spa = () => {
   return (
     <div className="spa-page">
 
-      {/* ─── HERO (même bannière que Piscine : classes p-hero / Piscine.css) ─── */}
-      <section className="p-hero">
-        <div className="p-hero-bg" style={{ backgroundImage: `url(${spaImages[2]})` }}></div>
-        <div className="p-hero-overlay"></div>
-        <div className="p-hero-content">
-          <div className="spa-hero-brand">
-            <img src={logoSpa} alt="Spa Harmonie Signature" className="spa-hero-dept-logo" />
-          </div>
-          <div className="spa-hero-info-bar">
-            <span><Clock size={14} /> LUN–DIM 09H–21H</span>
-            <span><Phone size={14} /> +228 92 92 18 89</span>
-          </div>
+      {/* ─── HERO (identique au Bowling/Restauration) ─── */}
+      <section className="bw-hero">
+        <div className="bw-hero-bg"></div>
+        <div className="bw-hero-overlay"></div>
+        <div className="bw-hero-content bw-hero-logo-only">
+          <img src={logoSpa} alt="Spa Harmonie Signature" className="bw-hero-dept-logo" />
         </div>
       </section>
 
@@ -522,16 +577,40 @@ const Spa = () => {
         </div>
       </section>
 
-      {/* ─── GALERIE ─── */}
+      {/* ─── GALERIE CARRÉE ROTATIVE ─── */}
       <section className="sp-gallery-section">
         <h2 className="sp-gallery-title">Le Spa en images</h2>
-        <div className="sp-gallery-grid">
-          {spaImages.map((src, idx) => (
-            <div key={idx} className="sp-gallery-item" onClick={() => openLightbox(idx)}>
-              <img src={src} alt={`Spa ${idx + 1}`} />
-              <div className="sp-gallery-hover"></div>
+        
+        <div className="bw-square-gallery-container">
+          <div className="bw-square-gallery">
+            {/* Perimeter Slots (12 unique image positions) */}
+            {outerSlots.map((slot, idx) => {
+              const isHighlighted = activeIndex === slot.imgIndex;
+              return (
+                <div
+                  key={idx}
+                  className={`bw-gallery-item ${isHighlighted ? 'active-slot' : ''}`}
+                  style={{ gridArea: `${slot.row} / ${slot.col}` }}
+                  onClick={() => selectImage(slot.imgIndex)}
+                >
+                  <img src={spaImages[slot.imgIndex]} alt={`Spa Perimeter ${idx + 1}`} />
+                  <div className="bw-gallery-hover"></div>
+                </div>
+              );
+            })}
+
+            {/* Spanned Center Item (Active large image) */}
+            <div
+              className={`bw-gallery-center ${fadeState ? 'fade-in' : 'fade-out'}`}
+              style={{ gridArea: '2 / 2 / 4 / 4' }}
+              onClick={() => openLightbox(activeIndex)}
+            >
+              <img src={spaImages[activeIndex]} alt="Spa Active Center" />
+              <div className="bw-center-hover-overlay">
+                <span className="bw-center-hover-text">Agrandir</span>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
@@ -550,7 +629,7 @@ const Spa = () => {
             <div className="sp-info-sep"></div>
             <div className="sp-info-item">
               <Phone size={16} />
-              <span>Contact : +228 92 92 18 89</span>
+              <span>Contact : +228 90 00 04 40</span>
             </div>
             <div className="sp-info-sep"></div>
             <div className="sp-info-item">

@@ -148,7 +148,7 @@ const Bowling = () => {
                 ))}
               </ul>
               <a
-                href={`https://wa.me/22892921889?text=Bonjour%20Harmonie%20Signature%2C%20je%20souhaite%20des%20infos%20sur%20la%20formule%20Bowling%20%22${encodeURIComponent(plan.name)}%22.`}
+                href={`https://wa.me/22872274390?text=Bonjour%20Bowling%20Harmonie%20Signature%2C%20je%20souhaite%20des%20infos%20sur%20la%20formule%20%22${encodeURIComponent(plan.name)}%22.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bw-plan-btn"
@@ -205,7 +205,7 @@ const Bowling = () => {
           <div className="bw-infos-items">
             <div className="bw-info-item"><Sun size={15} /><span>Mar – Dim : 16h00 – 00h00 · Lundi fermé</span></div>
             <div className="bw-info-sep"></div>
-            <div className="bw-info-item"><Phone size={15} /><span>Contact : +228 92 92 18 89</span></div>
+            <div className="bw-info-item"><Phone size={15} /><span>Contact : +228 72 27 43 90</span></div>
             <div className="bw-info-sep"></div>
             <div className="bw-info-item"><Clock size={15} /><span>Réservation recommandée le week-end</span></div>
           </div>

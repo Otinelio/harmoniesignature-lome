@@ -4,20 +4,53 @@ import Lightbox from '../components/Lightbox';
 import './Piscine.css';
 import './Gym.css';
 import logoGym from '../images/logo/logo_gym.png';
+import gym1 from '../images/salles/gym-1.jpg';
 import gym2 from '../images/salles/gym-2.jpg';
 import gym3 from '../images/salles/gym-3.jpg';
 import gym4 from '../images/salles/gym-4.jpg';
 import gym5 from '../images/salles/gym-5.jpg';
 import gym6 from '../images/salles/gym-6.jpg';
 import gym7 from '../images/salles/gym-7.jpg';
+import gym8 from '../images/salles/gym-8.jpg';
+import gym9 from '../images/salles/gym-9.jpg';
+import gym10 from '../images/salles/gym-10.jpg';
+import gym11 from '../images/salles/gym-11.jpg';
+import gym12 from '../images/salles/gym-12.jpg';
+import gym13 from '../images/salles/gym-13.jpg';
+import gym14 from '../images/salles/gym-14.jpg';
+import gym15 from '../images/salles/gym-15.jpg';
 
 const gymImages = [
+  gym1,
   gym2,
   gym3,
   gym4,
   gym5,
   gym6,
-  gym7
+  gym7,
+  gym8,
+  gym9,
+  gym10,
+  gym11,
+  gym12,
+  gym13,
+  gym14,
+  gym15,
+];
+
+const outerSlots = [
+  { row: 1, col: 1, imgIndex: 0 },
+  { row: 1, col: 2, imgIndex: 1 },
+  { row: 1, col: 3, imgIndex: 2 },
+  { row: 1, col: 4, imgIndex: 3 },
+  { row: 2, col: 4, imgIndex: 4 },
+  { row: 3, col: 4, imgIndex: 5 },
+  { row: 4, col: 4, imgIndex: 6 },
+  { row: 4, col: 3, imgIndex: 7 },
+  { row: 4, col: 2, imgIndex: 8 },
+  { row: 4, col: 1, imgIndex: 9 },
+  { row: 3, col: 1, imgIndex: 10 },
+  { row: 2, col: 1, imgIndex: 11 },
 ];
 
 const gymPlans = [
@@ -32,7 +65,7 @@ const gymPlans = [
   },
   {
     category: 'Accès Gym',
-    name: 'Abonnement Hebdomadaire',
+    name: 'Hebdomadaire',
     price: '15.000',
     desc: 'Accès illimité à la salle de sport pendant 7 jours consécutifs.',
     duration: '1 Semaine',
@@ -40,7 +73,7 @@ const gymPlans = [
   },
   {
     category: 'Accès Gym',
-    name: 'Abonnement 2 Semaines',
+    name: '2 Semaines',
     price: '30.000',
     desc: 'Accès illimité à l\'espace fitness pendant 14 jours consécutifs.',
     duration: '2 Semaines',
@@ -48,7 +81,7 @@ const gymPlans = [
   },
   {
     category: 'Accès Gym',
-    name: 'Abonnement 3 Semaines',
+    name: '3 Semaines',
     price: '40.000',
     desc: 'Accès illimité à l\'espace fitness pendant 21 jours consécutifs.',
     duration: '3 Semaines',
@@ -56,7 +89,7 @@ const gymPlans = [
   },
   {
     category: 'Accès Gym',
-    name: 'Abonnement Mensuel',
+    name: 'Mensuel',
     price: '50.000',
     desc: 'Formule idéale pour un entraînement régulier. Accès illimité pendant 30 jours.',
     duration: '1 Mois',
@@ -64,7 +97,7 @@ const gymPlans = [
   },
   {
     category: 'Accès Gym',
-    name: 'Abonnement Trimestriel',
+    name: 'Trimestriel',
     price: '130.000',
     desc: 'Accès illimité pendant 3 mois. Suivi et progression garantis.',
     duration: '3 Mois',
@@ -72,7 +105,7 @@ const gymPlans = [
   },
   {
     category: 'Accès Gym',
-    name: 'Abonnement Semestriel',
+    name: 'Semestriel',
     price: '230.000',
     desc: 'Accès illimité pendant 6 mois pour un engagement de santé à moyen terme.',
     duration: '6 Mois',
@@ -80,7 +113,7 @@ const gymPlans = [
   },
   {
     category: 'Accès Gym',
-    name: 'Abonnement Annuel',
+    name: 'Annuel',
     price: '360.000',
     desc: 'Accès illimité pendant 1 an. La formule suprême pour un mode de vie sain.',
     duration: '1 An',
@@ -98,7 +131,7 @@ const gymPlans = [
   },
   {
     category: 'Gym + Piscine (Combiné)',
-    name: 'Abonnement Mensuel Combiné',
+    name: 'Mensuel Combiné',
     price: '90.000',
     desc: 'Accès illimité à la gym et à la piscine olympique pendant 1 mois.',
     duration: '1 Mois',
@@ -106,7 +139,7 @@ const gymPlans = [
   },
   {
     category: 'Gym + Piscine (Combiné)',
-    name: 'Abonnement Trimestriel Combiné',
+    name: 'Trimestriel Combiné',
     price: '260.000',
     desc: 'Le compromis parfait. Accès illimité gym et piscine pendant 3 mois.',
     duration: '3 Mois',
@@ -114,7 +147,7 @@ const gymPlans = [
   },
   {
     category: 'Gym + Piscine (Combiné)',
-    name: 'Abonnement Semestriel Combiné',
+    name: 'Semestriel Combiné',
     price: '475.000',
     desc: 'Accès illimité total à notre complexe sportif de prestige pendant 6 mois.',
     duration: '6 Mois',
@@ -122,7 +155,7 @@ const gymPlans = [
   },
   {
     category: 'Gym + Piscine (Combiné)',
-    name: 'Abonnement Annuel Combiné',
+    name: 'Annuel Combiné',
     price: '600.000',
     desc: 'Accès illimité absolu 365 jours de l\'année. Formule ultime Harmonie Gold.',
     duration: '1 An',
@@ -140,7 +173,7 @@ const gymPlans = [
   },
   {
     category: 'Cours & Activités',
-    name: 'Abonnement Mensuel Cours Gym',
+    name: 'Mensuel Cours Gym',
     price: '20.000',
     desc: 'Accès illimité aux cours collectifs de fitness et gym pendant un mois.',
     duration: '1 Mois',
@@ -176,6 +209,37 @@ const Gym = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('Tous');
 
+  // Rotating square gallery states
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [fadeState, setFadeState] = useState(true);
+  const [timerTrigger, setTimerTrigger] = useState(0);
+
+  // Automatic 4-second random rotation interval
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => {
+        let nextIndex = prev;
+        while (nextIndex === prev) {
+          nextIndex = Math.floor(Math.random() * gymImages.length);
+        }
+        return nextIndex;
+      });
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [timerTrigger]);
+
+  // Smooth fade transition on active image changes
+  React.useEffect(() => {
+    setFadeState(false);
+    const timeout = setTimeout(() => setFadeState(true), 50);
+    return () => clearTimeout(timeout);
+  }, [activeIndex]);
+
+  const selectImage = (index: number) => {
+    setActiveIndex(index);
+    setTimerTrigger((prev) => prev + 1); // Reset rotation timer
+  };
+
   const openLightbox = (index: number) => {
     setCurrentImage(index);
     setLightboxOpen(true);
@@ -186,24 +250,18 @@ const Gym = () => {
   };
 
   const formatWhatsAppMessage = (name: string, price: string, cat: string) => {
-    return `https://wa.me/22892921889?text=Bonjour%20Harmonie%20Signature%2C%20je%20souhaite%20m'abonner%20%C3%A0%20la%20formule%20%22${encodeURIComponent(name)}%22%20de%20cat%C3%A9gorie%20${encodeURIComponent(cat)}%20au%20prix%20de%20${encodeURIComponent(price)}%20FCFA.`;
+    return `https://wa.me/22896297777?text=Bonjour%20Platinum%20Fitness%2C%20je%20souhaite%20obtenir%20des%20informations%20et%20m'inscrire%20pour%20la%20formule%20%22${encodeURIComponent(name)}%22%20de%20cat%C3%A9gorie%20${encodeURIComponent(cat)}%20au%20prix%20de%20${encodeURIComponent(price)}%20FCFA.`;
   };
 
   return (
     <div className="gym-page">
 
-      {/* ─── HERO ─── */}
-      <section className="p-hero">
-        <div className="p-hero-bg" style={{ backgroundImage: `url(${gymImages[0]})` }}></div>
-        <div className="p-hero-overlay"></div>
-        <div className="p-hero-content">
-          <div className="spa-hero-brand">
-            <img src={logoGym} alt="Gym Harmonie Signature" className="spa-hero-dept-logo" />
-          </div>
-          <div className="spa-hero-info-bar">
-            <span><Clock size={14} /> LUN–SAM 06H–22H</span>
-            <span><Phone size={14} /> +228 92 92 18 89</span>
-          </div>
+      {/* ─── HERO (identique au Bowling/Restauration) ─── */}
+      <section className="bw-hero">
+        <div className="bw-hero-bg"></div>
+        <div className="bw-hero-overlay"></div>
+        <div className="bw-hero-content bw-hero-logo-only">
+          <img src={logoGym} alt="Gym Harmonie Signature" className="bw-hero-dept-logo" />
         </div>
       </section>
 
@@ -265,7 +323,7 @@ const Gym = () => {
                           className="sp-menu-item-book"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          S'abonner
+                          Info via WhatsApp
                         </a>
                       </div>
                     </div>
@@ -277,16 +335,40 @@ const Gym = () => {
         </div>
       </section>
 
-      {/* ─── GALERIE ─── */}
+      {/* ─── GALERIE CARRÉE ROTATIVE ─── */}
       <section className="sp-gallery-section">
         <h2 className="sp-gallery-title">La Gym en images</h2>
-        <div className="sp-gallery-grid">
-          {gymImages.map((src, idx) => (
-            <div key={idx} className="sp-gallery-item" onClick={() => openLightbox(idx)}>
-              <img src={src} alt={`Gym ${idx + 1}`} />
-              <div className="sp-gallery-hover"></div>
+        
+        <div className="bw-square-gallery-container">
+          <div className="bw-square-gallery">
+            {/* Perimeter Slots (12 images mapped to 10 actual files) */}
+            {outerSlots.map((slot, idx) => {
+              const isHighlighted = activeIndex === slot.imgIndex;
+              return (
+                <div
+                  key={idx}
+                  className={`bw-gallery-item ${isHighlighted ? 'active-slot' : ''}`}
+                  style={{ gridArea: `${slot.row} / ${slot.col}` }}
+                  onClick={() => selectImage(slot.imgIndex)}
+                >
+                  <img src={gymImages[slot.imgIndex]} alt={`Gym Perimeter ${idx + 1}`} />
+                  <div className="bw-gallery-hover"></div>
+                </div>
+              );
+            })}
+
+            {/* Spanned Center Item (Active large image) */}
+            <div
+              className={`bw-gallery-center ${fadeState ? 'fade-in' : 'fade-out'}`}
+              style={{ gridArea: '2 / 2 / 4 / 4' }}
+              onClick={() => openLightbox(activeIndex)}
+            >
+              <img src={gymImages[activeIndex]} alt="Gym Active Center" />
+              <div className="bw-center-hover-overlay">
+                <span className="bw-center-hover-text">Agrandir</span>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
@@ -305,7 +387,7 @@ const Gym = () => {
             <div className="sp-info-sep"></div>
             <div className="sp-info-item">
               <Phone size={16} />
-              <span>Contact : +228 92 92 18 89</span>
+              <span>Contact : +228 96 29 77 77</span>
             </div>
             <div className="sp-info-sep"></div>
             <div className="sp-info-item">

@@ -23,7 +23,7 @@ const poolPlans = [
   },
   {
     category: 'Accès Piscine',
-    name: 'Abonnement Hebdomadaire',
+    name: 'Hebdomadaire',
     price: '15.000',
     desc: 'Accès libre à la piscine olympique pendant 7 jours consécutifs.',
     duration: '1 Semaine',
@@ -31,7 +31,7 @@ const poolPlans = [
   },
   {
     category: 'Accès Piscine',
-    name: 'Abonnement 2 Semaines',
+    name: '2 Semaines',
     price: '30.000',
     desc: 'Accès libre à la piscine olympique pendant 14 jours consécutifs.',
     duration: '2 Semaines',
@@ -39,7 +39,7 @@ const poolPlans = [
   },
   {
     category: 'Accès Piscine',
-    name: 'Abonnement 3 Semaines',
+    name: '3 Semaines',
     price: '40.000',
     desc: 'Accès libre à la piscine olympique pendant 21 jours consécutifs.',
     duration: '3 Semaines',
@@ -47,7 +47,7 @@ const poolPlans = [
   },
   {
     category: 'Accès Piscine',
-    name: 'Abonnement Mensuel',
+    name: 'Mensuel',
     price: '50.000',
     desc: 'La formule mensuelle idéale pour les amateurs de natation régulière. 30 jours.',
     duration: '1 Mois',
@@ -55,7 +55,7 @@ const poolPlans = [
   },
   {
     category: 'Accès Piscine',
-    name: 'Abonnement Trimestriel',
+    name: 'Trimestriel',
     price: '130.000',
     desc: 'Accès libre pendant 3 mois à nos installations de baignade de prestige.',
     duration: '3 Mois',
@@ -63,7 +63,7 @@ const poolPlans = [
   },
   {
     category: 'Accès Piscine',
-    name: 'Abonnement Semestriel',
+    name: 'Semestriel',
     price: '230.000',
     desc: 'Accès libre pendant 6 mois. Idéal pour s\'entraîner tout au long des saisons.',
     duration: '6 Mois',
@@ -71,7 +71,7 @@ const poolPlans = [
   },
   {
     category: 'Accès Piscine',
-    name: 'Abonnement Annuel',
+    name: 'Annuel',
     price: '360.000',
     desc: 'Accès complet et illimité 365 jours de l\'année. Économisez sur la durée.',
     duration: '1 An',
@@ -89,7 +89,7 @@ const poolPlans = [
   },
   {
     category: 'Gym + Piscine (Combiné)',
-    name: 'Abonnement Mensuel Combiné',
+    name: 'Mensuel Combiné',
     price: '90.000',
     desc: 'Accès illimité à la gym et à la piscine olympique pendant 1 mois.',
     duration: '1 Mois',
@@ -97,7 +97,7 @@ const poolPlans = [
   },
   {
     category: 'Gym + Piscine (Combiné)',
-    name: 'Abonnement Trimestriel Combiné',
+    name: 'Trimestriel Combiné',
     price: '260.000',
     desc: 'Le compromis parfait. Accès illimité gym et piscine pendant 3 mois.',
     duration: '3 Mois',
@@ -105,7 +105,7 @@ const poolPlans = [
   },
   {
     category: 'Gym + Piscine (Combiné)',
-    name: 'Abonnement Semestriel Combiné',
+    name: 'Semestriel Combiné',
     price: '475.000',
     desc: 'Accès illimité total à notre complexe sportif de prestige pendant 6 mois.',
     duration: '6 Mois',
@@ -113,7 +113,7 @@ const poolPlans = [
   },
   {
     category: 'Gym + Piscine (Combiné)',
-    name: 'Abonnement Annuel Combiné',
+    name: 'Annuel Combiné',
     price: '600.000',
     desc: 'Accès illimité absolu 365 jours de l\'année. Formule ultime Harmonie Gold.',
     duration: '1 An',
@@ -153,7 +153,7 @@ const Piscine = () => {
   };
 
   const formatWhatsAppMessage = (name: string, price: string, cat: string) => {
-    return `https://wa.me/22892921889?text=Bonjour%20Harmonie%20Signature%2C%20je%20souhaite%20m'abonner%20%C3%A0%20la%20formule%20%22${encodeURIComponent(name)}%22%20de%20cat%C3%A9gorie%20${encodeURIComponent(cat)}%20au%20prix%20de%20${encodeURIComponent(price)}%20FCFA%20pour%20la%20Piscine.`;
+    return `https://wa.me/22892921889?text=Bonjour%20Harmonie%20Signature%2C%20je%20souhaite%20obtenir%20des%20informations%20et%20m'inscrire%20pour%20la%20formule%20%22${encodeURIComponent(name)}%22%20de%20cat%C3%A9gorie%20${encodeURIComponent(cat)}%20au%20prix%20de%20${encodeURIComponent(price)}%20FCFA%20pour%20la%20Piscine.`;
   };
 
   return (
@@ -227,7 +227,7 @@ const Piscine = () => {
                           className="sp-menu-item-book"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          S'abonner
+                          Info via WhatsApp
                         </a>
                       </div>
                     </div>

@@ -232,7 +232,7 @@ export const saveDepartments = (deps: Department[]) => {
 export const getRestaurants = (): Restaurant[] => {
   const data = localStorage.getItem('hs_admin_restaurants');
   let rests: Restaurant[] = data ? JSON.parse(data) : DEFAULT_RESTAURANTS;
-  
+
   // Force update from DEFAULT_RESTAURANTS if localStorage contains old small menu
   const tropicana = rests.find(r => r.id === 'tropicana');
   if (tropicana && tropicana.menu.length < 10) {
@@ -242,7 +242,7 @@ export const getRestaurants = (): Restaurant[] => {
       localStorage.setItem('hs_admin_restaurants', JSON.stringify(rests));
     }
   }
-  
+
   // Always ensure only the Tropicana restaurant is returned to enforce single restaurant constraint
   return rests.filter(r => r.id === 'tropicana');
 };

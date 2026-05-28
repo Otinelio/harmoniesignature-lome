@@ -34,7 +34,7 @@ const DepartementsHub = () => {
       case 'piscine': return '#3B82F6';
       case 'bowling': return '#F97316';
       case 'spa': return '#2DD4BF';
-      case 'gym': return '#4ADE80';
+      case 'gym': return '#00ACA7';
       case 'tennis': return '#F59E0B';
       case 'basket': return '#8B5CF6';
       default: return '#EF4444';
@@ -46,7 +46,7 @@ const DepartementsHub = () => {
       case 'piscine': return 'Piscine olympique · Tarifs · Horaires';
       case 'bowling': return 'Pistes · Plaisir · Compétition';
       case 'spa': return 'Soin · Détente · Jacuzzi';
-      case 'gym': return 'Salle de gym · Coaching · Abonnements';
+      case 'gym': return 'Salle de gym · Coaching · Formules';
       case 'tennis': return 'Terre battue · Coaching · Localisation';
       case 'basket': return 'Terrain pro · Équipement · Réservation';
       default: return 'Découverte · Services · Informations';
@@ -57,7 +57,7 @@ const DepartementsHub = () => {
     switch(id) {
       case 'spa': return 'RÉSERVER UN SOIN';
       case 'bowling': return 'VOIR LES TARIFS';
-      case 'gym': return 'VOIR LES ABONNEMENTS';
+      case 'gym': return 'VOIR LES FORMULES';
       default: return 'VOIR PLUS DE DÉTAILS';
     }
   };
