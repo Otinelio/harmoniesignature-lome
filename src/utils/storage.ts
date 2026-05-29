@@ -214,8 +214,8 @@ const DEFAULT_SETTINGS: Settings = {
   adminPasswordHash: 'HS2025admin',
   mainWhatsApp: '22892921889',
   address: 'Rue 243 Tot Ancien BSL, Résidence du Bénin, Lomé, Togo',
-  generalHours: 'Lundi – Samedi : 07h00 – 23h00 · Dimanche fermé',
-  bowlingHours: 'Mardi – Dimanche 16h00 – 00h00',
+  generalHours: 'Harmonie Signature : Lundi – Dimanche de 06h00 à 22h00. Week-end & jours fériés : fermeture à 20h.',
+  bowlingHours: 'Bowling Le Logo : Mardi – Dimanche de 16h00 à 00h00. Fermé le lundi.',
   spaEmail: 'spa@harmoniesignature.tg',
   heroVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' // placeholder
 };

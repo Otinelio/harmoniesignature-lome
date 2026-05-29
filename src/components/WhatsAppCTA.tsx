@@ -7,7 +7,7 @@ import './WhatsAppCTA.css';
 const faqs = [
   {
     question: 'Quels sont les horaires d’ouverture ?',
-    answer: 'Le complexe est ouvert du lundi au samedi de 07h00 à 23h00. Le Bowling Le Logo est ouvert du mardi au dimanche de 16h00 à 00h00.',
+    answer: 'Harmonie Signature est ouvert tous les jours de 06h00 à 22h00. En week-end et les jours fériés, l’accès ferme à 20h. Le Bowling Le Logo est fermé le lundi.',
   },
   {
     question: 'Peut-on réserver en ligne ?',

@@ -52,7 +52,7 @@ const Home = () => {
         </div>
         <div className="video-bottom-overlay">
           <h2>Votre complexe de référence à Lomé</h2>
-          <p>Rue 243 Tot Ancien BSL, Résidence du Bénin · Lun - Sam : 07h00 - 23h00</p>
+          <p>Harmonie Signature · Lundi – Dimanche de 06h00 à 22h00</p>
         </div>
         <div className="scroll-indicator">
           <ChevronDown size={22} />
@@ -152,7 +152,11 @@ const Home = () => {
             <div className="sp-info-sep"></div>
             <div className="sp-info-item">
               <Clock size={16} />
-              <span>Lun – Sam : 07h00 – 23h00</span>
+              <span>Ouverture : Lundi – Dimanche de 06h00 à 22h00</span>
+            </div>
+            <div className="sp-info-item">
+              <Clock size={16} />
+              <span>Week-end & jours fériés : fermeture à 20h</span>
             </div>
             <div className="sp-info-sep"></div>
             <div className="sp-info-item">
