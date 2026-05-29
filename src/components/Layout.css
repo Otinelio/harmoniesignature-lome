@@ -22,3 +22,47 @@ main {
     transform: translateY(0);
   }
 }
+
+/* ─── FLOATING BACK BUTTON ─── */
+.back-floating-btn {
+  position: fixed;
+  bottom: 32px;
+  left: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 950;
+  text-decoration: none;
+  background: rgba(12, 16, 24, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(200, 168, 75, 0.35);
+  padding: 12px 20px;
+  border-radius: 100px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--color-text-primary);
+}
+
+.back-floating-btn:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent-gold);
+  box-shadow: 0 12px 40px rgba(200, 168, 75, 0.25);
+  color: var(--color-accent-gold);
+}
+
+.back-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .back-floating-btn {
+    bottom: 24px;
+    left: 24px;
+    padding: 10px 16px;
+  }
+}

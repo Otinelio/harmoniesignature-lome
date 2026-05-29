@@ -877,3 +877,18 @@
     display: none;
   }
 }
+
+/* LOGO COVER STYLING FOR CAROUSEL UNIVERS CARD BACKDROP */
+.carousel-card-logo-bg {
+  background-size: 72% auto !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-color: rgba(255, 255, 255, 0.02) !important;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.univers-grid-card:hover .carousel-card-logo-bg {
+  background-size: 78% auto !important;
+  background-color: rgba(200, 168, 75, 0.04) !important;
+  border-color: var(--color-accent-gold) !important;
+}

@@ -51,7 +51,7 @@ const Contact = () => {
               <div>
                 <h3>Horaires d'ouverture</h3>
                 <p>{settings.generalHours}</p>
-                <p style={{ opacity: 0.6, fontSize: '13px', marginTop: '4px' }}>Bowling : {settings.bowlingHours}</p>
+                <p style={{ opacity: 0.6, fontSize: '13px', marginTop: '4px' }}>Bowling Le Logo : {settings.bowlingHours}</p>
               </div>
             </div>
 

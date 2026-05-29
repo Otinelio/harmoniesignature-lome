@@ -26,7 +26,7 @@ const Footer = () => {
               <Link to="/">Accueil</Link>
               <Link to="/departements">Départements</Link>
               <Link to="/restauration">Restauration</Link>
-              <Link to="/spa">Spa & Wellness</Link>
+              <Link to="/spa">Lotus Spa</Link>
               <Link to="/tarifs">Tarifs</Link>
               <Link to="/contact">Contact</Link>
             </nav>
@@ -50,7 +50,7 @@ const Footer = () => {
               </div>
               <div className="info-item">
                 <Clock size={18} />
-                <span>Bowling : Mar – Dim : 16h00 – 00h00</span>
+                <span>Bowling Le Logo : Mar – Dim : 16h00 – 00h00</span>
               </div>
             </div>
           </div>

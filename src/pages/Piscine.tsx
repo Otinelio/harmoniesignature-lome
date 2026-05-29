@@ -1,14 +1,37 @@
 import React, { useState } from 'react';
-import { Phone, Waves, Clock, Sun, Sparkles } from 'lucide-react';
+import { Phone, Waves, Sun, Sparkles } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Piscine.css';
+import './Spa.css';
+
+import imgPiscine1 from '../images/piscine/piscine1.jpg';
+import imgPiscine2 from '../images/piscine/piscine2.jpg';
+import imgPiscine3 from '../images/piscine/piscine3.jpg';
+import imgPiscine4 from '../images/piscine/piscine4.jpg';
+import imgPiscine5 from '../images/piscine/piscine5.jpg';
+import imgPiscine6 from '../images/piscine/piscine6.jpg';
+import imgPiscine7 from '../images/piscine/piscine7.jpg';
+import imgPiscine8 from '../images/piscine/piscine8.jpg';
+import imgPiscine9 from '../images/piscine/piscine9.jpg';
+import imgPiscine10 from '../images/piscine/piscine10.jpg';
+import imgPiscine11 from '../images/piscine/piscine11.jpg';
+import imgPiscine12 from '../images/piscine/piscine12.jpg';
+import imgPiscine13 from '../images/piscine/piscine13.jpg';
 
 const poolImages = [
-  'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=1400&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=1400&auto=format&fit=crop',
+  imgPiscine1,
+  imgPiscine2,
+  imgPiscine3,
+  imgPiscine4,
+  imgPiscine5,
+  imgPiscine6,
+  imgPiscine7,
+  imgPiscine8,
+  imgPiscine9,
+  imgPiscine10,
+  imgPiscine11,
+  imgPiscine12,
+  imgPiscine13,
 ];
 
 const poolPlans = [
@@ -138,33 +161,55 @@ const categories = [
   'Cours de Natation'
 ];
 
+const outerSlots = [
+  { row: 1, col: 1, imgIndex: 0 },
+  { row: 1, col: 2, imgIndex: 1 },
+  { row: 1, col: 3, imgIndex: 2 },
+  { row: 1, col: 4, imgIndex: 3 },
+  { row: 2, col: 4, imgIndex: 4 },
+  { row: 3, col: 4, imgIndex: 5 },
+  { row: 4, col: 4, imgIndex: 6 },
+  { row: 4, col: 3, imgIndex: 7 },
+  { row: 4, col: 2, imgIndex: 8 },
+  { row: 4, col: 1, imgIndex: 9 },
+  { row: 3, col: 1, imgIndex: 10 },
+  { row: 2, col: 1, imgIndex: 11 },
+];
+
 const Piscine = () => {
+  const [selectedCategory, setSelectedCategory] = React.useState('Tous');
+  const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState('Tous');
+  const [fadeState, setFadeState] = useState(true);
+
+  const getPlansByCategory = (cat: string) => {
+    return poolPlans.filter(p => p.category === cat);
+  };
+
+  const selectImage = (index: number) => {
+    setFadeState(false);
+    setTimeout(() => {
+      setActiveIndex(index);
+      setCurrentImage(index);
+      setFadeState(true);
+    }, 150);
+  };
 
   const openLightbox = (index: number) => {
     setCurrentImage(index);
     setLightboxOpen(true);
   };
 
-  const getPlansByCategory = (cat: string) => {
-    return poolPlans.filter(p => p.category === cat);
-  };
-
-  const formatWhatsAppMessage = (name: string, price: string, cat: string) => {
-    return `https://wa.me/22892921889?text=Bonjour%20Harmonie%20Signature%2C%20je%20souhaite%20obtenir%20des%20informations%20et%20m'inscrire%20pour%20la%20formule%20%22${encodeURIComponent(name)}%22%20de%20cat%C3%A9gorie%20${encodeURIComponent(cat)}%20au%20prix%20de%20${encodeURIComponent(price)}%20FCFA%20pour%20la%20Piscine.`;
-  };
-
   return (
-    <div className="piscine-page">
+    <div className="piscine-page spa-page">
 
       {/* ─── HERO ─── */}
       <section className="p-hero">
         <div className="p-hero-bg" style={{ backgroundImage: `url(${poolImages[0]})` }}></div>
         <div className="p-hero-overlay"></div>
         <div className="p-hero-content">
-          <h1 className="p-hero-title">Piscine Olympique</h1>
+          <h1 className="p-hero-title">Piscine</h1>
           <p className="p-hero-sub">NAGE · DÉTENTE · LONGUEURS</p>
         </div>
       </section>
@@ -204,10 +249,9 @@ const Piscine = () => {
                 </div>
                 <div className="sp-menu-items-grid">
                   {catPlans.map((plan, idx) => (
-                    <div 
-                      key={idx} 
+                    <article
+                      key={idx}
                       className={`sp-menu-item-row ${plan.badge ? 'sp-menu-item-featured' : ''}`}
-                      onClick={() => window.open(formatWhatsAppMessage(plan.name, plan.price, plan.category), '_blank')}
                     >
                       <div className="sp-menu-item-top">
                         <span className="sp-menu-item-name">
@@ -220,17 +264,8 @@ const Piscine = () => {
                       <div className="sp-menu-item-bottom">
                         <span className="sp-menu-item-duration">{plan.duration}</span>
                         <p className="sp-menu-item-desc">{plan.desc}</p>
-                        <a 
-                          href={formatWhatsAppMessage(plan.name, plan.price, plan.category)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="sp-menu-item-book"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          Info via WhatsApp
-                        </a>
                       </div>
-                    </div>
+                    </article>
                   ))}
                 </div>
               </div>
@@ -239,20 +274,51 @@ const Piscine = () => {
         </div>
       </section>
 
-      {/* ─── GALERIE ─── */}
-      <section className="p-gallery-section">
-        <h2 className="p-section-title">La Piscine en images</h2>
-        <div className="p-gallery-grid">
-          {poolImages.map((src, idx) => (
-            <div key={idx} className="p-gallery-item" onClick={() => openLightbox(idx)}>
-              <img src={src} alt={`Piscine ${idx + 1}`} />
-              <div className="p-gallery-hover"></div>
+      {/* ─── GALERIE SPA-STYLE ─── */}
+      <section className="sp-gallery-section">
+        <h2 className="sp-gallery-title">La Piscine en images</h2>
+
+        <div className="bw-square-gallery-container">
+          <div className="bw-square-gallery">
+            {outerSlots.map((slot, idx) => {
+              const isHighlighted = activeIndex === slot.imgIndex;
+              return (
+                <div
+                  key={idx}
+                  className={`bw-gallery-item ${isHighlighted ? 'active-slot' : ''}`}
+                  style={{ gridArea: `${slot.row} / ${slot.col}` }}
+                  onClick={() => selectImage(slot.imgIndex)}
+                >
+                  <img src={poolImages[slot.imgIndex]} alt={`Piscine ${slot.imgIndex + 1}`} />
+                  <div className="bw-gallery-hover"></div>
+                </div>
+              );
+            })}
+
+            <div
+              className={`bw-gallery-center ${fadeState ? 'fade-in' : 'fade-out'}`}
+              style={{ gridArea: '2 / 2 / 4 / 4' }}
+              onClick={() => openLightbox(activeIndex)}
+            >
+              <img src={poolImages[activeIndex]} alt="Piscine active center" />
+              <div className="bw-center-hover-overlay">
+                <span className="bw-center-hover-text">Agrandir</span>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
       {/* ─── INFOS PRATIQUES ─── */}
+      <Lightbox
+        images={poolImages}
+        currentIndex={currentImage}
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        onNavigate={setCurrentImage}
+        backgroundColor="rgba(24, 32, 48, 0.98)"
+      />
+
       <section className="p-infos-section">
         <div className="p-infos-card">
           <div className="p-infos-icon-top">
@@ -278,13 +344,6 @@ const Piscine = () => {
         </div>
       </section>
 
-      <Lightbox
-        images={poolImages}
-        currentIndex={currentImage}
-        isOpen={lightboxOpen}
-        onClose={() => setLightboxOpen(false)}
-        onNavigate={setCurrentImage}
-      />
     </div>
   );
 };

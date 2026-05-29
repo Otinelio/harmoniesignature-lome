@@ -148,7 +148,7 @@ const Bowling = () => {
                 ))}
               </ul>
               <a
-                href={`https://wa.me/22872274390?text=Bonjour%20Bowling%20Harmonie%20Signature%2C%20je%20souhaite%20des%20infos%20sur%20la%20formule%20%22${encodeURIComponent(plan.name)}%22.`}
+                href={`https://wa.me/22872274390?text=Bonjour%20Bowling%2C%20je%20souhaite%20obtenir%20des%20informations%20sur%20la%20formule%20%22${encodeURIComponent(plan.name)}%22.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bw-plan-btn"

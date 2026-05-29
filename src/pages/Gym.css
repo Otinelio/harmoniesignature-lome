@@ -915,13 +915,14 @@
 }
 
 .gym-page .club-combo-block {
-  border: 1px dashed rgba(var(--gym-primary-rgb), 0.4);
-  background: linear-gradient(180deg, rgba(var(--gym-primary-rgb), 0.02) 0%, rgba(12, 16, 24, 0) 100%);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
 }
 
 .gym-page .club-combo-block::before {
-  background: linear-gradient(90deg, transparent, var(--gym-primary), transparent);
+  display: none;
 }
 
 .gym-page .sp-menu-item-featured {

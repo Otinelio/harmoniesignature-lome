@@ -4,23 +4,22 @@ import { createPortal } from 'react-dom';
 import Lightbox from '../components/Lightbox';
 import './Piscine.css';
 import './Sports.css';
-import logoBowling from '../images/logo/logo_bowling.png';
 
-const tennisImages = [
-  'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=1200&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?q=80&w=1200&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1530915365347-2a62886f48a1?q=80&w=1200&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1572560372864-1507bb0a22c5?q=80&w=1200&auto=format&fit=crop'
-];
+import imgTennisBasket1 from '../images/tennis&Basketball/tennis&Basketball1.jpg';
+import imgTennisBasket2 from '../images/tennis&Basketball/tennis&Basketball2.jpg';
+import imgTennisBasket3 from '../images/tennis&Basketball/tennis&Basketball3.jpg';
+import imgTennisBasket4 from '../images/tennis&Basketball/tennis&Basketball4.jpg';
+import imgTennisBasket5 from '../images/tennis&Basketball/tennis&Basketball5.jpg';
+import imgTennisBasket6 from '../images/tennis&Basketball/tennis&Basketball6.jpg';
+import imgTennisBasket7 from '../images/tennis&Basketball/tennis&Basketball7.jpg';
+import imgTennisBasket8 from '../images/tennis&Basketball/tennis&Basketball8.jpg';
+import imgTennisBasket9 from '../images/tennis&Basketball/tennis&Basketball9.jpg';
+import imgTennisBasket10 from '../images/tennis&Basketball/tennis&Basketball10.jpg';
+import imgTennisBasket11 from '../images/tennis&Basketball/tennis&Basketball11.jpg';
 
-const basketImages = [
-  'https://images.unsplash.com/photo-1505666287802-931dc83948e9?q=80&w=1200&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1519861531473-9200262188bf?q=80&w=1200&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=1200&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1608245449230-4ac19066d2d0?q=80&w=1200&auto=format&fit=crop'
-];
-
-const sportsImages = [...tennisImages, ...basketImages];
+const tennisImages = [imgTennisBasket1, imgTennisBasket2, imgTennisBasket3, imgTennisBasket4];
+const basketImages = [imgTennisBasket5, imgTennisBasket6, imgTennisBasket7, imgTennisBasket8];
+const sportsImages = [imgTennisBasket1, imgTennisBasket2, imgTennisBasket3, imgTennisBasket4, imgTennisBasket5, imgTennisBasket6, imgTennisBasket7, imgTennisBasket8, imgTennisBasket9, imgTennisBasket10, imgTennisBasket11];
 
 const outerSlots = [
   { row: 1, col: 1, imgIndex: 0 },
@@ -31,10 +30,10 @@ const outerSlots = [
   { row: 3, col: 4, imgIndex: 5 },
   { row: 4, col: 4, imgIndex: 6 },
   { row: 4, col: 3, imgIndex: 7 },
-  { row: 4, col: 2, imgIndex: 0 },
-  { row: 4, col: 1, imgIndex: 1 },
-  { row: 3, col: 1, imgIndex: 2 },
-  { row: 2, col: 1, imgIndex: 3 },
+  { row: 4, col: 2, imgIndex: 8 },
+  { row: 4, col: 1, imgIndex: 9 },
+  { row: 3, col: 1, imgIndex: 10 },
+  { row: 2, col: 1, imgIndex: 0 },
 ];
 
 const tennisServices = [
@@ -130,11 +129,11 @@ const Sports = () => {
 
       {/* ─── HERO ─── */}
       <section className="p-hero">
-        <div className="p-hero-bg" style={{ backgroundImage: `url(${tennisImages[0]})` }}></div>
+        <div className="p-hero-bg" style={{ backgroundImage: `url(${imgTennisBasket1})` }}></div>
         <div className="p-hero-overlay"></div>
         <div className="p-hero-content">
           <div className="spa-hero-brand">
-            <img src={logoBowling} alt="Sports Harmonie Signature" className="spa-hero-dept-logo" />
+            <h1 className="sports-hero-title">Tennis & Basket</h1>
           </div>
           <div className="spa-hero-info-bar">
             <span><Clock size={14} /> LUN–DIM 08H–22H  </span>

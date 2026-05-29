@@ -5,20 +5,33 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  z-index: 900;
+  z-index: 950;
   text-decoration: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
 }
 
 .whatsapp-icon-bg {
   width: 52px;
   height: 52px;
-  background-color: #128C7E;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   transition: transform 0.2s ease;
+}
+
+.whatsapp-icon-bg.faq-mode {
+  background: linear-gradient(135deg, #d6b452, #a17f25);
+  box-shadow: 0 4px 15px rgba(214, 180, 82, 0.4);
+}
+
+.whatsapp-icon-bg.whatsapp-mode {
+  background-color: #25D366;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
 }
 
 .whatsapp-cta:hover .whatsapp-icon-bg {
@@ -42,4 +55,202 @@
 .whatsapp-label.visible {
   opacity: 1;
   transform: translateX(0);
+}
+
+.faq-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 7, 12, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 990;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.faq-sheet-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.faq-sheet {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.92);
+  z-index: 1000;
+  width: min(calc(100vw - 32px), 520px);
+  max-height: 82vh;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(14, 20, 32, 0.98), rgba(8, 12, 22, 0.99));
+  border: 1px solid rgba(200, 168, 75, 0.25);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease, visibility 0.25s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-sheet.open {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+.faq-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, rgba(200, 168, 75, 0.05), transparent);
+}
+
+.faq-sheet-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-accent-gold);
+  margin: 0 0 4px 0;
+}
+
+.faq-sheet-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.faq-sheet-close {
+  border: 0;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.faq-sheet-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-text-primary);
+  transform: rotate(90deg);
+}
+
+.faq-sheet-content {
+  padding: 16px 24px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 50vh;
+}
+
+.faq-sheet-item {
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.faq-sheet-item:hover, .faq-sheet-item.open {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(200, 168, 75, 0.2);
+}
+
+.faq-sheet-question {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-primary);
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.faq-sheet-question:hover {
+  color: var(--color-accent-gold);
+}
+
+.faq-chevron {
+  color: rgba(255, 255, 255, 0.4);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s;
+}
+
+.faq-sheet-item.open .faq-chevron {
+  transform: rotate(-180deg);
+  color: var(--color-accent-gold);
+}
+
+.faq-answer-wrapper {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+}
+
+.faq-answer-wrapper.open {
+  max-height: 180px;
+  opacity: 1;
+}
+
+.faq-sheet-answer {
+  margin: 0;
+  padding: 0 16px 14px;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.5;
+  font-size: 0.88rem;
+}
+
+.faq-sheet-footer {
+  padding: 16px 24px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(8, 12, 22, 0.6);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.faq-sheet-footer p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.faq-whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-accent-gold);
+  color: #08101a;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.faq-whatsapp-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(200, 168, 75, 0.35);
 }

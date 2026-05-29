@@ -300,10 +300,9 @@ const Gym = () => {
                 </div>
                 <div className="sp-menu-items-grid">
                   {catPlans.map((plan, idx) => (
-                    <div 
-                      key={idx} 
+                    <div
+                      key={idx}
                       className={`sp-menu-item-row ${plan.badge ? 'sp-menu-item-featured' : ''}`}
-                      onClick={() => window.open(formatWhatsAppMessage(plan.name, plan.price, plan.category), '_blank')}
                     >
                       <div className="sp-menu-item-top">
                         <span className="sp-menu-item-name">
@@ -316,15 +315,6 @@ const Gym = () => {
                       <div className="sp-menu-item-bottom">
                         <span className="sp-menu-item-duration">{plan.duration}</span>
                         <p className="sp-menu-item-desc">{plan.desc}</p>
-                        <a 
-                          href={formatWhatsAppMessage(plan.name, plan.price, plan.category)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="sp-menu-item-book"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          Info via WhatsApp
-                        </a>
                       </div>
                     </div>
                   ))}

@@ -10,16 +10,23 @@ import videoDeo1 from '../images/spa/spaDeo/SpaDeo1.mp4';
 import videoDeo2 from '../images/spa/spaDeo/SpaDeo2.mp4';
 import videoDeo3 from '../images/spa/spaDeo/SpaDeo3.mp4';
 
+import logoBowling from '../images/logo/logo_bowling.png';
+import logoSpa from '../images/logo/logo_spa.png';
+import logoGym from '../images/logo/logo_gym.png';
+import logoTropicana from '../images/logo/logo_tropicana.png';
+import imgTennisBasket1 from '../images/tennis&Basketball/tennis&Basketball1.jpg';
+import imgPiscine1 from '../images/piscine/piscine1.jpg';
+
 const Home = () => {
   const [hoveredUnivers, setHoveredUnivers] = useState<string>('piscine');
 
   const universList = [
-    { id: 'piscine', name: 'Piscine', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop' },
-    { id: 'bowling', name: 'Bowling', img: 'https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?q=80&w=2000&auto=format&fit=crop' },
-    { id: 'spa', name: 'Spa & Bien-être', img: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2000&auto=format&fit=crop' },
-    { id: 'gym', name: 'Gym & Fitness', img: imgGym },
-    { id: 'restauration', name: 'Restaurants', img: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2000&auto=format&fit=crop' },
-    { id: 'sports', name: 'Terrains de Sport', img: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=2000&auto=format&fit=crop' },
+    { id: 'piscine', name: 'Piscine', img: imgPiscine1 },
+    { id: 'bowling', name: 'Bowling', img: logoBowling, isLogo: true },
+    { id: 'spa', name: 'Lotus Spa', img: logoSpa, isLogo: true },
+    { id: 'gym', name: 'Platinum Fitness', img: logoGym, isLogo: true },
+    { id: 'restauration', name: 'Tropicana', img: logoTropicana, isLogo: true },
+    { id: 'sports', name: 'Tennis & Basket', img: imgTennisBasket1 },
   ];
 
   return (
@@ -63,7 +70,7 @@ const Home = () => {
           {universList.map((u, idx) => (
             <Link to={`/${u.id}`} key={u.id} className={`univers-grid-card card-${idx + 1}`}>
               <div className="carousel-card-number">0{idx + 1}</div>
-              <div className="carousel-card-bg" style={{ backgroundImage: `url(${u.img})` }}></div>
+              <div className={`carousel-card-bg ${u.isLogo ? 'carousel-card-logo-bg' : ''}`} style={{ backgroundImage: `url(${u.img})` }}></div>
               <div className="carousel-card-overlay"></div>
               <div className="carousel-card-content">
                 <h3>{u.name}</h3>

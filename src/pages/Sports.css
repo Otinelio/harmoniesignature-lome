@@ -12,6 +12,17 @@
   object-fit: contain;
 }
 
+.sports-page .sports-hero-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(40px, 7vw, 72px);
+  line-height: 1.02;
+  color: #ffffff;
+  text-align: center;
+  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+}
+
 /* ─── SPORTS SECTIONS ─── */
 .sp-soins-section {
   padding: 48px 28px 72px;

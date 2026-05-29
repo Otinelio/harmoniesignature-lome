@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import Navigation from './Navigation';
 import Footer from './Footer';
 import LoadingScreen from './LoadingScreen';
@@ -31,6 +32,8 @@ const Layout = () => {
     );
   }
 
+  const showBackButton = !isAdminRoute && location.pathname !== '/';
+
   return (
     <>
       {loading && <LoadingScreen />}
@@ -44,6 +47,12 @@ const Layout = () => {
             <Footer />
           </div>
           <WhatsAppCTA />
+          {showBackButton && (
+            <Link to="/" className="back-floating-btn" aria-label="Retour à l'accueil">
+              <ArrowLeft size={22} color="white" />
+              <span className="back-label">Retour</span>
+            </Link>
+          )}
         </>
       )}
     </>

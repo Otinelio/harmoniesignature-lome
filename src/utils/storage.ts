@@ -48,17 +48,17 @@ const DEFAULT_DEPARTMENTS: Department[] = [
     images: ['https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop', 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2000&auto=format&fit=crop']
   },
   {
-    id: 'bowling', name: 'Bowling', phone: '(+228) 92 92 18 89', hours: 'Mar – Dim : 16h00 – 00h00',
+    id: 'bowling', name: 'Bowling Le Logo', phone: '(+228) 72 27 43 90', hours: 'Mar – Dim : 16h00 – 00h00',
     priceAdult: '5 000', priceChild: '3 000', description: 'Pistes lumineuses pour des soirées inoubliables.', isOpen: true,
     images: ['https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?q=80&w=2000&auto=format&fit=crop']
   },
   {
-    id: 'spa', name: 'Spa & Jacuzzi', phone: '(+228) 92 92 18 89', hours: 'Lun – Sam : 09h00 – 21h00',
+    id: 'spa', name: 'Lotus Spa', phone: '(+228) 90 00 04 40', hours: 'Lun – Sam : 09h00 – 21h00',
     priceAdult: '25 000', priceChild: '-', description: 'Un sanctuaire de détente pour apaiser corps et esprit.', isOpen: true,
     images: ['https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2000&auto=format&fit=crop']
   },
   {
-    id: 'gym', name: 'Gym & Fitness', phone: '(+228) 92 92 18 89', hours: 'Lun – Sam : 06h00 – 22h00',
+    id: 'gym', name: 'Platinum Fitness', phone: '(+228) 96 29 77 77', hours: 'Lun – Sam : 06h00 – 22h00',
     priceAdult: '2 000', priceChild: '-', description: 'Équipements de pointe pour vos entraînements intenses.', isOpen: true,
     images: ['https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop']
   },
@@ -221,43 +221,110 @@ const DEFAULT_SETTINGS: Settings = {
 };
 
 export const getDepartments = (): Department[] => {
-  const data = localStorage.getItem('hs_admin_departments');
-  return data ? JSON.parse(data) : DEFAULT_DEPARTMENTS;
+  try {
+    const data = localStorage.getItem('hs_admin_departments');
+    if (!data) return DEFAULT_DEPARTMENTS;
+    const deps = JSON.parse(data);
+    if (!Array.isArray(deps)) {
+      return DEFAULT_DEPARTMENTS;
+    }
+    let updated = false;
+    const updatedDeps = deps.map(dep => {
+      if (!dep || typeof dep !== 'object') return dep;
+      if (dep.id === 'bowling' && dep.name !== 'Bowling Le Logo') {
+        dep.name = 'Bowling Le Logo';
+        updated = true;
+      }
+      if (dep.id === 'spa' && dep.name !== 'Lotus Spa') {
+        dep.name = 'Lotus Spa';
+        updated = true;
+      }
+      if (dep.id === 'gym' && dep.name !== 'Platinum Fitness') {
+        dep.name = 'Platinum Fitness';
+        updated = true;
+      }
+      return dep;
+    }).filter(Boolean) as Department[];
+    if (updated) {
+      saveDepartments(updatedDeps);
+    }
+    return updatedDeps;
+  } catch (e) {
+    console.error("Error loading departments, resetting to default:", e);
+    return DEFAULT_DEPARTMENTS;
+  }
 };
 
 export const saveDepartments = (deps: Department[]) => {
-  localStorage.setItem('hs_admin_departments', JSON.stringify(deps));
+  try {
+    localStorage.setItem('hs_admin_departments', JSON.stringify(deps));
+  } catch (e) {
+    console.error("Error saving departments:", e);
+  }
 };
 
 export const getRestaurants = (): Restaurant[] => {
-  const data = localStorage.getItem('hs_admin_restaurants');
-  let rests: Restaurant[] = data ? JSON.parse(data) : DEFAULT_RESTAURANTS;
-
-  // Force update from DEFAULT_RESTAURANTS if localStorage contains old small menu
-  const tropicana = rests.find(r => r.id === 'tropicana');
-  if (tropicana && tropicana.menu.length < 10) {
-    const defaultTropicana = DEFAULT_RESTAURANTS.find(r => r.id === 'tropicana');
-    if (defaultTropicana) {
-      tropicana.menu = defaultTropicana.menu;
-      localStorage.setItem('hs_admin_restaurants', JSON.stringify(rests));
+  try {
+    const data = localStorage.getItem('hs_admin_restaurants');
+    if (!data) return DEFAULT_RESTAURANTS;
+    const rests = JSON.parse(data);
+    if (!Array.isArray(rests)) {
+      return DEFAULT_RESTAURANTS;
     }
+    // Force update from DEFAULT_RESTAURANTS if localStorage contains old small menu
+    const tropicana = rests.find(r => r && r.id === 'tropicana');
+    if (tropicana && Array.isArray(tropicana.menu) && tropicana.menu.length < 10) {
+      const defaultTropicana = DEFAULT_RESTAURANTS.find(r => r.id === 'tropicana');
+      if (defaultTropicana) {
+        tropicana.menu = defaultTropicana.menu;
+        saveRestaurants(rests);
+      }
+    }
+    return rests.filter(r => r && r.id === 'tropicana') as Restaurant[];
+  } catch (e) {
+    console.error("Error loading restaurants, resetting to default:", e);
+    return DEFAULT_RESTAURANTS.filter(r => r && r.id === 'tropicana');
   }
-
-  // Always ensure only the Tropicana restaurant is returned to enforce single restaurant constraint
-  return rests.filter(r => r.id === 'tropicana');
 };
 
 export const saveRestaurants = (rests: Restaurant[]) => {
-  localStorage.setItem('hs_admin_restaurants', JSON.stringify(rests));
+  try {
+    localStorage.setItem('hs_admin_restaurants', JSON.stringify(rests));
+  } catch (e) {
+    console.error("Error saving restaurants:", e);
+  }
 };
 
 export const getSettings = (): Settings => {
-  const data = localStorage.getItem('hs_admin_settings');
-  return data ? JSON.parse(data) : DEFAULT_SETTINGS;
+  try {
+    const data = localStorage.getItem('hs_admin_settings');
+    if (!data) return DEFAULT_SETTINGS;
+    const parsed = JSON.parse(data);
+    if (!parsed || typeof parsed !== 'object') {
+      return DEFAULT_SETTINGS;
+    }
+    // Ensure critical fields are present
+    return {
+      adminPasswordHash: parsed.adminPasswordHash || DEFAULT_SETTINGS.adminPasswordHash,
+      mainWhatsApp: parsed.mainWhatsApp || DEFAULT_SETTINGS.mainWhatsApp,
+      address: parsed.address || DEFAULT_SETTINGS.address,
+      generalHours: parsed.generalHours || DEFAULT_SETTINGS.generalHours,
+      bowlingHours: parsed.bowlingHours || DEFAULT_SETTINGS.bowlingHours,
+      spaEmail: parsed.spaEmail || DEFAULT_SETTINGS.spaEmail,
+      heroVideoUrl: parsed.heroVideoUrl || DEFAULT_SETTINGS.heroVideoUrl,
+    };
+  } catch (e) {
+    console.error("Error loading settings, resetting to default:", e);
+    return DEFAULT_SETTINGS;
+  }
 };
 
 export const saveSettings = (settings: Settings) => {
-  localStorage.setItem('hs_admin_settings', JSON.stringify(settings));
+  try {
+    localStorage.setItem('hs_admin_settings', JSON.stringify(settings));
+  } catch (e) {
+    console.error("Error saving settings:", e);
+  }
 };
 
 // Cart utility
@@ -266,14 +333,29 @@ export interface CartItem extends MenuItem {
 }
 
 export const getCart = (restaurantId: string): CartItem[] => {
-  const data = localStorage.getItem(`panier_${restaurantId}`);
-  return data ? JSON.parse(data) : [];
+  try {
+    const data = localStorage.getItem(`panier_${restaurantId}`);
+    if (!data) return [];
+    const parsed = JSON.parse(data);
+    return Array.isArray(parsed) ? (parsed as CartItem[]) : [];
+  } catch (e) {
+    console.error("Error loading cart, resetting to empty:", e);
+    return [];
+  }
 };
 
 export const saveCart = (restaurantId: string, cart: CartItem[]) => {
-  localStorage.setItem(`panier_${restaurantId}`, JSON.stringify(cart));
+  try {
+    localStorage.setItem(`panier_${restaurantId}`, JSON.stringify(cart));
+  } catch (e) {
+    console.error("Error saving cart:", e);
+  }
 };
 
 export const clearCart = (restaurantId: string) => {
-  localStorage.removeItem(`panier_${restaurantId}`);
+  try {
+    localStorage.removeItem(`panier_${restaurantId}`);
+  } catch (e) {
+    console.error("Error clearing cart:", e);
+  }
 };

@@ -46,7 +46,7 @@ const DepartementsHub = () => {
       case 'piscine': return 'Piscine olympique · Tarifs · Horaires';
       case 'bowling': return 'Pistes · Plaisir · Compétition';
       case 'spa': return 'Soin · Détente · Jacuzzi';
-      case 'gym': return 'Salle de gym · Coaching · Formules';
+      case 'gym': return 'Platinum Fitness · Coaching · Formules';
       case 'tennis': return 'Terre battue · Coaching · Localisation';
       case 'basket': return 'Terrain pro · Équipement · Réservation';
       default: return 'Découverte · Services · Informations';
