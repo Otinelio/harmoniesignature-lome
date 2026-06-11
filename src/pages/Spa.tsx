@@ -506,7 +506,7 @@ const Spa = () => {
                   style={{ gridArea: `${slot.row} / ${slot.col}` }}
                   onClick={() => selectImage(slot.imgIndex)}
                 >
-                  <img src={spaImages[slot.imgIndex]} alt={`Spa Perimeter ${idx + 1}`} />
+                  <img src={spaImages[slot.imgIndex]} alt={`Spa Perimeter ${idx + 1}`} loading="lazy" />
                   <div className="bw-gallery-hover"></div>
                 </div>
               );

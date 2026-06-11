@@ -341,7 +341,7 @@ const Gym = () => {
                   style={{ gridArea: `${slot.row} / ${slot.col}` }}
                   onClick={() => selectImage(slot.imgIndex)}
                 >
-                  <img src={gymImages[slot.imgIndex]} alt={`Gym Perimeter ${idx + 1}`} />
+                  <img src={gymImages[slot.imgIndex]} alt={`Gym Perimeter ${idx + 1}`} loading="lazy" />
                   <div className="bw-gallery-hover"></div>
                 </div>
               );

@@ -289,7 +289,7 @@ const Piscine = () => {
                   style={{ gridArea: `${slot.row} / ${slot.col}` }}
                   onClick={() => selectImage(slot.imgIndex)}
                 >
-                  <img src={poolImages[slot.imgIndex]} alt={`Piscine ${slot.imgIndex + 1}`} />
+                  <img src={poolImages[slot.imgIndex]} alt={`Piscine ${slot.imgIndex + 1}`} loading="lazy" />
                   <div className="bw-gallery-hover"></div>
                 </div>
               );
