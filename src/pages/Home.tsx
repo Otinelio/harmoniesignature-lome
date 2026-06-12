@@ -9,6 +9,9 @@ import imgHarmonie from '../images/harmonie.png';
 import videoDeo1 from '../images/spa/spaDeo/SpaDeo1.mp4';
 import videoDeo2 from '../images/spa/spaDeo/SpaDeo2.mp4';
 import videoDeo3 from '../images/spa/spaDeo/SpaDeo3.mp4';
+import posterDeo1 from '../images/spa/spaDeo/SpaDeo1-poster.jpg';
+import posterDeo2 from '../images/spa/spaDeo/SpaDeo2-poster.jpg';
+import posterDeo3 from '../images/spa/spaDeo/SpaDeo3-poster.jpg';
 
 import logoBowling from '../images/logo/logo_bowling.png';
 import logoSpa from '../images/logo/logo_spa.png';
@@ -118,19 +121,19 @@ const Home = () => {
           <div className="spa-videos-frame">
             <div className="spa-videos-trio">
               <div className="spa-video-card">
-                <video className="spa-video-item" muted loop playsInline preload="none" onMouseEnter={(e) => e.currentTarget.play()} onMouseLeave={(e) => e.currentTarget.pause()}>
+                <video className="spa-video-item" autoPlay muted loop playsInline poster={posterDeo1}>
                   <source src={videoDeo1} type="video/mp4" />
                 </video>
                 <div className="spa-video-label">Spa à l'honneur</div>
               </div>
               <div className="spa-video-card">
-                <video className="spa-video-item" muted loop playsInline preload="none" onMouseEnter={(e) => e.currentTarget.play()} onMouseLeave={(e) => e.currentTarget.pause()}>
+                <video className="spa-video-item" autoPlay muted loop playsInline poster={posterDeo2}>
                   <source src={videoDeo2} type="video/mp4" />
                 </video>
                 <div className="spa-video-label">Espace détente</div>
               </div>
               <div className="spa-video-card">
-                <video className="spa-video-item" muted loop playsInline preload="none" onMouseEnter={(e) => e.currentTarget.play()} onMouseLeave={(e) => e.currentTarget.pause()}>
+                <video className="spa-video-item" autoPlay muted loop playsInline poster={posterDeo3}>
                   <source src={videoDeo3} type="video/mp4" />
                 </video>
                 <div className="spa-video-label">Rituels bien-être</div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import './Lightbox.css';
 
@@ -62,10 +63,32 @@ const Lightbox: React.FC<LightboxProps> = ({
       if (e.key === 'ArrowLeft') onNavigate((currentIndex - 1 + images.length) % images.length);
       if (e.key === 'ArrowRight') onNavigate((currentIndex + 1) % images.length);
     };
-    
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, currentIndex, images.length, onClose, onNavigate]);
+
+  // History API for Android/Browser "Back" button
+  useEffect(() => {
+    if (isOpen) {
+      if (!window.history.state?.lightboxOpen) {
+        window.history.pushState({ lightboxOpen: true }, '');
+      }
+      
+      const handlePopState = () => {
+        onClose();
+      };
+      
+      window.addEventListener('popstate', handlePopState);
+      return () => {
+        window.removeEventListener('popstate', handlePopState);
+      };
+    } else {
+      if (window.history.state?.lightboxOpen) {
+        window.history.back();
+      }
+    }
+  }, [isOpen, onClose]);
 
   if (!shouldRender) return null;
 
@@ -84,7 +107,7 @@ const Lightbox: React.FC<LightboxProps> = ({
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
-    
+
     if (isLeftSwipe) {
       onNavigate((currentIndex + 1) % images.length);
     } else if (isRightSwipe) {
@@ -92,9 +115,9 @@ const Lightbox: React.FC<LightboxProps> = ({
     }
   };
 
-  return (
-    <div 
-      className={`lightbox-overlay ${isClosing ? 'closing' : 'opening'}`} 
+  return createPortal(
+    <div
+      className={`lightbox-overlay ${isClosing ? 'closing' : 'opening'}`}
       style={{ backgroundColor }}
       onClick={onClose}
     >
@@ -110,8 +133,8 @@ const Lightbox: React.FC<LightboxProps> = ({
         {/* Main Display Area */}
         <div className="lightbox-main">
           {/* Navigation Previous */}
-          <button 
-            className="lightbox-nav-btn prev" 
+          <button
+            className="lightbox-nav-btn prev"
             onClick={(e) => { e.stopPropagation(); onNavigate((currentIndex - 1 + images.length) % images.length); }}
             aria-label="Image précédente"
           >
@@ -119,25 +142,25 @@ const Lightbox: React.FC<LightboxProps> = ({
           </button>
 
           {/* Interactive Image Frame */}
-          <div 
+          <div
             className="lightbox-image-container"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
             onClick={onClose} // Clicking the empty space around the image closes the lightbox
           >
-            <img 
+            <img
               key={currentIndex} // Re-keying triggers entry transition on image change
-              src={images[currentIndex]} 
-              alt={`Agrandissement ${currentIndex + 1}`} 
+              src={images[currentIndex]}
+              alt={`Agrandissement ${currentIndex + 1}`}
               className="lightbox-image"
               onClick={(e) => e.stopPropagation()} // Prevent clicking on the image itself from closing
             />
           </div>
 
           {/* Navigation Next */}
-          <button 
-            className="lightbox-nav-btn next" 
+          <button
+            className="lightbox-nav-btn next"
             onClick={(e) => { e.stopPropagation(); onNavigate((currentIndex + 1) % images.length); }}
             aria-label="Image suivante"
           >
@@ -145,7 +168,8 @@ const Lightbox: React.FC<LightboxProps> = ({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
