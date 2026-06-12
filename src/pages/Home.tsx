@@ -42,11 +42,10 @@ const Home = () => {
           muted
           loop
           playsInline
-          preload="metadata"
-          poster={imgHarmonie}
+          preload="auto"
           aria-label="Vidéo de fond"
         >
-          <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4" />
+          <source src="/videoAccueil.mp4" type="video/mp4" />
         </video>
         <div className="video-vignette" aria-hidden="true"></div>
         <div className="video-top-overlay">

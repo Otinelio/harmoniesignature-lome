@@ -39,48 +39,38 @@ const outerSlots = [
 const tennisServices = [
   {
     image: tennisImages[0],
-    name: 'Court Central',
+    name: 'Tarif Horaire',
     duration: '1h',
-    desc: 'Terrain principal en dur éclairé, idéal pour les matchs compétitifs.',
-    price: '10 000',
+    desc: 'Accès libre aux courts de tennis de qualité supérieure pour vos matchs en simple ou double.',
+    price: '5 000',
+    unit: 'par personne',
   },
   {
     image: tennisImages[1],
-    name: 'Court Loisir',
-    duration: '1h',
-    desc: 'Terrain secondaire pour les sessions d\'entraînement et loisirs.',
-    price: '8 000',
-  },
-  {
-    image: tennisImages[2],
-    name: 'Cours Particulier',
-    duration: '1h30',
-    desc: 'Leçon personnalisée avec coach professionnel.',
+    name: 'Abonnement Mensuel',
+    duration: '1 mois',
+    desc: 'Accès illimité aux installations de tennis tout au long du mois pour les passionnés.',
     price: '15 000',
+    unit: 'par mois',
   },
 ];
 
 const basketServices = [
   {
     image: basketImages[0],
-    name: 'Terrain 5x5',
+    name: 'Tarif Horaire',
     duration: '1h',
-    desc: 'Terrain complet pour matchs d\'équipe, éclairé pour les soirées.',
-    price: '15 000',
+    desc: 'Accès libre au terrain de basketball professionnel pour vos séances de tirs ou matchs.',
+    price: '1 000',
+    unit: 'par personne',
   },
   {
     image: basketImages[1],
-    name: 'Terrain 3x3',
-    duration: '45 min',
-    desc: 'Espace réduit pour des parties rapides et intenses.',
-    price: '10 000',
-  },
-  {
-    image: basketImages[2],
-    name: 'Entraînement',
-    duration: '1h',
-    desc: 'Session d\'entraînement collectif avec coach.',
-    price: '12 000',
+    name: 'Tarif Samedi',
+    duration: '4h',
+    desc: 'Session spéciale de 4h le samedi, idéale pour des matchs de groupe ou tournois.',
+    price: '2 500',
+    unit: 'par personne',
   },
 ];
 
@@ -162,7 +152,10 @@ const Sports = () => {
                 </div>
                 <p className="sp-soin-desc">{service.desc}</p>
                 <div className="sp-soin-footer">
-                  <span className="sp-soin-price">{service.price} FCFA</span>
+                  <span className="sp-soin-price">
+                    {service.price} FCFA
+                    {service.unit && <span className="sp-price-unit"> / {service.unit}</span>}
+                  </span>
                 </div>
               </div>
             </div>
@@ -190,7 +183,10 @@ const Sports = () => {
                 </div>
                 <p className="sp-soin-desc">{service.desc}</p>
                 <div className="sp-soin-footer">
-                  <span className="sp-soin-price">{service.price} FCFA</span>
+                  <span className="sp-soin-price">
+                    {service.price} FCFA
+                    {service.unit && <span className="sp-price-unit"> / {service.unit}</span>}
+                  </span>
                 </div>
               </div>
             </div>
