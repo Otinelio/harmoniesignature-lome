@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Phone, Clock, Waves, CircleDot, Sparkles, Dumbbell, Trophy, CalendarCheck, ArrowRight, MapPin } from 'lucide-react';
+import { ChevronDown, Waves, CircleDot, Sparkles, Dumbbell, Trophy, CalendarCheck, ArrowRight } from 'lucide-react';
 import CountUp from 'react-countup';
 import './Home.css';
 
 import imgGym from '../images/salles/gym-2.jpg';
-import imgHarmonie from '../images/harmonie.png';
 import videoDeo1 from '../images/spa/spaDeo/SpaDeo1.mp4';
 import videoDeo2 from '../images/spa/spaDeo/SpaDeo2.mp4';
 import videoDeo3 from '../images/spa/spaDeo/SpaDeo3.mp4';
@@ -24,12 +23,12 @@ const Home = () => {
   const [hoveredUnivers, setHoveredUnivers] = useState<string>('piscine');
 
   const universList = [
-    { id: 'piscine', name: 'Piscine', img: imgPiscine1 },
     { id: 'bowling', name: 'Bowling', img: logoBowling, isLogo: true },
     { id: 'spa', name: 'Lotus Spa', img: logoSpa, isLogo: true },
     { id: 'gym', name: 'Platinum Fitness', img: logoGym, isLogo: true },
     { id: 'restauration', name: 'Tropicana', img: logoTropicana, isLogo: true },
-    { id: 'sports', name: 'Tennis & Basket', img: imgTennisBasket1 },
+    { id: 'piscine', name: 'Piscine', isTextCenter: true },
+    { id: 'sports', name: 'Tennis & Basket', isTextCenter: true },
   ];
 
   return (
@@ -54,7 +53,7 @@ const Home = () => {
         </div>
         <div className="video-bottom-overlay">
           <h2>Votre complexe de référence à Lomé</h2>
-          <p>Harmonie Signature · Lundi – Dimanche de 06h00 à 22h00</p>
+          <p>Harmonie Signature · tous les jours de 06h00 à 22h00</p>
         </div>
         <div className="scroll-indicator">
           <ChevronDown size={22} />
@@ -71,11 +70,15 @@ const Home = () => {
         <div className="univers-grid">
           {universList.map((u, idx) => (
             <Link to={`/${u.id}`} key={u.id} className={`univers-grid-card card-${idx + 1}`}>
-              <div className="carousel-card-number">0{idx + 1}</div>
-              <div className={`carousel-card-bg ${u.isLogo ? 'carousel-card-logo-bg' : ''}`} style={{ backgroundImage: `url(${u.img})` }}></div>
+              <div 
+                className={`carousel-card-bg ${u.isLogo ? 'carousel-card-logo-bg' : ''} ${u.isTextCenter ? 'carousel-card-text-center' : ''}`} 
+                style={u.img ? { backgroundImage: `url(${u.img})` } : undefined}
+              >
+                {u.isTextCenter && <span className="card-center-text">{u.name}</span>}
+              </div>
               <div className="carousel-card-overlay"></div>
               <div className="carousel-card-content">
-                <h3>{u.name}</h3>
+                {!u.isTextCenter && <h3>{u.name}</h3>}
                 <span className="carousel-card-link">
                   Découvrir <ArrowRight size={14} />
                 </span>
@@ -85,22 +88,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* HERO */}
-      <section className="hero-section">
-        <div className="hero-bg" style={{ backgroundImage: `url(${imgHarmonie})` }}></div>
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          <div className="hero-logo-container">
-            <img src="/logo-harmonie.png" alt="Harmonie Signature Logo" className="hero-logo-img" />
-          </div>
-          <p className="hero-subtitle">
-            Piscine · Bowling · Spa · Restaurants · Tennis · Basket · Gym
-          </p>
-          <div className="hero-actions">
-            <Link to="/contact" className="cta-primary-hero">Nous contacter</Link>
-          </div>
-        </div>
-      </section>
 
       {/* SECTION CTA SPA ACCUEIL */}
       <section className="cta-spa-section">
@@ -142,32 +129,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SECTION INFOS PRATIQUES (STYLE DÉPARTEMENT) - En dernière position */}
-      <div className="home-infos-section" id="contact">
-        <div className="sp-infos-card">
-          <p className="sp-infos-heading">Contact & Horaires</p>
-          <div className="sp-infos-items">
-            <div className="sp-info-item">
-              <Phone size={16} />
-              <span>Accueil : (+228) 92 92 18 89</span>
-            </div>
-            <div className="sp-info-sep"></div>
-            <div className="sp-info-item">
-              <Clock size={16} />
-              <span>Ouverture : Lundi – Dimanche de 06h00 à 22h00</span>
-            </div>
-            <div className="sp-info-item">
-              <Clock size={16} />
-              <span>Week-end & jours fériés : fermeture à 20h</span>
-            </div>
-            <div className="sp-info-sep"></div>
-            <div className="sp-info-item">
-              <MapPin size={16} />
-              <span>Résidence du Bénin, Lomé</span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

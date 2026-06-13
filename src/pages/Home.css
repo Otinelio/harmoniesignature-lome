@@ -304,7 +304,7 @@
 
 .carousel-title {
   font-family: var(--font-display);
-  font-size: 48px;
+  font-size: 36px;
   color: var(--color-text-primary);
   margin-bottom: 16px;
 }
@@ -336,7 +336,7 @@
       "c1 c1 c2 c3"
       "c4 c4 c2 c3"
       "c4 c4 c5 c6";
-    grid-auto-rows: 250px;
+    grid-auto-rows: 220px; /* Reduced from 250px for a more compact and elegant look */
     gap: 16px;
     /* Reduced gap */
   }
@@ -374,11 +374,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* padding-bottom removed */
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .univers-grid-card:hover {
-  transform: translateY(-15px);
+  transform: translateY(-8px); /* Reduced from -15px for subtler premium micro-interaction */
 }
 
 .carousel-card-number {
@@ -402,7 +403,7 @@
 .carousel-card-bg {
   position: relative;
   width: 100%;
-  height: 100%;
+  flex: 1; /* Stretch to fill card height */
   background-size: cover;
   background-position: center;
   border-radius: 200px 200px 20px 20px;
@@ -427,18 +428,18 @@
 }
 
 .carousel-card-content {
-  margin-top: 12px;
-  /* Reduced from 24px */
+  margin-top: 10px;
+  /* Reduced from 12px for compact design */
   text-align: center;
   width: 100%;
 }
 
 .carousel-card-content h3 {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 18px; /* Reduced from 22px to make text smaller as requested */
   font-weight: 500;
   color: var(--color-text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   letter-spacing: 0.05em;
   transition: color 0.4s;
 }
@@ -449,17 +450,17 @@
 
 .carousel-card-link {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 10px; /* Reduced from 11px */
   color: rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   display: block;
   transition: all 0.4s;
 }
 
 .univers-grid-card:hover .carousel-card-link {
   color: var(--color-accent-gold);
-  letter-spacing: 0.3em;
+  letter-spacing: 0.22em;
 }
 
 /* SECTION CHIFFRES */
@@ -898,7 +899,7 @@
 
 /* LOGO COVER STYLING FOR CAROUSEL UNIVERS CARD BACKDROP */
 .carousel-card-logo-bg {
-  background-size: 72% auto !important;
+  background-size: 56% auto !important; /* Reduced from 72% for smaller look */
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-color: rgba(255, 255, 255, 0.06) !important;
@@ -906,7 +907,61 @@
 }
 
 .univers-grid-card:hover .carousel-card-logo-bg {
-  background-size: 78% auto !important;
+  background-size: 62% auto !important; /* Reduced from 78% */
   background-color: rgba(200, 168, 75, 0.06) !important;
   border-color: var(--color-accent-gold) !important;
+}
+
+/* CENTERED TEXT CARDS (PISCINE & SPORTS) */
+.carousel-card-text-center {
+  background-color: #000000 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.card-center-text {
+  font-family: var(--font-display);
+  font-size: 18px; /* Compact & clean size */
+  font-weight: 500;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: all 0.4s ease;
+}
+
+.univers-grid-card:hover .carousel-card-text-center {
+  background-color: #0a0e17 !important;
+  border-color: var(--color-accent-gold) !important;
+}
+
+.univers-grid-card:hover .card-center-text {
+  color: var(--color-accent-gold);
+}
+
+/* MOBILE RESPONSIVE TUNING FOR GRID */
+@media (max-width: 768px) {
+  .carousel-univers-section {
+    padding: 50px 0 40px 0;
+  }
+  .carousel-title {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+  .univers-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 200px; /* Perfect square-ish aspect ratio on mobile */
+    gap: 12px;
+    padding: 0 16px;
+  }
+  .carousel-card-content h3 {
+    font-size: 15px;
+  }
+  .card-center-text {
+    font-size: 15px;
+  }
 }
