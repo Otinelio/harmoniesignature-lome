@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Waves, CircleDot, Sparkles, Dumbbell, Trophy, CalendarCheck, ArrowRight, Phone, Clock, MapPin } from 'lucide-react';
+import { ChevronDown, Waves, CircleDot, Sparkles, Dumbbell, Trophy, CalendarCheck, ArrowRight } from 'lucide-react';
 import CountUp from 'react-countup';
 import { getSettings, Settings } from '../utils/storage';
 import './Home.css';
@@ -49,10 +49,9 @@ const Home = () => {
           loop
           playsInline
           preload="auto"
-          poster="/videoAccueil-poster.jpg"
           aria-label="Vidéo de fond"
         >
-          <source src={settings?.heroVideoUrl || "/videoAccueil-4k.mp4"} type="video/mp4" />
+          <source src={settings?.heroVideoUrl || "/videoAccueil.mp4"} type="video/mp4" />
         </video>
         <div className="video-vignette" aria-hidden="true"></div>
         <div className="video-top-overlay">
@@ -61,7 +60,7 @@ const Home = () => {
         </div>
         <div className="video-bottom-overlay">
           <h2>{settings?.homeHeroTitle || "Votre complexe de référence à Lomé"}</h2>
-          <p>{settings?.homeHeroSubtitle || "Harmonie Signature · Lundi – Dimanche de 06h00 à 22h00"}</p>
+          <p>{settings?.homeHeroSubtitle || "Harmonie Signature · tous les jours de 06h00 à 22h00"}</p>
         </div>
         <div className="scroll-indicator">
           <ChevronDown size={22} />
@@ -137,32 +136,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SECTION INFOS PRATIQUES (STYLE DÉPARTEMENT) - En dernière position */}
-      <div className="home-infos-section" id="contact">
-        <div className="sp-infos-card">
-          <p className="sp-infos-heading">Contact & Horaires</p>
-          <div className="sp-infos-items">
-            <div className="sp-info-item">
-              <Phone size={16} />
-              <span>Accueil : (+228) 92 92 18 89</span>
-            </div>
-            <div className="sp-info-sep"></div>
-            <div className="sp-info-item">
-              <Clock size={16} />
-              <span>{settings?.generalHours || "Ouverture : Lundi – Dimanche de 06h00 à 22h00"}</span>
-            </div>
-            <div className="sp-info-item">
-              <Clock size={16} />
-              <span>Week-end & jours fériés : fermeture à 20h</span>
-            </div>
-            <div className="sp-info-sep"></div>
-            <div className="sp-info-item">
-              <MapPin size={16} />
-              <span>{settings?.address || "Résidence du Bénin, Lomé"}</span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
