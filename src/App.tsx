@@ -45,8 +45,8 @@ function App() {
           <Route path="contact" element={<Contact />} />
           
           {/* Admin Routes */}
-          <Route path="admin-hs-2025" element={<AdminLogin />} />
-          <Route path="admin-hs-2025" element={<AdminLayout />}>
+          <Route path="admin" element={<AdminLogin />} />
+          <Route path="admin" element={<AdminLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="accueil" element={<AdminAccueil />} />
             <Route path="restauration" element={<AdminRestauration />} />
