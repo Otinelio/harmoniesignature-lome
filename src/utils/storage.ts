@@ -18,7 +18,7 @@ export interface MenuItem {
   category: string;
   description: string;
   price: number;
-  image: string;
+  image?: string;
 }
 
 export interface Restaurant {
@@ -39,7 +39,75 @@ export interface Settings {
   bowlingHours: string;
   spaEmail: string;
   heroVideoUrl: string;
+  tiktokUrl?: string;
+  facebookUrl?: string;
+  homeHeroTitle?: string;
+  homeHeroSubtitle?: string;
+  spaVideo1Url?: string;
+  spaVideo2Url?: string;
+  spaVideo3Url?: string;
 }
+
+export interface FAQItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+export interface SpaService {
+  id: string;
+  category: string;
+  name: string;
+  duration: string;
+  desc: string;
+  price: string;
+  image?: string;
+}
+
+export interface PoolPlan {
+  id: string;
+  category: string;
+  badge: string | null;
+  name: string;
+  duration: string;
+  desc: string;
+  price: string;
+  image?: string;
+}
+
+export interface GymPlan {
+  id: string;
+  category: string;
+  badge: string | null;
+  name: string;
+  duration: string;
+  desc: string;
+  price: string;
+  image?: string;
+}
+
+export interface SportService {
+  id: string;
+  sportType: 'Tennis' | 'Basket';
+  name: string;
+  duration: string;
+  desc: string;
+  price: string;
+  unit: string;
+  image?: string;
+}
+
+export interface BowlingPlan {
+  id: string;
+  badge: string | null;
+  name: string;
+  tagline: string;
+  price: string;
+  features: string[];
+  highlight: boolean;
+  image?: string;
+}
+
 
 const DEFAULT_DEPARTMENTS: Department[] = [
   {
@@ -211,14 +279,50 @@ const DEFAULT_RESTAURANTS: Restaurant[] = [
 ];
 
 const DEFAULT_SETTINGS: Settings = {
-  adminPasswordHash: 'HS2025admin',
-  mainWhatsApp: '22892921889',
+  adminPasswordHash: 'hs2025',
+  mainWhatsApp: '(+228) 92 92 18 89',
   address: 'Rue 243 Tot Ancien BSL, Résidence du Bénin, Lomé, Togo',
-  generalHours: 'Harmonie Signature : tous les jours de 06h00 à 22h00. Week-end & jours fériés : fermeture à 20h.',
-  bowlingHours: 'Bowling Le Logo : Mardi – Dimanche de 16h00 à 00h00. Fermé le lundi.',
+  generalHours: 'Harmonie Signature : Lundi – Dimanche : 06h00 – 22h00. Week-end & jours fériés : fermeture à 20h.',
+  bowlingHours: 'Bowling Le Logo : Mardi – Dimanche : 16h00 – 00h00 · fermé le lundi.',
   spaEmail: 'spa@harmoniesignature.tg',
-  heroVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' // placeholder
+  heroVideoUrl: '',
+  tiktokUrl: 'https://tiktok.com/@harmoniesignature',
+  facebookUrl: 'https://www.facebook.com/harmoniesignature',
+  homeHeroTitle: 'Votre complexe de référence à Lomé',
+  homeHeroSubtitle: 'Harmonie Signature · Lundi – Dimanche de 06h00 à 22h00',
+  spaVideo1Url: '',
+  spaVideo2Url: '',
+  spaVideo3Url: '',
 };
+
+const DEFAULT_FAQ: FAQItem[] = [
+  { id: 'faq-1', question: 'Quels sont vos horaires d\'ouverture ?', answer: 'Nous sommes ouverts du lundi au dimanche, de 06h00 à 22h00.' },
+  { id: 'faq-2', question: 'Faut-il réserver pour le Spa ?', answer: 'Oui, une réservation est fortement recommandée pour vous garantir une place.' },
+];
+
+const DEFAULT_SPA_SERVICES: SpaService[] = [
+  { id: 'spa-1', category: 'Soins du Corps', name: 'Massage Aromathérapie 1h', duration: '60 min', desc: 'Soin relaxant profond associant les vertus thérapeutiques des huiles essentielles.', price: '30.000' },
+  { id: 'spa-2', category: 'Soins du Corps', name: 'Relax Touche 30min', duration: '30 min', desc: 'Massage ciblé rapide pour libérer les tensions accumulées.', price: '15.000' },
+  { id: 'spa-3', category: 'Soins du Corps', name: 'Relax Touche 1h', duration: '60 min', desc: 'Massage relaxant complet pour apaiser le corps et l\'esprit.', price: '25.000' },
+  { id: 'spa-4', category: 'Gommage', name: 'Gommage du Corps 30min', duration: '30 min', desc: 'Exfoliation douce pour éliminer les cellules mortes et sublimer la peau.', price: '22.000' },
+  { id: 'spa-5', category: 'Épilation à la Cire', name: 'Cire Jambes Complètes', duration: 'Prestation', desc: 'Épilation soignée de toute la longueur des jambes.', price: '12.000' },
+  { id: 'spa-6', category: 'Beauté des Mains & Pieds', name: 'Manucure et Pédicure', duration: 'Soin', desc: 'Formule combinée pour une beauté totale des mains et des pieds.', price: '15.000' },
+  { id: 'spa-7', category: 'Jacuzzi & Sauna', name: 'Jacuzzi 1h/Personne', duration: '60 min', desc: 'Séance prolongée de balnéothérapie relaxante pour une détente totale.', price: '18.000' },
+];
+
+const DEFAULT_SPORT_SERVICES: SportService[] = [
+  { id: 'sport-1', sportType: 'Tennis', name: 'Tarif Horaire', duration: '1h', desc: 'Accès libre aux courts de tennis de qualité supérieure pour vos matchs en simple ou double.', price: '5 000', unit: 'par personne' },
+  { id: 'sport-2', sportType: 'Tennis', name: 'Abonnement Mensuel', duration: '1 mois', desc: 'Accès illimité aux installations de tennis tout au long du mois pour les passionnés.', price: '15 000', unit: 'par mois' },
+  { id: 'sport-3', sportType: 'Basket', name: 'Tarif Horaire', duration: '1h', desc: 'Accès libre au terrain de basketball professionnel pour vos séances de tirs ou matchs.', price: '1 000', unit: 'par personne' },
+  { id: 'sport-4', sportType: 'Basket', name: 'Tarif Samedi', duration: '4h', desc: 'Session spéciale de 4h le samedi, idéale pour des matchs de groupe ou tournois.', price: '2 500', unit: 'par personne' },
+];
+
+const DEFAULT_BOWLING_PLANS: BowlingPlan[] = [
+  { id: 'bw-1', badge: null, name: 'Partie Simple', tagline: '1 joueur · Chaussures incluses', price: '5 000', features: ['1 piste réservée', 'Chaussures fournies', 'Balle au choix'], highlight: false },
+  { id: 'bw-2', badge: 'Populaire', name: 'Groupe (4 pers.)', tagline: 'Idéal entre amis ou en famille', price: '18 000', features: ['1 piste réservée', 'Chaussures fournies', '2 parties incluses'], highlight: true },
+  { id: 'bw-3', badge: null, name: 'Soirée VIP', tagline: 'Piste privée · 2h · Boissons', price: '35 000', features: ['Piste privatisée 2h', 'Chaussures fournies', 'Boissons offertes'], highlight: false },
+];
+
 
 export const getDepartments = (): Department[] => {
   try {
@@ -357,5 +461,153 @@ export const clearCart = (restaurantId: string) => {
     localStorage.removeItem(`panier_${restaurantId}`);
   } catch (e) {
     console.error("Error clearing cart:", e);
+  }
+};
+
+export const getSpaServices = (): SpaService[] => {
+  try {
+    const data = localStorage.getItem('hs_admin_spa_services');
+    if (!data) return DEFAULT_SPA_SERVICES;
+    return JSON.parse(data);
+  } catch (e) {
+    console.error("Error loading spa services:", e);
+    return DEFAULT_SPA_SERVICES;
+  }
+};
+
+export const saveSpaServices = (services: SpaService[]) => {
+  try {
+    localStorage.setItem('hs_admin_spa_services', JSON.stringify(services));
+  } catch (e) {
+    console.error("Error saving spa services:", e);
+  }
+};
+
+export const getSportServices = (): SportService[] => {
+  try {
+    const data = localStorage.getItem('hs_admin_sport_services');
+    if (!data) return DEFAULT_SPORT_SERVICES;
+    return JSON.parse(data);
+  } catch (e) {
+    console.error("Error loading sport services:", e);
+    return DEFAULT_SPORT_SERVICES;
+  }
+};
+
+export const saveSportServices = (services: SportService[]) => {
+  try {
+    localStorage.setItem('hs_admin_sport_services', JSON.stringify(services));
+  } catch (e) {
+    console.error("Error saving sport services:", e);
+  }
+};
+
+export const getBowlingPlans = (): BowlingPlan[] => {
+  try {
+    const data = localStorage.getItem('hs_admin_bowling_plans');
+    if (!data) return DEFAULT_BOWLING_PLANS;
+    return JSON.parse(data);
+  } catch (e) {
+    console.error("Error loading bowling plans:", e);
+    return DEFAULT_BOWLING_PLANS;
+  }
+};
+
+export const saveBowlingPlans = (plans: BowlingPlan[]) => {
+  try {
+    localStorage.setItem('hs_admin_bowling_plans', JSON.stringify(plans));
+  } catch (e) {
+    console.error("Error saving bowling plans:", e);
+  }
+};
+
+export interface PoolPlan {
+  id: string;
+  category: string;
+  name: string;
+  price: string;
+  desc: string;
+  duration: string;
+  badge: string | null;
+}
+
+export interface GymPlan {
+  id: string;
+  category: string;
+  name: string;
+  price: string;
+  desc: string;
+  duration: string;
+  badge: string | null;
+}
+
+const DEFAULT_POOL_PLANS: PoolPlan[] = [
+  { id: 'pool-1', category: 'Accès Piscine', name: 'Séance Unique', price: '5.000', desc: 'Entrée unique donnant accès libre au grand bassin olympique, transats et parasols.', duration: '1 Séance', badge: null },
+  { id: 'pool-2', category: 'Accès Piscine', name: 'Mensuel', price: '50.000', desc: 'La formule mensuelle idéale pour les amateurs de natation régulière. 30 jours.', duration: '1 Mois', badge: 'Populaire' },
+  { id: 'pool-3', category: 'Gym + Piscine (Combiné)', name: 'Séance Combinée unique', price: '10.000', desc: 'Accès combiné à la salle de sport et à la piscine olympique pour une journée.', duration: '1 Séance', badge: 'Duo Journée' },
+  { id: 'pool-4', category: 'Cours de Natation', name: 'Séance de Natation coachée', price: '5.000', desc: 'Apprentissage ou perfectionnement des techniques de nage avec notre maître-nageur certifié.', duration: 'Séance unique', badge: 'Coach individuel' },
+];
+
+const DEFAULT_GYM_PLANS: GymPlan[] = [
+  { id: 'gym-1', category: 'Accès Gym', name: 'Séance Unique', price: '6.000', desc: 'Accès libre à tous les équipements pour une séance unique sans engagement.', duration: '1 Séance', badge: null },
+  { id: 'gym-2', category: 'Accès Gym', name: 'Mensuel', price: '50.000', desc: 'Formule idéale pour un entraînement régulier. Accès illimité pendant 30 jours.', duration: '1 Mois', badge: 'Populaire' },
+  { id: 'gym-3', category: 'Gym + Piscine (Combiné)', name: 'Séance Combinée unique', price: '10.000', desc: 'Accès combiné à la salle de sport et à la piscine olympique pour une journée.', duration: '1 Séance', badge: 'Duo Journée' },
+  { id: 'gym-4', category: 'Cours & Activités', name: 'Séance de Cours Gym', price: '3.000', desc: 'Participation à une séance collective encadrée par nos coachs certifiés.', duration: 'Séance', badge: null },
+];
+
+export const getPoolPlans = (): PoolPlan[] => {
+  try {
+    const data = localStorage.getItem('hs_admin_pool_plans');
+    if (!data) return DEFAULT_POOL_PLANS;
+    return JSON.parse(data);
+  } catch (e) {
+    console.error("Error loading pool plans:", e);
+    return DEFAULT_POOL_PLANS;
+  }
+};
+
+export const savePoolPlans = (plans: PoolPlan[]) => {
+  try {
+    localStorage.setItem('hs_admin_pool_plans', JSON.stringify(plans));
+  } catch (e) {
+    console.error("Error saving pool plans:", e);
+  }
+};
+
+export const getGymPlans = (): GymPlan[] => {
+  try {
+    const data = localStorage.getItem('hs_admin_gym_plans');
+    if (!data) return DEFAULT_GYM_PLANS;
+    return JSON.parse(data);
+  } catch (e) {
+    console.error("Error loading gym plans:", e);
+    return DEFAULT_GYM_PLANS;
+  }
+};
+
+export const saveGymPlans = (plans: GymPlan[]) => {
+  try {
+    localStorage.setItem('hs_admin_gym_plans', JSON.stringify(plans));
+  } catch (e) {
+    console.error("Error saving gym plans:", e);
+  }
+};
+
+export const getFAQ = (): FAQItem[] => {
+  try {
+    const data = localStorage.getItem('hs_admin_faq');
+    if (!data) return DEFAULT_FAQ;
+    return JSON.parse(data);
+  } catch (e) {
+    console.error("Error loading FAQ:", e);
+    return DEFAULT_FAQ;
+  }
+};
+
+export const saveFAQ = (faq: FAQItem[]) => {
+  try {
+    localStorage.setItem('hs_admin_faq', JSON.stringify(faq));
+  } catch (e) {
+    console.error("Error saving FAQ:", e);
   }
 };

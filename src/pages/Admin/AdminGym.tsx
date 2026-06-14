@@ -1,0 +1,104 @@
+import React, { useState, useEffect } from 'react';
+import { getGymPlans, saveGymPlans, GymPlan, getDepartments, saveDepartments, Department } from '../../utils/storage';
+import { Save, Trash2, Plus, Pencil } from 'lucide-react';
+import Modal from '../../components/Modal';
+
+const AdminGym = () => {
+  const [department, setDepartment] = useState<Department | null>(null);
+  const [plans, setPlans] = useState<GymPlan[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [form, setForm] = useState<GymPlan>({ id: '', category: 'Accès Gym', name: '', price: '', desc: '', duration: '', badge: '' });
+
+  useEffect(() => {
+    setPlans(getGymPlans());
+    const deps = getDepartments();
+    setDepartment(deps.find(d => d.id === 'gym') || null);
+  }, []);
+
+  const handleDepChange = (field: keyof Department, value: any) => {
+    if (department) setDepartment({ ...department, [field]: value });
+  };
+
+  const openAdd = () => { setEditingId(null); setForm({ id: '', category: 'Accès Gym', name: '', price: '', desc: '', duration: '', badge: '' }); setModalOpen(true); };
+  const openEdit = (p: GymPlan) => { setEditingId(p.id); setForm({ ...p }); setModalOpen(true); };
+
+  const handleSubmit = () => {
+    if (!form.name || !form.price) return;
+    if (editingId) setPlans(prev => prev.map(p => p.id === editingId ? { ...form } : p));
+    else setPlans(prev => [...prev, { ...form, id: `gym-${Date.now()}` }]);
+    setModalOpen(false);
+  };
+
+  const handleDelete = (id: string) => { if (confirm('Supprimer ?')) setPlans(prev => prev.filter(p => p.id !== id)); };
+
+  const handleSave = () => {
+    saveGymPlans(plans);
+    if (department) { const deps = getDepartments(); saveDepartments(deps.map(d => d.id === 'gym' ? department : d)); }
+    alert('Modifications enregistrées');
+  };
+
+  const categories = ['Accès Gym', 'Gym + Piscine (Combiné)', 'Cours & Activités'];
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h2 style={{ fontSize: '24px', fontFamily: 'var(--font-display)', color: '#C8A84B' }}>Gérer la Gym</h2>
+        <div style={{ display: 'flex', gap: '16px' }}>
+          <button onClick={openAdd} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', backgroundColor: '#182030', color: '#EDE8DF', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}><Plus size={16} /> Ajouter</button>
+          <button onClick={handleSave} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', backgroundColor: '#C8A84B', color: '#0C1018', borderRadius: '4px', fontWeight: 600 }}><Save size={16} /> Enregistrer</button>
+        </div>
+      </div>
+
+      {department && (
+        <div style={{ backgroundColor: '#182030', padding: '24px', borderRadius: '8px' }}>
+          <h3 style={{ fontSize: '18px', color: '#C8A84B', marginBottom: '16px' }}>Informations Générales</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+            <div className="modal-field"><label className="modal-label">Contact</label><input className="modal-input" value={department.phone} onChange={e => handleDepChange('phone', e.target.value)} /></div>
+            <div className="modal-field"><label className="modal-label">Horaires</label><input className="modal-input" value={department.hours} onChange={e => handleDepChange('hours', e.target.value)} /></div>
+            <div className="modal-field"><label className="modal-label">Tarif adulte</label><input className="modal-input" value={department.priceAdult} onChange={e => handleDepChange('priceAdult', e.target.value)} /></div>
+            <div className="modal-field"><label className="modal-label">Tarif enfant</label><input className="modal-input" value={department.priceChild} onChange={e => handleDepChange('priceChild', e.target.value)} /></div>
+            <div style={{ gridColumn: 'span 2', display: 'flex', alignItems: 'center', gap: '16px' }}><label style={{ fontSize: '14px' }}>Statut</label><input type="checkbox" checked={department.isOpen} onChange={e => handleDepChange('isOpen', e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#C8A84B' }} /></div>
+          </div>
+        </div>
+      )}
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {categories.map(cat => {
+          const cp = plans.filter(p => p.category === cat);
+          if (!cp.length) return null;
+          return (<div key={cat} style={{ backgroundColor: '#182030', borderRadius: '8px', padding: '24px' }}>
+            <h3 style={{ fontSize: '18px', color: '#C8A84B', marginBottom: '16px' }}>{cat}</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {cp.map(plan => (<div key={plan.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#0C1018', padding: '16px', borderRadius: '4px' }}>
+                <div><div style={{ fontSize: '16px', fontWeight: 500 }}>{plan.name} {plan.badge && <span style={{ marginLeft: '8px', backgroundColor: '#C8A84B', color: '#0C1018', fontSize: '10px', padding: '2px 8px', borderRadius: '100px', fontWeight: 'bold' }}>{plan.badge}</span>}</div>
+                  <div style={{ fontSize: '14px', opacity: 0.7, marginTop: '4px' }}>{plan.desc}</div>
+                  <div style={{ fontSize: '14px', color: '#C8A84B', marginTop: '4px' }}>{plan.price} FCFA <span style={{ opacity: 0.5, fontSize: '12px' }}>({plan.duration})</span></div></div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button onClick={() => openEdit(plan)} style={{ color: '#C8A84B', padding: '8px', opacity: 0.7 }}><Pencil size={18} /></button>
+                  <button onClick={() => handleDelete(plan.id)} style={{ color: '#E05A5A', padding: '8px', opacity: 0.8 }}><Trash2 size={18} /></button>
+                </div>
+              </div>))}
+            </div>
+          </div>);
+        })}
+      </div>
+
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editingId ? 'Modifier' : 'Ajouter une formule'}>
+        <div className="modal-row">
+          <div className="modal-field"><label className="modal-label">Catégorie</label><select className="modal-select" value={form.category} onChange={e => setForm({...form, category: e.target.value})}>{categories.map(c => <option key={c} value={c}>{c}</option>)}</select></div>
+          <div className="modal-field"><label className="modal-label">Nom</label><input className="modal-input" value={form.name} onChange={e => setForm({...form, name: e.target.value})} /></div>
+        </div>
+        <div className="modal-row">
+          <div className="modal-field"><label className="modal-label">Durée</label><input className="modal-input" value={form.duration} onChange={e => setForm({...form, duration: e.target.value})} /></div>
+          <div className="modal-field"><label className="modal-label">Prix</label><input className="modal-input" value={form.price} onChange={e => setForm({...form, price: e.target.value})} /></div>
+        </div>
+        <div className="modal-field"><label className="modal-label">Badge</label><input className="modal-input" value={form.badge || ''} onChange={e => setForm({...form, badge: e.target.value})} /></div>
+        <div className="modal-field"><label className="modal-label">Description</label><textarea className="modal-textarea" value={form.desc} onChange={e => setForm({...form, desc: e.target.value})} rows={2} /></div>
+        <div className="modal-actions"><button className="modal-btn-cancel" onClick={() => setModalOpen(false)}>Annuler</button><button className="modal-btn-confirm" onClick={handleSubmit}>{editingId ? 'Modifier' : 'Ajouter'}</button></div>
+      </Modal>
+    </div>
+  );
+};
+
+export default AdminGym;

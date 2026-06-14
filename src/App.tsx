@@ -18,10 +18,15 @@ import Contact from './pages/Contact';
 import AdminLogin from './pages/Admin/AdminLogin';
 import AdminLayout from './pages/Admin/AdminLayout';
 import AdminDashboard from './pages/Admin/AdminDashboard';
-import AdminDepartements from './pages/Admin/AdminDepartements';
+import AdminAccueil from './pages/Admin/AdminAccueil';
 import AdminRestauration from './pages/Admin/AdminRestauration';
 import AdminMedias from './pages/Admin/AdminMedias';
 import AdminParametres from './pages/Admin/AdminParametres';
+import AdminSpa from './pages/Admin/AdminSpa';
+import AdminSports from './pages/Admin/AdminSports';
+import AdminBowling from './pages/Admin/AdminBowling';
+import AdminPiscine from './pages/Admin/AdminPiscine';
+import AdminGym from './pages/Admin/AdminGym';
 
 function App() {
   return (
@@ -43,8 +48,13 @@ function App() {
           <Route path="admin-hs-2025" element={<AdminLogin />} />
           <Route path="admin-hs-2025" element={<AdminLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="departements" element={<AdminDepartements />} />
+            <Route path="accueil" element={<AdminAccueil />} />
             <Route path="restauration" element={<AdminRestauration />} />
+            <Route path="spa" element={<AdminSpa />} />
+            <Route path="sports" element={<AdminSports />} />
+            <Route path="bowling" element={<AdminBowling />} />
+            <Route path="piscine" element={<AdminPiscine />} />
+            <Route path="gym" element={<AdminGym />} />
             <Route path="medias" element={<AdminMedias />} />
             <Route path="parametres" element={<AdminParametres />} />
           </Route>
