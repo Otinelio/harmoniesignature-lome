@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown, Waves, CircleDot, Sparkles, Dumbbell, Trophy, CalendarCheck, ArrowRight } from 'lucide-react';
 import CountUp from 'react-countup';
-import { getSettings, Settings } from '../utils/storage';
 import './Home.css';
 
 import imgGym from '../images/salles/gym-2.jpg';
@@ -22,11 +21,6 @@ import imgPiscine1 from '../images/piscine/piscine1.jpg';
 
 const Home = () => {
   const [hoveredUnivers, setHoveredUnivers] = useState<string>('piscine');
-  const [settings, setSettings] = useState<Settings | null>(null);
-
-  useEffect(() => {
-    setSettings(getSettings());
-  }, []);
 
   const universList = [
     { id: 'bowling', name: 'Bowling', img: logoBowling, isLogo: true },
@@ -42,7 +36,6 @@ const Home = () => {
       {/* SECTION VIDÉO */}
       <section className="video-section">
         <video
-          key={settings?.heroVideoUrl}
           className="video-bg"
           autoPlay
           muted
@@ -51,7 +44,7 @@ const Home = () => {
           preload="auto"
           aria-label="Vidéo de fond"
         >
-          <source src={settings?.heroVideoUrl || "/videoAccueil.mp4"} type="video/mp4" />
+          <source src="/videoAccueil.mp4" type="video/mp4" />
         </video>
         <div className="video-vignette" aria-hidden="true"></div>
         <div className="video-top-overlay">
@@ -59,8 +52,8 @@ const Home = () => {
           <p>BIENVENUE CHEZ HARMONIE SIGNATURE</p>
         </div>
         <div className="video-bottom-overlay">
-          <h2>{settings?.homeHeroTitle || "Votre complexe de référence à Lomé"}</h2>
-          <p>{settings?.homeHeroSubtitle || "Harmonie Signature · tous les jours de 06h00 à 22h00"}</p>
+          <h2>Votre complexe de référence à Lomé</h2>
+          <p>Harmonie Signature · tous les jours de 06h00 à 22h00</p>
         </div>
         <div className="scroll-indicator">
           <ChevronDown size={22} />
@@ -115,19 +108,19 @@ const Home = () => {
             <div className="spa-videos-trio">
               <div className="spa-video-card">
                 <video className="spa-video-item" autoPlay muted loop playsInline poster={posterDeo1}>
-                  <source src={settings?.spaVideo1Url || videoDeo1} type="video/mp4" />
+                  <source src={videoDeo1} type="video/mp4" />
                 </video>
                 <div className="spa-video-label">Spa à l'honneur</div>
               </div>
               <div className="spa-video-card">
                 <video className="spa-video-item" autoPlay muted loop playsInline poster={posterDeo2}>
-                  <source src={settings?.spaVideo2Url || videoDeo2} type="video/mp4" />
+                  <source src={videoDeo2} type="video/mp4" />
                 </video>
                 <div className="spa-video-label">Espace détente</div>
               </div>
               <div className="spa-video-card">
                 <video className="spa-video-item" autoPlay muted loop playsInline poster={posterDeo3}>
-                  <source src={settings?.spaVideo3Url || videoDeo3} type="video/mp4" />
+                  <source src={videoDeo3} type="video/mp4" />
                 </video>
                 <div className="spa-video-label">Rituels bien-être</div>
               </div>
