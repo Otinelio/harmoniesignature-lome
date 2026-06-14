@@ -1,33 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { HelpCircle, X, ChevronDown, MessageCircle } from 'lucide-react';
-import { getDepartments, getSettings } from '../utils/storage';
+import { getDepartments, getSettings, getFAQ, FAQItem } from '../utils/storage';
 import './WhatsAppCTA.css';
-
-const faqs = [
-  {
-    question: 'Quels sont les horaires d’ouverture ?',
-    answer: 'Harmonie Signature est ouvert tous les jours de 06h00 à 22h00. En week-end et les jours fériés, l’accès ferme à 20h. Le Bowling Le Logo est fermé le lundi.',
-  },
-  {
-    question: 'Peut-on réserver en ligne ?',
-    answer: 'Oui, vous pouvez réserver votre séance au Lotus Spa, votre formule au Platinum Fitness ou vos tables au Tropicana directement depuis notre site ou via notre WhatsApp.',
-  },
-  {
-    question: 'Y a-t-il un parking disponible ?',
-    answer: 'Oui, un parking sécurisé et surveillé 24h/24 est disponible gratuitement pour tous nos visiteurs à la Résidence du Bénin.',
-  },
-  {
-    question: 'Comment nous contacter rapidement ?',
-    answer: 'Vous pouvez nous joindre directement via WhatsApp au (+228) 92 92 18 89 pour toutes vos questions ou réservations.',
-  },
-];
 
 const WhatsAppCTA = () => {
   const location = useLocation();
   const [isHovered, setIsHovered] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [faqs, setFaqs] = useState<FAQItem[]>([]);
+
+  useEffect(() => {
+    setFaqs(getFAQ());
+  }, []);
 
   const isHome = location.pathname === '/';
 

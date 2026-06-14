@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Clock, Phone, Check, Sun, Zap } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
+import { getBowlingPlans, BowlingPlan } from '../utils/storage';
 import './Bowling.css';
 import logoBowling from '../images/logo/logo_bowling.png';
 import bowling1 from '../images/bowling/bowling_1.jpg';
@@ -80,7 +81,12 @@ const outerSlots = [
 ];
 
 const Bowling = () => {
+  const [plans, setPlans] = useState<BowlingPlan[]>([]);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  
+  useEffect(() => {
+    setPlans(getBowlingPlans());
+  }, []);
   const [currentImage, setCurrentImage] = useState(0);
   
   // Rotating square gallery states

@@ -2,6 +2,7 @@
 .hero-section {
   position: relative;
   height: 100vh;
+  height: 100svh;
   width: 100%;
   overflow: hidden;
   display: flex;
@@ -143,6 +144,7 @@
 .video-section {
   position: relative;
   height: 100vh;
+  height: 100svh;
   width: 100%;
   background-color: var(--color-bg-primary);
   overflow: hidden;

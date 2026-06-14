@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Clock, Phone, Zap, Dumbbell, Sparkles } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
+import { getGymPlans, GymPlan } from '../utils/storage';
 import './Piscine.css';
 import './Gym.css';
 import logoGym from '../images/logo/logo_gym.png';
@@ -205,9 +206,14 @@ const categories = [
 ];
 
 const Gym = () => {
+  const [gymPlans, setGymPlans] = useState<GymPlan[]>([]);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('Tous');
+
+  useEffect(() => {
+    setGymPlans(getGymPlans());
+  }, []);
 
   // Rotating square gallery states
   const [activeIndex, setActiveIndex] = useState(0);

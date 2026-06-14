@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Phone, Waves, Sun, Sparkles } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
+import { getPoolPlans, PoolPlan } from '../utils/storage';
 import './Piscine.css';
 import './Spa.css';
 
@@ -177,11 +178,16 @@ const outerSlots = [
 ];
 
 const Piscine = () => {
-  const [selectedCategory, setSelectedCategory] = React.useState('Tous');
+  const [poolPlans, setPoolPlans] = useState<PoolPlan[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState('Tous');
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
   const [fadeState, setFadeState] = useState(true);
+
+  useEffect(() => {
+    setPoolPlans(getPoolPlans());
+  }, []);
 
   const getPlansByCategory = (cat: string) => {
     return poolPlans.filter(p => p.category === cat);

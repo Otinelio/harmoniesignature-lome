@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Phone, Clock, Target, Trophy, Users, X, CalendarCheck } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import Lightbox from '../components/Lightbox';
+import { getSportServices, SportService } from '../utils/storage';
 import './Piscine.css';
 import './Sports.css';
 
@@ -75,8 +76,16 @@ const basketServices = [
 ];
 
 const Sports = () => {
+  const [services, setServices] = useState<SportService[]>([]);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+    setServices(getSportServices());
+  }, []);
+
+  const tennisServices = services.filter(s => s.sportType === 'Tennis');
+  const basketServices = services.filter(s => s.sportType === 'Basket');
 
   // Rotating square gallery states
   const [activeIndex, setActiveIndex] = useState(0);
@@ -143,7 +152,7 @@ const Sports = () => {
           {tennisServices.map((service, i) => (
             <div key={i} className="sp-soin-card">
               <div className="sp-soin-img-wrap">
-                <img src={service.image} alt={service.name} />
+                <img src={tennisImages[i % tennisImages.length]} alt={service.name} />
               </div>
               <div className="sp-soin-body">
                 <div className="sp-soin-header">
@@ -174,7 +183,7 @@ const Sports = () => {
           {basketServices.map((service, i) => (
             <div key={i} className="sp-soin-card">
               <div className="sp-soin-img-wrap">
-                <img src={service.image} alt={service.name} />
+                <img src={basketImages[i % basketImages.length]} alt={service.name} />
               </div>
               <div className="sp-soin-body">
                 <div className="sp-soin-header">
