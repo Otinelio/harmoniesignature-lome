@@ -2,12 +2,17 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = 'https://ohmhfksoslpqblixarhp.supabase.co';
 const supabaseAnonKey = 'sb_publishable_okYEU2pV5Yz-B1Di-euRcA_lmcFGRWo';
+
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 async function test() {
-  const { data: s, error: se } = await supabase.from('settings').select('*');
-  console.log('Settings:', JSON.stringify(s, null, 2), se);
-  const { data: d, error: de } = await supabase.from('departments').select('*');
-  console.log('Departments:', JSON.stringify(d, null, 2), de);
+  console.log('Testing Supabase connection...');
+  const { data, error } = await supabase.from('departments').select('*').limit(1);
+  if (error) {
+    console.error('Error connecting to Supabase:', error);
+  } else {
+    console.log('Success! Data:', data);
+  }
 }
+
 test();

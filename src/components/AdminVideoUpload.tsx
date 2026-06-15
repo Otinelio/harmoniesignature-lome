@@ -8,7 +8,7 @@ interface AdminVideoUploadProps {
 }
 
 const AdminVideoUpload: React.FC<AdminVideoUploadProps> = ({ label, mediaUrl, onChange }) => {
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -17,14 +17,28 @@ const AdminVideoUpload: React.FC<AdminVideoUploadProps> = ({ label, mediaUrl, on
       return;
     }
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      onChange(reader.result as string);
-    };
-    reader.onerror = () => {
-      alert("Erreur lors de la lecture du fichier.");
-    };
+    try {
+      // Afficher un état de chargement serait idéal ici, mais on va simplifier
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      
+      const { supabase } = await import('../lib/supabase');
+      
+      const { error: uploadError } = await supabase.storage
+        .from('media')
+        .upload(fileName, file, { cacheControl: '3600', upsert: false });
+        
+      if (uploadError) throw uploadError;
+      
+      const { data: { publicUrl } } = supabase.storage
+        .from('media')
+        .getPublicUrl(fileName);
+        
+      onChange(publicUrl);
+    } catch (err) {
+      console.error(err);
+      alert("Erreur lors du téléchargement vers Supabase.");
+    }
   };
 
   const handleClear = () => {

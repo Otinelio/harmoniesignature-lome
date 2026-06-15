@@ -287,9 +287,24 @@ export const saveDepartments = async (deps: Department[]) => {
 
 export const getRestaurants = async (): Promise<Restaurant[]> => {
   try {
-    const { data, error } = await supabase.from('restaurants').select('*');
-    if (error || !data || data.length === 0) return DEFAULT_RESTAURANTS;
-    return data as Restaurant[];
+    const { data: rests, error: restsErr } = await supabase.from('restaurants').select('*');
+    if (restsErr || !rests || rests.length === 0) return DEFAULT_RESTAURANTS;
+
+    const { data: menuItems, error: menuErr } = await supabase.from('menu_items').select('*');
+    
+    const parsedRests = rests as Restaurant[];
+    if (menuItems && !menuErr) {
+      parsedRests.forEach(r => {
+        r.menu = menuItems.filter(m => m.restaurant_id === r.id);
+      });
+    } else {
+      // Fallback if menu_items fetch fails but we have JSONB menu
+      parsedRests.forEach(r => {
+        if (!r.menu) r.menu = [];
+      });
+    }
+    
+    return parsedRests;
   } catch (e) {
     console.error("Error loading restaurants:", e);
     return DEFAULT_RESTAURANTS;
@@ -298,10 +313,32 @@ export const getRestaurants = async (): Promise<Restaurant[]> => {
 
 export const saveRestaurants = async (rests: Restaurant[]) => {
   try {
-    const { error } = await supabase.from('restaurants').upsert(rests);
+    // Only save the restaurant details (ignore the menu array for the db)
+    const restsToSave = rests.map(({ menu, ...rest }) => rest);
+    const { error } = await supabase.from('restaurants').upsert(restsToSave);
     if (error) throw error;
   } catch (e) {
     console.error("Error saving restaurants:", e);
+    throw e;
+  }
+};
+
+export const saveMenuItem = async (restaurantId: string, item: MenuItem) => {
+  try {
+    const { error } = await supabase.from('menu_items').upsert({ ...item, restaurant_id: restaurantId });
+    if (error) throw error;
+  } catch (e) {
+    console.error("Error saving menu item:", e);
+    throw e;
+  }
+};
+
+export const deleteMenuItem = async (itemId: string) => {
+  try {
+    const { error } = await supabase.from('menu_items').delete().eq('id', itemId);
+    if (error) throw error;
+  } catch (e) {
+    console.error("Error deleting menu item:", e);
     throw e;
   }
 };

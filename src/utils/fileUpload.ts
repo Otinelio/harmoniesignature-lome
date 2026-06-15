@@ -1,54 +1,38 @@
+import { supabase } from '../lib/supabase';
+
 /**
- * Compresse une image et la convertit en chaîne Base64.
- * @param file Le fichier image à compresser.
- * @param maxWidth La largeur ou hauteur maximale de l'image compressée (par défaut 800).
- * @returns Une promesse qui résout avec la chaîne Base64 de l'image compressée.
+ * Uploads an image to Supabase Storage and returns the public URL.
+ * @param file The image file to upload.
+ * @returns A promise that resolves with the public URL of the uploaded image.
  */
-export const compressImageToBase64 = (file: File, maxWidth: number = 800): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    
-    reader.onload = (event) => {
-      const img = new Image();
-      img.src = event.target?.result as string;
-      
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let width = img.width;
-        let height = img.height;
+export const compressImageToBase64 = async (file: File): Promise<string> => {
+  try {
+    // Generate a unique filename
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+    const filePath = `${fileName}`;
 
-        if (width > height) {
-          if (width > maxWidth) {
-            height = Math.round((height * maxWidth) / width);
-            width = maxWidth;
-          }
-        } else {
-          if (height > maxWidth) {
-            width = Math.round((width * maxWidth) / height);
-            height = maxWidth;
-          }
-        }
+    // Upload to Supabase Storage
+    const { error: uploadError, data } = await supabase.storage
+      .from('media')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
 
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        
-        if (!ctx) {
-          reject(new Error('Impossible d\'obtenir le contexte du canvas'));
-          return;
-        }
-        
-        ctx.drawImage(img, 0, 0, width, height);
-        
-        // Exporte en webp pour gagner de l'espace
-        const dataUrl = canvas.toDataURL('image/webp', 0.8);
-        resolve(dataUrl);
-      };
-      
-      img.onerror = (err) => reject(err);
-    };
-    
-    reader.onerror = (err) => reject(err);
-  });
+    if (uploadError) {
+      console.error('Upload Error:', uploadError);
+      throw uploadError;
+    }
+
+    // Get public URL
+    const { data: { publicUrl } } = supabase.storage
+      .from('media')
+      .getPublicUrl(filePath);
+
+    return publicUrl;
+  } catch (error) {
+    console.error('Error uploading image to Supabase:', error);
+    throw error;
+  }
 };

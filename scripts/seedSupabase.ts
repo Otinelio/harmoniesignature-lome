@@ -7,8 +7,8 @@ import WebSocket from 'ws';
 (globalThis as any).WebSocket = WebSocket;
 dotenv.config({ path: '.env' });
 
-const supabaseUrl = 'https://figyfyathtfjztjtsjld.supabase.co';
-const supabaseKey = 'sb_publishable_LuJiOMKypMTvv8MM89brTA_feKXmLpy';
+const supabaseUrl = 'https://ohmhfksoslpqblixarhp.supabase.co';
+const supabaseKey = 'sb_publishable_okYEU2pV5Yz-B1Di-euRcA_lmcFGRWo';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function seed() {

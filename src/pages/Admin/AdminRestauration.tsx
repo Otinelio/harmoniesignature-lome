@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getRestaurants, saveRestaurants, Restaurant, MenuItem } from '../../utils/storage';
+import { getRestaurants, saveRestaurants, saveMenuItem, deleteMenuItem, Restaurant, MenuItem } from '../../utils/storage';
 import { Save, Trash2, Plus, Pencil, Upload } from 'lucide-react';
 import Modal from '../../components/Modal';
 import { compressImageToBase64 } from '../../utils/fileUpload';
@@ -24,13 +24,19 @@ const AdminRestauration = () => {
   const handleSubmit = async () => {
     if (!form.name || !form.price) return;
     const nr = [...restaurants];
+    const restId = nr[activeTab].id;
+    
+    let newItem: MenuItem;
     if (editingId) {
-      nr[activeTab] = { ...nr[activeTab], menu: nr[activeTab].menu.map(i => i.id === editingId ? { ...form } : i) };
+      newItem = { ...form };
+      nr[activeTab] = { ...nr[activeTab], menu: nr[activeTab].menu.map(i => i.id === editingId ? newItem : i) };
     } else {
-      nr[activeTab] = { ...nr[activeTab], menu: [...nr[activeTab].menu, { ...form, id: `item-${Date.now()}` }] };
+      newItem = { ...form, id: `item-${Date.now()}` };
+      nr[activeTab] = { ...nr[activeTab], menu: [...nr[activeTab].menu, newItem] };
     }
+    
     try {
-      await saveRestaurants(nr);
+      await saveMenuItem(restId, newItem); // Save directly to DB menu_items
       setRestaurants(nr);
       setModalOpen(false);
     } catch (e: any) {
@@ -43,7 +49,7 @@ const AdminRestauration = () => {
     const nr = [...restaurants];
     nr[activeTab] = { ...nr[activeTab], menu: nr[activeTab].menu.filter(i => i.id !== itemId) };
     try {
-      await saveRestaurants(nr);
+      await deleteMenuItem(itemId); // Delete directly from DB menu_items
       setRestaurants(nr);
     } catch (e: any) {
       alert('Erreur: ' + e.message);
