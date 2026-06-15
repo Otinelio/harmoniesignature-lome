@@ -1,25 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getSportServices, SportService, getDepartments, Department } from '../utils/storage';
 import { Phone, Clock, Target, Trophy, Users, X, CalendarCheck } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import Lightbox from '../components/Lightbox';
 import './Piscine.css';
 import './Sports.css';
 
-import imgTennisBasket1 from '../images/tennis&Basketball/tennis&Basketball1.jpg';
-import imgTennisBasket2 from '../images/tennis&Basketball/tennis&Basketball2.jpg';
-import imgTennisBasket3 from '../images/tennis&Basketball/tennis&Basketball3.jpg';
-import imgTennisBasket4 from '../images/tennis&Basketball/tennis&Basketball4.jpg';
-import imgTennisBasket5 from '../images/tennis&Basketball/tennis&Basketball5.jpg';
-import imgTennisBasket6 from '../images/tennis&Basketball/tennis&Basketball6.jpg';
-import imgTennisBasket7 from '../images/tennis&Basketball/tennis&Basketball7.jpg';
-import imgTennisBasket8 from '../images/tennis&Basketball/tennis&Basketball8.jpg';
-import imgTennisBasket9 from '../images/tennis&Basketball/tennis&Basketball9.jpg';
-import imgTennisBasket10 from '../images/tennis&Basketball/tennis&Basketball10.jpg';
-import imgTennisBasket11 from '../images/tennis&Basketball/tennis&Basketball11.jpg';
 
-const tennisImages = [imgTennisBasket1, imgTennisBasket2, imgTennisBasket3, imgTennisBasket4];
-const basketImages = [imgTennisBasket5, imgTennisBasket6, imgTennisBasket7, imgTennisBasket8];
-const sportsImages = [imgTennisBasket1, imgTennisBasket2, imgTennisBasket3, imgTennisBasket4, imgTennisBasket5, imgTennisBasket6, imgTennisBasket7, imgTennisBasket8, imgTennisBasket9, imgTennisBasket10, imgTennisBasket11];
 
 const outerSlots = [
   { row: 1, col: 1, imgIndex: 0 },
@@ -36,45 +23,31 @@ const outerSlots = [
   { row: 2, col: 1, imgIndex: 0 },
 ];
 
-const tennisServices = [
-  {
-    image: tennisImages[0],
-    name: 'Tarif Horaire',
-    duration: '1h',
-    desc: 'Accès libre aux courts de tennis de qualité supérieure pour vos matchs en simple ou double.',
-    price: '5 000',
-    unit: 'par personne',
-  },
-  {
-    image: tennisImages[1],
-    name: 'Abonnement Mensuel',
-    duration: '1 mois',
-    desc: 'Accès illimité aux installations de tennis tout au long du mois pour les passionnés.',
-    price: '15 000',
-    unit: 'par mois',
-  },
-];
 
-const basketServices = [
-  {
-    image: basketImages[0],
-    name: 'Tarif Horaire',
-    duration: '1h',
-    desc: 'Accès libre au terrain de basketball professionnel pour vos séances de tirs ou matchs.',
-    price: '1 000',
-    unit: 'par personne',
-  },
-  {
-    image: basketImages[1],
-    name: 'Tarif Samedi',
-    duration: '4h',
-    desc: 'Session spéciale de 4h le samedi, idéale pour des matchs de groupe ou tournois.',
-    price: '2 500',
-    unit: 'par personne',
-  },
-];
+
+
 
 const Sports = () => {
+  const [tennisServices, setTennisServices] = useState<SportService[]>([]);
+  const [basketServices, setBasketServices] = useState<SportService[]>([]);
+  const [dTennis, setDTennis] = useState<Department | null>(null);
+  const [dBasket, setDBasket] = useState<Department | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getSportServices();
+      setTennisServices(data.filter(s => s.sportType === 'Tennis'));
+      setBasketServices(data.filter(s => s.sportType === 'Basketball'));
+      const deps = await getDepartments();
+      setDTennis(deps.find(d => d.id === 'tennis') || null);
+      setDBasket(deps.find(d => d.id === 'basket') || null);
+    };
+    fetchData();
+  }, []);
+  
+  const tennisImages = dTennis?.images || [];
+  const basketImages = dBasket?.images || [];
+  const sportsImages = [...tennisImages, ...basketImages];
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
 
@@ -88,8 +61,10 @@ const Sports = () => {
     const timer = setInterval(() => {
       setActiveIndex((prev) => {
         let nextIndex = prev;
+        const numImages = sportsImages.length;
+        if (numImages <= 1) return 0;
         while (nextIndex === prev) {
-          nextIndex = Math.floor(Math.random() * sportsImages.length);
+          nextIndex = Math.floor(Math.random() * numImages);
         }
         return nextIndex;
       });
@@ -119,7 +94,7 @@ const Sports = () => {
 
       {/* ─── HERO ─── */}
       <section className="p-hero">
-        <div className="p-hero-bg" style={{ backgroundImage: `url(${imgTennisBasket1})` }}></div>
+        <div className="p-hero-bg" style={{ backgroundImage: `url(${(dTennis?.images?.[0] || '/images/tennisimgTennisBasket1Basketball/tennisimgTennisBasket1Basketball1.jpg')})` }}></div>
         <div className="p-hero-overlay"></div>
         <div className="p-hero-content">
           <div className="spa-hero-brand">
@@ -143,7 +118,7 @@ const Sports = () => {
           {tennisServices.map((service, i) => (
             <div key={i} className="sp-soin-card">
               <div className="sp-soin-img-wrap">
-                <img src={service.image} alt={service.name} />
+                <img src={(service as any).image || (dTennis?.images?.[0] || '/images/tennisimgTennisBasket1Basketball/tennisimgTennisBasket1Basketball1.jpg')} alt={service.name} />
               </div>
               <div className="sp-soin-body">
                 <div className="sp-soin-header">
@@ -174,7 +149,7 @@ const Sports = () => {
           {basketServices.map((service, i) => (
             <div key={i} className="sp-soin-card">
               <div className="sp-soin-img-wrap">
-                <img src={service.image} alt={service.name} />
+                <img src={(service as any).image || (dBasket?.images?.[0] || '/images/tennisimgTennisBasket5Basketball/tennisimgTennisBasket5Basketball5.jpg')} alt={service.name} />
               </div>
               <div className="sp-soin-body">
                 <div className="sp-soin-header">
@@ -215,6 +190,7 @@ const Sports = () => {
           <div className="bw-square-gallery">
             {/* Perimeter Slots (12 images mapped to 8 actual files) */}
             {outerSlots.map((slot, idx) => {
+              const safeImgIndex = sportsImages.length > 0 ? slot.imgIndex % sportsImages.length : 0;
               const isHighlighted = activeIndex === slot.imgIndex;
               return (
                 <div
@@ -223,7 +199,7 @@ const Sports = () => {
                   style={{ gridArea: `${slot.row} / ${slot.col}` }}
                   onClick={() => selectImage(slot.imgIndex)}
                 >
-                  <img src={sportsImages[slot.imgIndex]} alt={`Sport Perimeter ${idx + 1}`} loading="lazy" />
+                  {sportsImages.length > 0 && <img src={sportsImages[safeImgIndex]} alt={`Sport Perimeter ${idx + 1}`} loading="lazy" />}
                   <div className="bw-gallery-hover"></div>
                 </div>
               );
@@ -233,9 +209,11 @@ const Sports = () => {
             <div
               className={`bw-gallery-center ${fadeState ? 'fade-in' : 'fade-out'}`}
               style={{ gridArea: '2 / 2 / 4 / 4' }}
-              onClick={() => openLightbox(activeIndex)}
+              onClick={() => {
+                openLightbox(sportsImages.length > 0 ? activeIndex % sportsImages.length : 0);
+              }}
             >
-              <img src={sportsImages[activeIndex]} alt="Sport Active Center" />
+              {sportsImages.length > 0 && <img src={sportsImages[activeIndex % sportsImages.length]} alt="Sport Active Center" />}
               <div className="bw-center-hover-overlay">
                 <span className="bw-center-hover-text">Agrandir</span>
               </div>

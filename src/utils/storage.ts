@@ -1,3 +1,9 @@
+import { supabase } from '../lib/supabase';
+
+// DEBUG: Log supabase client status
+console.log('[SUPABASE DEBUG] Client initialized:', !!supabase);
+console.log('[SUPABASE DEBUG] Supabase URL:', (supabase as any).supabaseUrl || 'unknown');
+
 // Initial Default Data
 
 export interface Department {
@@ -39,42 +45,61 @@ export interface Settings {
   bowlingHours: string;
   spaEmail: string;
   heroVideoUrl: string;
+  heroVideoMobileUrl?: string;
+  homeHeroTitle?: string;
+  homeHeroSubtitle?: string;
+  spaVideo1Url?: string;
+  spaVideo2Url?: string;
+  spaVideo3Url?: string;
+  tiktokUrl?: string;
+  facebookUrl?: string;
 }
 
-const DEFAULT_DEPARTMENTS: Department[] = [
+export interface FAQItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+export const DEFAULT_FAQ: FAQItem[] = [
+  { id: 'faq-1', question: 'Quels sont vos horaires d\'ouverture ?', answer: 'Nous sommes ouverts tous les jours de 06h00 à 22h00.' },
+  { id: 'faq-2', question: 'Où êtes-vous situés ?', answer: 'Nous sommes situés à la Résidence du Bénin, Lomé, Togo.' }
+];
+
+export const DEFAULT_DEPARTMENTS: Department[] = [
   {
     id: 'piscine', name: 'Piscine', phone: '(+228) 92 92 18 89', hours: 'Lun – Sam : 07h00 – 23h00',
     priceAdult: '6 000', priceChild: '3 000', description: 'Bassin olympique avec eau cristalline et ambiance tropicale.', isOpen: true,
-    images: ['https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2000&auto=format&fit=crop', 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2000&auto=format&fit=crop']
+    images: ['/images/piscine/piscine1.jpg', '/images/piscine/piscine2.jpg', '/images/piscine/piscine3.jpg', '/images/piscine/piscine4.jpg', '/images/piscine/piscine5.jpg', '/images/piscine/piscine6.jpg', '/images/piscine/piscine7.jpg', '/images/piscine/piscine8.jpg', '/images/piscine/piscine9.jpg', '/images/piscine/piscine10.jpg', '/images/piscine/piscine11.jpg', '/images/piscine/piscine12.jpg', '/images/piscine/piscine13.jpg']
   },
   {
     id: 'bowling', name: 'Bowling Le Logo', phone: '(+228) 72 27 43 90', hours: 'Mar – Dim : 16h00 – 00h00',
     priceAdult: '5 000', priceChild: '3 000', description: 'Pistes lumineuses pour des soirées inoubliables.', isOpen: true,
-    images: ['https://images.unsplash.com/photo-1511216335778-7cb8f49fa7a3?q=80&w=2000&auto=format&fit=crop']
+    images: ['/images/bowling/bowling_1.jpg', '/images/bowling/bowling_2.jpg', '/images/bowling/bowling_3.jpg', '/images/bowling/bowling_4.jpg', '/images/bowling/bowling_5.jpg', '/images/bowling/bowling_6.jpg', '/images/bowling/bowling_7.jpg', '/images/bowling/bowling_8.jpg', '/images/bowling/bowling_9.jpg', '/images/bowling/bowling_10.jpg', '/images/bowling/bowling_11.jpg', '/images/bowling/bowling_12.jpg', '/images/bowling/bowling_13.jpg', '/images/bowling/bowling_14.jpg', '/images/bowling/bowling_15.jpg']
   },
   {
     id: 'spa', name: 'Lotus Spa', phone: '(+228) 90 00 04 40', hours: 'Lun – Sam : 09h00 – 21h00',
     priceAdult: '25 000', priceChild: '-', description: 'Un sanctuaire de détente pour apaiser corps et esprit.', isOpen: true,
-    images: ['https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2000&auto=format&fit=crop']
+    images: ['/images/spa/spa-1.jpg', '/images/spa/spa-2.jpg', '/images/spa/spa-3.jpg', '/images/spa/spa-4.jpg', '/images/spa/spa-5.jpg', '/images/spa/spa-6.jpg', '/images/spa/spa-7.jpg', '/images/spa/spa-8.jpg', '/images/spa/spa-9.jpg', '/images/spa/spa-10.jpg', '/images/spa/spa-11.jpg', '/images/spa/spa-12.jpg', '/images/spa/spa-13.jpg', '/images/spa/spa-14.jpg', '/images/spa/spa-15.jpg']
   },
   {
     id: 'gym', name: 'Platinum Fitness', phone: '(+228) 96 29 77 77', hours: 'Lun – Sam : 06h00 – 22h00',
     priceAdult: '2 000', priceChild: '-', description: 'Équipements de pointe pour vos entraînements intenses.', isOpen: true,
-    images: ['https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop']
+    images: ['/images/salles/gym-1.jpg', '/images/salles/gym-2.jpg', '/images/salles/gym-3.jpg', '/images/salles/gym-4.jpg', '/images/salles/gym-5.jpg', '/images/salles/gym-6.jpg', '/images/salles/gym-7.jpg', '/images/salles/gym-8.jpg', '/images/salles/gym-9.jpg', '/images/salles/gym-10.jpg', '/images/salles/gym-11.jpg', '/images/salles/gym-12.jpg', '/images/salles/gym-13.jpg', '/images/salles/gym-14.jpg', '/images/salles/gym-15.jpg']
   },
   {
     id: 'tennis', name: 'Tennis', phone: '(+228) 92 92 18 89', hours: 'Lun – Sam : 07h00 – 22h00',
     priceAdult: '10 000', priceChild: '5 000', description: 'Terrains extérieurs éclairés pour jouer même de nuit.', isOpen: true,
-    images: ['https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=2000&auto=format&fit=crop']
+    images: ['/images/tennis&Basketball/tennis&Basketball1.jpg', '/images/tennis&Basketball/tennis&Basketball2.jpg', '/images/tennis&Basketball/tennis&Basketball3.jpg', '/images/tennis&Basketball/tennis&Basketball4.jpg']
   },
   {
     id: 'basket', name: 'Basket', phone: '(+228) 92 92 18 89', hours: 'Lun – Sam : 07h00 – 22h00',
     priceAdult: '5 000', priceChild: '2 500', description: 'Terrain professionnel pour des matchs intenses.', isOpen: true,
-    images: ['https://images.unsplash.com/photo-1505666287802-931dc83948e9?q=80&w=2000&auto=format&fit=crop']
+    images: ['/images/tennis&Basketball/tennis&Basketball5.jpg', '/images/tennis&Basketball/tennis&Basketball6.jpg', '/images/tennis&Basketball/tennis&Basketball7.jpg', '/images/tennis&Basketball/tennis&Basketball8.jpg', '/images/tennis&Basketball/tennis&Basketball9.jpg', '/images/tennis&Basketball/tennis&Basketball10.jpg', '/images/tennis&Basketball/tennis&Basketball11.jpg']
   }
 ];
 
-const DEFAULT_RESTAURANTS: Restaurant[] = [
+export const DEFAULT_RESTAURANTS: Restaurant[] = [
   {
     id: 'tropicana', name: 'Tropicana', whatsapp: '22892921889', email: 'tropicana@harmonie.tg', hours: 'Mar - Dim: 12h00 - 23h00', isOpen: true,
     menu: [
@@ -210,121 +235,349 @@ const DEFAULT_RESTAURANTS: Restaurant[] = [
   }
 ];
 
-const DEFAULT_SETTINGS: Settings = {
-  adminPasswordHash: 'HS2025admin',
+export const DEFAULT_SETTINGS: Settings = {
+  adminPasswordHash: 'harmonie2026',
   mainWhatsApp: '22892921889',
   address: 'Rue 243 Tot Ancien BSL, Résidence du Bénin, Lomé, Togo',
   generalHours: 'Harmonie Signature : tous les jours de 06h00 à 22h00. Week-end & jours fériés : fermeture à 20h.',
   bowlingHours: 'Bowling Le Logo : Mardi – Dimanche de 16h00 à 00h00. Fermé le lundi.',
   spaEmail: 'spa@harmoniesignature.tg',
-  heroVideoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' // placeholder
+  heroVideoUrl: '/videoAccueil.mp4',
+  heroVideoMobileUrl: '/videoAccueil.mp4',
+  spaVideo1Url: '/images/spa/spaDeo/SpaDeo1.mp4',
+  spaVideo2Url: '/images/spa/spaDeo/SpaDeo2.mp4',
+  spaVideo3Url: '/images/spa/spaDeo/SpaDeo3.mp4',
 };
 
-export const getDepartments = (): Department[] => {
+export const getDepartments = async (): Promise<Department[]> => {
   try {
-    const data = localStorage.getItem('hs_admin_departments');
-    if (!data) return DEFAULT_DEPARTMENTS;
-    const deps = JSON.parse(data);
-    if (!Array.isArray(deps)) {
+    console.log('[SUPABASE DEBUG] getDepartments: fetching from Supabase...');
+    const { data, error } = await supabase.from('departments').select('*');
+    console.log('[SUPABASE DEBUG] getDepartments result:', { dataLength: data?.length, error });
+    if (error) {
+      console.error('[SUPABASE DEBUG] getDepartments ERROR - falling back to defaults:', error);
       return DEFAULT_DEPARTMENTS;
     }
-    let updated = false;
-    const updatedDeps = deps.map(dep => {
-      if (!dep || typeof dep !== 'object') return dep;
-      if (dep.id === 'bowling' && dep.name !== 'Bowling Le Logo') {
-        dep.name = 'Bowling Le Logo';
-        updated = true;
-      }
-      if (dep.id === 'spa' && dep.name !== 'Lotus Spa') {
-        dep.name = 'Lotus Spa';
-        updated = true;
-      }
-      if (dep.id === 'gym' && dep.name !== 'Platinum Fitness') {
-        dep.name = 'Platinum Fitness';
-        updated = true;
-      }
-      return dep;
-    }).filter(Boolean) as Department[];
-    if (updated) {
-      saveDepartments(updatedDeps);
+    if (!data || data.length === 0) {
+      console.warn('[SUPABASE DEBUG] getDepartments: no data returned, using defaults');
+      return DEFAULT_DEPARTMENTS;
     }
-    return updatedDeps;
+    console.log('[SUPABASE DEBUG] getDepartments: SUCCESS - got', data.length, 'departments from Supabase');
+    return data as Department[];
   } catch (e) {
-    console.error("Error loading departments, resetting to default:", e);
+    console.error('[SUPABASE DEBUG] getDepartments EXCEPTION:', e);
     return DEFAULT_DEPARTMENTS;
   }
 };
 
-export const saveDepartments = (deps: Department[]) => {
+export const saveDepartments = async (deps: Department[]) => {
   try {
-    localStorage.setItem('hs_admin_departments', JSON.stringify(deps));
+    console.log('[SUPABASE DEBUG] saveDepartments: saving', deps.length, 'departments...');
+    const { error } = await supabase.from('departments').upsert(deps);
+    if (error) {
+      console.error('[SUPABASE DEBUG] saveDepartments ERROR:', error);
+      throw error;
+    }
+    console.log('[SUPABASE DEBUG] saveDepartments: SUCCESS');
   } catch (e) {
-    console.error("Error saving departments:", e);
+    console.error('[SUPABASE DEBUG] saveDepartments EXCEPTION:', e);
+    throw e;
   }
 };
 
-export const getRestaurants = (): Restaurant[] => {
+export const getRestaurants = async (): Promise<Restaurant[]> => {
   try {
-    const data = localStorage.getItem('hs_admin_restaurants');
-    if (!data) return DEFAULT_RESTAURANTS;
-    const rests = JSON.parse(data);
-    if (!Array.isArray(rests)) {
-      return DEFAULT_RESTAURANTS;
-    }
-    // Force update from DEFAULT_RESTAURANTS if localStorage contains old small menu
-    const tropicana = rests.find(r => r && r.id === 'tropicana');
-    if (tropicana && Array.isArray(tropicana.menu) && tropicana.menu.length < 10) {
-      const defaultTropicana = DEFAULT_RESTAURANTS.find(r => r.id === 'tropicana');
-      if (defaultTropicana) {
-        tropicana.menu = defaultTropicana.menu;
-        saveRestaurants(rests);
-      }
-    }
-    return rests.filter(r => r && r.id === 'tropicana') as Restaurant[];
+    const { data, error } = await supabase.from('restaurants').select('*');
+    if (error || !data || data.length === 0) return DEFAULT_RESTAURANTS;
+    return data as Restaurant[];
   } catch (e) {
-    console.error("Error loading restaurants, resetting to default:", e);
-    return DEFAULT_RESTAURANTS.filter(r => r && r.id === 'tropicana');
+    console.error("Error loading restaurants:", e);
+    return DEFAULT_RESTAURANTS;
   }
 };
 
-export const saveRestaurants = (rests: Restaurant[]) => {
+export const saveRestaurants = async (rests: Restaurant[]) => {
   try {
-    localStorage.setItem('hs_admin_restaurants', JSON.stringify(rests));
+    const { error } = await supabase.from('restaurants').upsert(rests);
+    if (error) throw error;
   } catch (e) {
     console.error("Error saving restaurants:", e);
+    throw e;
   }
 };
 
-export const getSettings = (): Settings => {
+export const getSettings = async (): Promise<Settings> => {
   try {
-    const data = localStorage.getItem('hs_admin_settings');
-    if (!data) return DEFAULT_SETTINGS;
-    const parsed = JSON.parse(data);
-    if (!parsed || typeof parsed !== 'object') {
-      return DEFAULT_SETTINGS;
-    }
-    // Ensure critical fields are present
-    return {
-      adminPasswordHash: parsed.adminPasswordHash || DEFAULT_SETTINGS.adminPasswordHash,
-      mainWhatsApp: parsed.mainWhatsApp || DEFAULT_SETTINGS.mainWhatsApp,
-      address: parsed.address || DEFAULT_SETTINGS.address,
-      generalHours: parsed.generalHours || DEFAULT_SETTINGS.generalHours,
-      bowlingHours: parsed.bowlingHours || DEFAULT_SETTINGS.bowlingHours,
-      spaEmail: parsed.spaEmail || DEFAULT_SETTINGS.spaEmail,
-      heroVideoUrl: parsed.heroVideoUrl || DEFAULT_SETTINGS.heroVideoUrl,
-    };
+    const { data, error } = await supabase.from('settings').select('*').limit(1).single();
+    if (error || !data) return DEFAULT_SETTINGS;
+    return data as Settings;
   } catch (e) {
-    console.error("Error loading settings, resetting to default:", e);
+    console.error("Error loading settings:", e);
     return DEFAULT_SETTINGS;
   }
 };
 
-export const saveSettings = (settings: Settings) => {
+export const saveSettings = async (settings: Settings) => {
   try {
-    localStorage.setItem('hs_admin_settings', JSON.stringify(settings));
+    // We assume setting id=1
+    const { error } = await supabase.from('settings').upsert({ id: 1, ...settings });
+    if (error) throw error;
   } catch (e) {
     console.error("Error saving settings:", e);
+    throw e;
   }
+};
+
+export const getFAQ = async (): Promise<FAQItem[]> => {
+  try {
+    const { data, error } = await supabase.from('faq').select('*');
+    if (error || !data || data.length === 0) return DEFAULT_FAQ;
+    return data as FAQItem[];
+  } catch (e) {
+    console.error("Error loading FAQ:", e);
+    return DEFAULT_FAQ;
+  }
+};
+
+export const saveFAQ = async (faq: FAQItem[]) => {
+  try {
+    const { error } = await supabase.from('faq').upsert(faq);
+    if (error) throw error;
+  } catch (e) {
+    console.error("Error saving FAQ:", e);
+    throw e;
+  }
+};
+
+// --- SPA ---
+export interface SpaService {
+  id: string;
+  category: string;
+  name: string;
+  duration: string;
+  desc: string;
+  price: string;
+  image: string;
+}
+export const DEFAULT_SPA_SERVICES: SpaService[] = [
+  { id: 'spa-1', category: 'Soins du Corps', name: 'Massage Aromathérapie 1h', duration: '60 min', desc: 'Soin relaxant profond associant les vertus thérapeutiques des huiles essentielles.', price: '30.000', image: '' },
+  { id: 'spa-2', category: 'Soins du Corps', name: 'Relax Touche 30min', duration: '30 min', desc: 'Massage ciblé rapide pour libérer les tensions accumulées.', price: '15.000', image: '' },
+  { id: 'spa-3', category: 'Soins du Corps', name: 'Relax Touche 1h', duration: '60 min', desc: 'Massage relaxant complet pour apaiser le corps et l\'esprit.', price: '25.000', image: '' },
+  { id: 'spa-4', category: 'Soins du Corps', name: 'Massage Pierres Chaudes', duration: '60 min', desc: 'Massage réconfortant avec des pierres de basalte volcaniques chauffées.', price: '40.000', image: '' },
+  { id: 'spa-5', category: 'Soins du Corps', name: 'Four Hands 50min', duration: '50 min', desc: 'Une harmonie parfaite réalisée par deux praticiens pour une relaxation absolue.', price: '40.000', image: '' },
+  { id: 'spa-6', category: 'Soins du Corps', name: 'Escale Plantaire 30min', duration: '30 min', desc: 'Massage relaxant des pieds inspiré de la réflexologie plantaire.', price: '17.000', image: '' },
+  { id: 'spa-7', category: 'Soins du Corps', name: 'Duo Force Vital 1h', duration: '60 min', desc: 'Partagez un moment d\'énergie et de complicité à deux en cabine double.', price: '55.000', image: '' },
+  { id: 'spa-8', category: 'Soins du Corps', name: 'Duo Toucher Apaisant 1h', duration: '60 min', desc: 'Massage relaxant à deux pour une évasion sensorielle partagée.', price: '40.000', image: '' },
+  { id: 'spa-9', category: 'Soins du Corps', name: 'Duo Pierres Chaudes 1h30', duration: '90 min', desc: 'Expérience sensorielle divine à deux avec des pierres volcaniques chaudes.', price: '70.000', image: '' },
+  { id: 'spa-10', category: 'Soins du Corps', name: 'Force Vital 30min', duration: '30 min', desc: 'Soin dynamisant rapide pour relancer l\'énergie corporelle.', price: '20.000', image: '' },
+  { id: 'spa-11', category: 'Soins du Corps', name: 'Force Vital 1h', duration: '60 min', desc: 'Soin énergétique complet pour retrouver vitalité et équilibre.', price: '30.000', image: '' },
+  { id: 'spa-12', category: 'Gommage', name: 'Gommage du Corps 30min', duration: '30 min', desc: 'Exfoliation douce pour éliminer les cellules mortes et sublimer la peau.', price: '22.000', image: '' },
+  { id: 'spa-13', category: 'Épilation à la Cire', name: 'Épilation Jambes, Bras, Maillot Intégral & Aisselles', duration: 'Prestation', desc: 'Formule complète pour une douceur absolue de tout le corps.', price: '32.000', image: '' },
+  { id: 'spa-14', category: 'Épilation à la Cire', name: 'Épilation Jambes, Maillot Intégral & Aisselles', duration: 'Prestation', desc: 'Formule corps essentielle pour une peau lisse et douce.', price: '26.000', image: '' },
+  { id: 'spa-15', category: 'Épilation à la Cire', name: 'Épilation Jambes, Bras & Aisselles', duration: 'Prestation', desc: 'Formule douce pour les zones visibles du corps.', price: '22.000', image: '' },
+  { id: 'spa-16', category: 'Épilation à la Cire', name: 'Cire Jambes Complètes', duration: 'Prestation', desc: 'Épilation soignée de toute la longueur des jambes.', price: '12.000', image: '' },
+  { id: 'spa-17', category: 'Épilation à la Cire', name: 'Cire Jambes Demi', duration: 'Prestation', desc: 'Épilation rapide des demi-jambes.', price: '6.000', image: '' },
+  { id: 'spa-18', category: 'Épilation à la Cire', name: 'Cire Bras Completes', duration: 'Prestation', desc: 'Épilation complète des bras pour une douceur uniforme.', price: '7.000', image: '' },
+  { id: 'spa-19', category: 'Épilation à la Cire', name: 'Cire Bras Demi', duration: 'Prestation', desc: 'Épilation des avant-bras ou demi-bras.', price: '4.000', image: '' },
+  { id: 'spa-20', category: 'Épilation à la Cire', name: 'Cire Maillot Integral Completes', duration: 'Prestation', desc: 'Épilation intégrale professionnelle du maillot.', price: '12.000', image: '' },
+  { id: 'spa-21', category: 'Épilation à la Cire', name: 'Cire Maillot Integral Demi', duration: 'Prestation', desc: 'Épilation classique ou demi-maillot.', price: '6.000', image: '' },
+  { id: 'spa-22', category: 'Épilation à la Cire', name: 'Torse Femme', duration: 'Prestation', desc: 'Épilation douce et nette du torse pour femme.', price: '10.000', image: '' },
+  { id: 'spa-23', category: 'Épilation à la Cire', name: 'Torse Homme', duration: 'Prestation', desc: 'Épilation nette et soignée du torse pour homme.', price: '15.000', image: '' },
+  { id: 'spa-24', category: 'Épilation à la Cire', name: 'Moustache', duration: 'Prestation', desc: 'Épilation précise de la lèvre supérieure.', price: '3.000', image: '' },
+  { id: 'spa-25', category: 'Épilation à la Cire', name: 'Aisselles', duration: 'Prestation', desc: 'Épilation classique des aisselles.', price: '5.000', image: '' },
+  { id: 'spa-26', category: 'Épilation à la Cire', name: 'Visage Complet', duration: 'Prestation', desc: 'Épilation intégrale du visage (sourcils, lèvre, menton, joues).', price: '10.000', image: '' },
+  { id: 'spa-27', category: 'Épilation à la Cire', name: 'Sourcil', duration: 'Prestation', desc: 'Restructuration et épilation précise de la ligne des sourcils.', price: '5.000', image: '' },
+  { id: 'spa-28', category: 'Épilation à la Cire', name: 'Dos Femme Complet', duration: 'Prestation', desc: 'Épilation soignée de l\'intégralité du dos pour femme.', price: '10.000', image: '' },
+  { id: 'spa-29', category: 'Épilation à la Cire', name: 'Dos Homme Complet', duration: 'Prestation', desc: 'Épilation de l\'intégralité du dos pour homme.', price: '12.000', image: '' },
+  { id: 'spa-30', category: 'Épilation à la Cire', name: 'Fesse Femme', duration: 'Prestation', desc: 'Épilation douce de la zone des fessiers pour femme.', price: '10.000', image: '' },
+  { id: 'spa-31', category: 'Épilation à la Cire', name: 'Fesse Homme', duration: 'Prestation', desc: 'Épilation professionnelle de la zone des fessiers pour homme.', price: '12.000', image: '' },
+  { id: 'spa-32', category: 'Beauté des Mains & Pieds', name: 'Manucure', duration: 'Soin', desc: 'Mise en beauté complète des mains : limage, cuticules et hydratation.', price: '7.000', image: '' },
+  { id: 'spa-33', category: 'Beauté des Mains & Pieds', name: 'Pédicure', duration: 'Soin', desc: 'Soin complet des pieds pour retrouver une peau douce et des ongles parfaits.', price: '10.000', image: '' },
+  { id: 'spa-34', category: 'Beauté des Mains & Pieds', name: 'Manucure et Pédicure', duration: 'Soin', desc: 'Formule combinée pour une beauté totale des mains et des pieds.', price: '15.000', image: '' },
+  { id: 'spa-35', category: 'Beauté des Mains & Pieds', name: 'Vernis Semi Permanent Mains', duration: 'Soin', desc: 'Pose de vernis semi-permanent longue tenue pour les mains.', price: '5.000', image: '' },
+  { id: 'spa-36', category: 'Beauté des Mains & Pieds', name: 'Vernis Semi Permanent Pieds', duration: 'Soin', desc: 'Pose de vernis semi-permanent longue tenue pour les pieds.', price: '8.000', image: '' },
+  { id: 'spa-37', category: 'Beauté des Mains & Pieds', name: 'Pose Vernis Mains/Pieds', duration: 'Soin', desc: 'Pose de vernis à ongles classique de haute qualité.', price: '3.000', image: '' },
+  { id: 'spa-38', category: 'Beauté des Mains & Pieds', name: 'Pose Capsule', duration: 'Soin', desc: 'Extension des ongles avec capsules pour un rendu parfait et résistant.', price: '10.000', image: '' },
+  { id: 'spa-39', category: 'Beauté des Mains & Pieds', name: 'Dépose', duration: 'Soin', desc: 'Retrait soigné et respectueux du vernis semi-permanent ou des capsules.', price: '5.000', image: '' },
+  { id: 'spa-40', category: 'Beauté des Mains & Pieds', name: 'Soin Jelly Main ou Pieds', duration: 'Soin', desc: 'Bain de gelée sensorielle hydratante et relaxante.', price: '4.000', image: '' },
+  { id: 'spa-41', category: 'Jacuzzi & Sauna', name: 'Jacuzzi 30min/Personne', duration: '30 min', desc: 'Bain bouillonnant relaxant individuel dans notre espace bien-être.', price: '10.000', image: '' },
+  { id: 'spa-42', category: 'Jacuzzi & Sauna', name: 'Sauna 30min/Personne', duration: '30 min', desc: 'Bain de chaleur sèche bienfaisant pour éliminer les toxines.', price: '10.000', image: '' },
+  { id: 'spa-43', category: 'Jacuzzi & Sauna', name: 'Jacuzzi 1h/Personne', duration: '60 min', desc: 'Séance prolongée de balnéothérapie relaxante pour une détente totale.', price: '18.000', image: '' },
+  { id: 'spa-44', category: 'Jacuzzi & Sauna', name: 'Sauna 1h/Personne', duration: '60 min', desc: 'Séance complète de détoxification et relaxation par la chaleur sèche.', price: '18.000', image: '' },
+];
+
+export const getSpaServices = async (): Promise<SpaService[]> => {
+  try {
+    console.log('[SUPABASE DEBUG] getSpaServices: fetching...');
+    const { data, error } = await supabase.from('spa_services').select('*');
+    console.log('[SUPABASE DEBUG] getSpaServices result:', { dataLength: data?.length, error });
+    if (error || !data || data.length === 0) return DEFAULT_SPA_SERVICES;
+    return data as SpaService[];
+  } catch (e) {
+    console.error('[SUPABASE DEBUG] getSpaServices EXCEPTION:', e);
+    return DEFAULT_SPA_SERVICES;
+  }
+};
+export const saveSpaServices = async (data: SpaService[]) => {
+  try {
+    console.log('[SUPABASE DEBUG] saveSpaServices: saving', data.length, 'services...');
+    const { error } = await supabase.from('spa_services').upsert(data);
+    if (error) {
+      console.error('[SUPABASE DEBUG] saveSpaServices ERROR:', error);
+      throw error;
+    }
+    console.log('[SUPABASE DEBUG] saveSpaServices: SUCCESS');
+  } catch (e) {
+    console.error('[SUPABASE DEBUG] saveSpaServices EXCEPTION:', e);
+    throw e;
+  }
+};
+
+// --- BOWLING ---
+export interface BowlingPlan {
+  id: string;
+  badge: string | null;
+  name: string;
+  tagline: string;
+  price: string;
+  features: string[];
+  highlight: boolean;
+  image: string;
+}
+export const DEFAULT_BOWLING_PLANS: BowlingPlan[] = [
+  { id: 'bw-1', badge: null, name: 'Partie Simple', tagline: '1 joueur · Chaussures incluses', price: '5 000', features: ['1 piste réservée', 'Chaussures fournies', 'Balle au choix'], highlight: false, image: '' },
+  { id: 'bw-2', badge: 'Populaire', name: 'Groupe (4 pers.)', tagline: 'Idéal entre amis ou en famille', price: '18 000', features: ['1 piste réservée', 'Chaussures fournies', '2 parties incluses'], highlight: true, image: '' },
+  { id: 'bw-3', badge: null, name: 'Soirée VIP', tagline: 'Piste privée · 2h · Boissons', price: '35 000', features: ['Piste privatisée 2h', 'Chaussures fournies', 'Boissons offertes'], highlight: false, image: '' },
+];
+
+export const getBowlingPlans = async (): Promise<BowlingPlan[]> => {
+  try {
+    const { data, error } = await supabase.from('bowling_plans').select('*');
+    if (error || !data || data.length === 0) return DEFAULT_BOWLING_PLANS;
+    return data as BowlingPlan[];
+  } catch (e) { return DEFAULT_BOWLING_PLANS; }
+};
+export const saveBowlingPlans = async (data: BowlingPlan[]) => {
+  try {
+    const { error } = await supabase.from('bowling_plans').upsert(data);
+    if (error) throw error;
+  } catch (e) { console.error(e); throw e; }
+};
+
+// --- POOL ---
+export interface PoolPlan {
+  id: string;
+  category: string;
+  name: string;
+  price: string;
+  desc: string;
+  duration: string;
+  badge: string;
+}
+export const DEFAULT_POOL_PLANS: PoolPlan[] = [
+  { id: 'pl-1', category: 'Accès Piscine', name: 'Séance Unique', price: '5.000', desc: 'Entrée unique donnant accès libre au grand bassin olympique, transats et parasols.', duration: '1 Séance', badge: '' },
+  { id: 'pl-2', category: 'Accès Piscine', name: 'Hebdomadaire', price: '15.000', desc: 'Accès libre à la piscine olympique pendant 7 jours consécutifs.', duration: '1 Semaine', badge: '' },
+  { id: 'pl-3', category: 'Accès Piscine', name: '2 Semaines', price: '30.000', desc: 'Accès libre à la piscine olympique pendant 14 jours consécutifs.', duration: '2 Semaines', badge: '' },
+  { id: 'pl-4', category: 'Accès Piscine', name: '3 Semaines', price: '40.000', desc: 'Accès libre à la piscine olympique pendant 21 jours consécutifs.', duration: '3 Semaines', badge: '' },
+  { id: 'pl-5', category: 'Accès Piscine', name: 'Mensuel', price: '50.000', desc: 'La formule mensuelle idéale pour les amateurs de natation régulière. 30 jours.', duration: '1 Mois', badge: 'Populaire' },
+  { id: 'pl-6', category: 'Accès Piscine', name: 'Trimestriel', price: '130.000', desc: 'Accès libre pendant 3 mois à nos installations de baignade de prestige.', duration: '3 Mois', badge: '' },
+  { id: 'pl-7', category: 'Accès Piscine', name: 'Semestriel', price: '230.000', desc: 'Accès libre pendant 6 mois. Idéal pour s\'entraîner tout au long des saisons.', duration: '6 Mois', badge: '' },
+  { id: 'pl-8', category: 'Accès Piscine', name: 'Annuel', price: '360.000', desc: 'Accès complet et illimité 365 jours de l\'année. Économisez sur la durée.', duration: '1 An', badge: 'Économique' },
+  { id: 'pl-9', category: 'Gym + Piscine (Combiné)', name: 'Séance Combinée unique', price: '10.000', desc: 'Accès combiné à la salle de sport et à la piscine olympique pour une journée.', duration: '1 Séance', badge: 'Duo Journée' },
+  { id: 'pl-10', category: 'Gym + Piscine (Combiné)', name: 'Mensuel Combiné', price: '90.000', desc: 'Accès illimité à la gym et à la piscine olympique pendant 1 mois.', duration: '1 Mois', badge: 'Recommandé' },
+  { id: 'pl-11', category: 'Gym + Piscine (Combiné)', name: 'Trimestriel Combiné', price: '260.000', desc: 'Le compromis parfait. Accès illimité gym et piscine pendant 3 mois.', duration: '3 Mois', badge: '' },
+  { id: 'pl-12', category: 'Gym + Piscine (Combiné)', name: 'Semestriel Combiné', price: '475.000', desc: 'Accès illimité total à notre complexe sportif de prestige pendant 6 mois.', duration: '6 Mois', badge: '' },
+  { id: 'pl-13', category: 'Gym + Piscine (Combiné)', name: 'Annuel Combiné', price: '600.000', desc: 'Accès illimité absolu 365 jours de l\'année. Formule ultime Harmonie Gold.', duration: '1 An', badge: 'Prestige VIP' },
+  { id: 'pl-14', category: 'Cours de Natation', name: 'Séance de Natation coachée', price: '5.000', desc: 'Apprentissage ou perfectionnement des techniques de nage avec notre maître-nageur certifié.', duration: 'Séance unique', badge: 'Coach individuel' },
+];
+
+export const getPoolPlans = async (): Promise<PoolPlan[]> => {
+  try {
+    const { data, error } = await supabase.from('pool_plans').select('*');
+    if (error || !data || data.length === 0) return DEFAULT_POOL_PLANS;
+    return data as PoolPlan[];
+  } catch (e) { return DEFAULT_POOL_PLANS; }
+};
+export const savePoolPlans = async (data: PoolPlan[]) => {
+  try {
+    const { error } = await supabase.from('pool_plans').upsert(data);
+    if (error) throw error;
+  } catch (e) { console.error(e); throw e; }
+};
+
+// --- GYM ---
+export interface GymPlan {
+  id: string;
+  category: string;
+  name: string;
+  price: string;
+  desc: string;
+  duration: string;
+  badge: string;
+}
+export const DEFAULT_GYM_PLANS: GymPlan[] = [
+  { id: 'gy-1', category: 'Accès Gym', name: 'Séance Unique', price: '6.000', desc: 'Accès libre à tous les équipements pour une séance unique sans engagement.', duration: '1 Séance', badge: '' },
+  { id: 'gy-2', category: 'Accès Gym', name: 'Hebdomadaire', price: '15.000', desc: 'Accès illimité à la salle de sport pendant 7 jours consécutifs.', duration: '1 Semaine', badge: '' },
+  { id: 'gy-3', category: 'Accès Gym', name: '2 Semaines', price: '30.000', desc: 'Accès illimité à l\'espace fitness pendant 14 jours consécutifs.', duration: '2 Semaines', badge: '' },
+  { id: 'gy-4', category: 'Accès Gym', name: '3 Semaines', price: '40.000', desc: 'Accès illimité à l\'espace fitness pendant 21 jours consécutifs.', duration: '3 Semaines', badge: '' },
+  { id: 'gy-5', category: 'Accès Gym', name: 'Mensuel', price: '50.000', desc: 'Formule idéale pour un entraînement régulier. Accès illimité pendant 30 jours.', duration: '1 Mois', badge: 'Populaire' },
+  { id: 'gy-6', category: 'Accès Gym', name: 'Trimestriel', price: '130.000', desc: 'Accès illimité pendant 3 mois. Suivi et progression garantis.', duration: '3 Mois', badge: '' },
+  { id: 'gy-7', category: 'Accès Gym', name: 'Semestriel', price: '230.000', desc: 'Accès illimité pendant 6 mois pour un engagement de santé à moyen terme.', duration: '6 Mois', badge: '' },
+  { id: 'gy-8', category: 'Accès Gym', name: 'Annuel', price: '360.000', desc: 'Accès illimité pendant 1 an. La formule suprême pour un mode de vie sain.', duration: '1 An', badge: 'Économique' },
+  { id: 'gy-9', category: 'Gym + Piscine (Combiné)', name: 'Séance Combinée unique', price: '10.000', desc: 'Accès combiné à la salle de sport et à la piscine olympique pour une journée.', duration: '1 Séance', badge: 'Duo Journée' },
+  { id: 'gy-10', category: 'Gym + Piscine (Combiné)', name: 'Mensuel Combiné', price: '90.000', desc: 'Accès illimité à la gym et à la piscine olympique pendant 1 mois.', duration: '1 Mois', badge: 'Recommandé' },
+  { id: 'gy-11', category: 'Gym + Piscine (Combiné)', name: 'Trimestriel Combiné', price: '260.000', desc: 'Le compromis parfait. Accès illimité gym et piscine pendant 3 mois.', duration: '3 Mois', badge: '' },
+  { id: 'gy-12', category: 'Gym + Piscine (Combiné)', name: 'Semestriel Combiné', price: '475.000', desc: 'Accès illimité total à notre complexe sportif de prestige pendant 6 mois.', duration: '6 Mois', badge: '' },
+  { id: 'gy-13', category: 'Gym + Piscine (Combiné)', name: 'Annuel Combiné', price: '600.000', desc: 'Accès illimité absolu 365 jours de l\'année. Formule ultime Harmonie Gold.', duration: '1 An', badge: 'Prestige VIP' },
+  { id: 'gy-14', category: 'Cours & Activités', name: 'Séance de Cours Gym', price: '3.000', desc: 'Participation à une séance collective encadrée par nos coachs certifiés.', duration: 'Séance', badge: '' },
+  { id: 'gy-15', category: 'Cours & Activités', name: 'Mensuel Cours Gym', price: '20.000', desc: 'Accès illimité aux cours collectifs de fitness et gym pendant un mois.', duration: '1 Mois', badge: '' },
+  { id: 'gy-16', category: 'Cours & Activités', name: 'Cours de Combat', price: '30.000', desc: 'Soin de self-défense, boxe et arts martiaux encadrés par des professionnels.', duration: 'Tarif Mensuel', badge: 'Nouveau' },
+  { id: 'gy-17', category: 'Cours & Activités', name: 'Aqua-Gym', price: '30.000', desc: 'Gymnastique aquatique tonifiante et douce pour les articulations.', duration: 'Tarif Mensuel', badge: '' },
+];
+
+export const getGymPlans = async (): Promise<GymPlan[]> => {
+  try {
+    const { data, error } = await supabase.from('gym_plans').select('*');
+    if (error || !data || data.length === 0) return DEFAULT_GYM_PLANS;
+    return data as GymPlan[];
+  } catch (e) { return DEFAULT_GYM_PLANS; }
+};
+export const saveGymPlans = async (data: GymPlan[]) => {
+  try {
+    const { error } = await supabase.from('gym_plans').upsert(data);
+    if (error) throw error;
+  } catch (e) { console.error(e); throw e; }
+};
+
+// --- SPORTS ---
+export interface SportService {
+  id: string;
+  sportType: string;
+  name: string;
+  duration: string;
+  desc: string;
+  price: string;
+  unit: string;
+}
+export const DEFAULT_SPORT_SERVICES: SportService[] = [
+  { id: 'sp-1', sportType: 'Tennis', name: 'Tarif Horaire', duration: '1h', desc: 'Accès libre aux courts de tennis de qualité supérieure pour vos matchs en simple ou double.', price: '5 000', unit: 'par personne' },
+  { id: 'sp-2', sportType: 'Tennis', name: 'Abonnement Mensuel', duration: '1 mois', desc: 'Accès illimité aux installations de tennis tout au long du mois pour les passionnés.', price: '15 000', unit: 'par mois' },
+  { id: 'sp-3', sportType: 'Basketball', name: 'Tarif Horaire', duration: '1h', desc: 'Accès libre au terrain de basketball professionnel pour vos séances de tirs ou matchs.', price: '1 000', unit: 'par personne' },
+  { id: 'sp-4', sportType: 'Basketball', name: 'Tarif Samedi', duration: '4h', desc: 'Session spéciale de 4h le samedi, idéale pour des matchs de groupe ou tournois.', price: '2 500', unit: 'par personne' },
+];
+
+export const getSportServices = async (): Promise<SportService[]> => {
+  try {
+    const { data, error } = await supabase.from('sport_services').select('*');
+    if (error || !data || data.length === 0) return DEFAULT_SPORT_SERVICES;
+    return data as SportService[];
+  } catch (e) { return DEFAULT_SPORT_SERVICES; }
+};
+export const saveSportServices = async (data: SportService[]) => {
+  try {
+    const { error } = await supabase.from('sport_services').upsert(data);
+    if (error) throw error;
+  } catch (e) { console.error(e); throw e; }
 };
 
 // Cart utility

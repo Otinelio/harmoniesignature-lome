@@ -7,12 +7,12 @@ const AdminLogin = () => {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const settings = getSettings();
+    const settings = await getSettings();
     if (password === settings.adminPasswordHash) {
       sessionStorage.setItem('hs_admin_auth', 'true');
-      navigate('/admin-hs-2025/dashboard');
+      navigate('/admin/dashboard');
     } else {
       setError(true);
       setTimeout(() => setError(false), 300);

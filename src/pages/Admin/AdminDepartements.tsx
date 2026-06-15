@@ -7,7 +7,7 @@ const AdminDepartements = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    setDepartments(getDepartments());
+    getDepartments().then(setDepartments);
   }, []);
 
   const handleChange = (index: number, field: keyof Department, value: any) => {
@@ -16,8 +16,8 @@ const AdminDepartements = () => {
     setDepartments(newDeps);
   };
 
-  const handleSave = (index: number) => {
-    saveDepartments(departments);
+  const handleSave = async (index: number) => {
+    await saveDepartments(departments);
     // Show toast ideally
     alert('Modifications enregistrées');
   };

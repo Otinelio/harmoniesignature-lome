@@ -1,158 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getPoolPlans, PoolPlan, getDepartments, Department } from '../utils/storage';
 import { Phone, Waves, Sun, Sparkles } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Piscine.css';
 import './Spa.css';
 
-import imgPiscine1 from '../images/piscine/piscine1.jpg';
-import imgPiscine2 from '../images/piscine/piscine2.jpg';
-import imgPiscine3 from '../images/piscine/piscine3.jpg';
-import imgPiscine4 from '../images/piscine/piscine4.jpg';
-import imgPiscine5 from '../images/piscine/piscine5.jpg';
-import imgPiscine6 from '../images/piscine/piscine6.jpg';
-import imgPiscine7 from '../images/piscine/piscine7.jpg';
-import imgPiscine8 from '../images/piscine/piscine8.jpg';
-import imgPiscine9 from '../images/piscine/piscine9.jpg';
-import imgPiscine10 from '../images/piscine/piscine10.jpg';
-import imgPiscine11 from '../images/piscine/piscine11.jpg';
-import imgPiscine12 from '../images/piscine/piscine12.jpg';
-import imgPiscine13 from '../images/piscine/piscine13.jpg';
 
-const poolImages = [
-  imgPiscine1,
-  imgPiscine2,
-  imgPiscine3,
-  imgPiscine4,
-  imgPiscine5,
-  imgPiscine6,
-  imgPiscine7,
-  imgPiscine8,
-  imgPiscine9,
-  imgPiscine10,
-  imgPiscine11,
-  imgPiscine12,
-  imgPiscine13,
-];
 
-const poolPlans = [
-  // ACCES PISCINE
-  {
-    category: 'Accès Piscine',
-    name: 'Séance Unique',
-    price: '5.000',
-    desc: 'Entrée unique donnant accès libre au grand bassin olympique, transats et parasols.',
-    duration: '1 Séance',
-    badge: null,
-  },
-  {
-    category: 'Accès Piscine',
-    name: 'Hebdomadaire',
-    price: '15.000',
-    desc: 'Accès libre à la piscine olympique pendant 7 jours consécutifs.',
-    duration: '1 Semaine',
-    badge: null,
-  },
-  {
-    category: 'Accès Piscine',
-    name: '2 Semaines',
-    price: '30.000',
-    desc: 'Accès libre à la piscine olympique pendant 14 jours consécutifs.',
-    duration: '2 Semaines',
-    badge: null,
-  },
-  {
-    category: 'Accès Piscine',
-    name: '3 Semaines',
-    price: '40.000',
-    desc: 'Accès libre à la piscine olympique pendant 21 jours consécutifs.',
-    duration: '3 Semaines',
-    badge: null,
-  },
-  {
-    category: 'Accès Piscine',
-    name: 'Mensuel',
-    price: '50.000',
-    desc: 'La formule mensuelle idéale pour les amateurs de natation régulière. 30 jours.',
-    duration: '1 Mois',
-    badge: 'Populaire',
-  },
-  {
-    category: 'Accès Piscine',
-    name: 'Trimestriel',
-    price: '130.000',
-    desc: 'Accès libre pendant 3 mois à nos installations de baignade de prestige.',
-    duration: '3 Mois',
-    badge: null,
-  },
-  {
-    category: 'Accès Piscine',
-    name: 'Semestriel',
-    price: '230.000',
-    desc: 'Accès libre pendant 6 mois. Idéal pour s\'entraîner tout au long des saisons.',
-    duration: '6 Mois',
-    badge: null,
-  },
-  {
-    category: 'Accès Piscine',
-    name: 'Annuel',
-    price: '360.000',
-    desc: 'Accès complet et illimité 365 jours de l\'année. Économisez sur la durée.',
-    duration: '1 An',
-    badge: 'Économique',
-  },
 
-  // GYM + PISCINE (COMBINE)
-  {
-    category: 'Gym + Piscine (Combiné)',
-    name: 'Séance Combinée unique',
-    price: '10.000',
-    desc: 'Accès combiné à la salle de sport et à la piscine olympique pour une journée.',
-    duration: '1 Séance',
-    badge: 'Duo Journée',
-  },
-  {
-    category: 'Gym + Piscine (Combiné)',
-    name: 'Mensuel Combiné',
-    price: '90.000',
-    desc: 'Accès illimité à la gym et à la piscine olympique pendant 1 mois.',
-    duration: '1 Mois',
-    badge: 'Recommandé',
-  },
-  {
-    category: 'Gym + Piscine (Combiné)',
-    name: 'Trimestriel Combiné',
-    price: '260.000',
-    desc: 'Le compromis parfait. Accès illimité gym et piscine pendant 3 mois.',
-    duration: '3 Mois',
-    badge: null,
-  },
-  {
-    category: 'Gym + Piscine (Combiné)',
-    name: 'Semestriel Combiné',
-    price: '475.000',
-    desc: 'Accès illimité total à notre complexe sportif de prestige pendant 6 mois.',
-    duration: '6 Mois',
-    badge: null,
-  },
-  {
-    category: 'Gym + Piscine (Combiné)',
-    name: 'Annuel Combiné',
-    price: '600.000',
-    desc: 'Accès illimité absolu 365 jours de l\'année. Formule ultime Harmonie Gold.',
-    duration: '1 An',
-    badge: 'Prestige VIP',
-  },
 
-  // COURS DE NATATION
-  {
-    category: 'Cours de Natation',
-    name: 'Séance de Natation coachée',
-    price: '5.000',
-    desc: 'Apprentissage ou perfectionnement des techniques de nage avec notre maître-nageur certifié.',
-    duration: 'Séance unique',
-    badge: 'Coach individuel',
-  },
-];
 
 const categories = [
   'Tous',
@@ -177,6 +33,17 @@ const outerSlots = [
 ];
 
 const Piscine = () => {
+  const [poolPlans, setPoolPlans] = useState<PoolPlan[]>([]);
+  const [department, setDepartment] = useState<Department | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getPoolPlans();
+      setPoolPlans(data);
+      const deps = await getDepartments();
+      setDepartment(deps.find(d => d.id === 'piscine') || null);
+    };
+    fetchData();
+  }, []);
   const [selectedCategory, setSelectedCategory] = React.useState('Tous');
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -206,7 +73,7 @@ const Piscine = () => {
 
       {/* ─── HERO ─── */}
       <section className="p-hero">
-        <div className="p-hero-bg" style={{ backgroundImage: `url(${poolImages[0]})` }}></div>
+        <div className="p-hero-bg" style={{ backgroundImage: `url(${(department?.images || [])[0]})` }}></div>
         <div className="p-hero-overlay"></div>
         <div className="p-hero-content">
           <h1 className="p-hero-title">Piscine</h1>
@@ -281,6 +148,11 @@ const Piscine = () => {
         <div className="bw-square-gallery-container">
           <div className="bw-square-gallery">
             {outerSlots.map((slot, idx) => {
+              let images = department?.images || [];
+              if (typeof images === 'string') {
+                try { images = JSON.parse(images); } catch(e) { images = []; }
+              }
+              const safeImgIndex = images.length > 0 ? slot.imgIndex % images.length : 0;
               const isHighlighted = activeIndex === slot.imgIndex;
               return (
                 <div
@@ -289,7 +161,7 @@ const Piscine = () => {
                   style={{ gridArea: `${slot.row} / ${slot.col}` }}
                   onClick={() => selectImage(slot.imgIndex)}
                 >
-                  <img src={poolImages[slot.imgIndex]} alt={`Piscine ${slot.imgIndex + 1}`} loading="lazy" />
+                  {images.length > 0 && <img src={images[safeImgIndex]} alt={`Piscine ${slot.imgIndex + 1}`} loading="lazy" />}
                   <div className="bw-gallery-hover"></div>
                 </div>
               );
@@ -298,9 +170,23 @@ const Piscine = () => {
             <div
               className={`bw-gallery-center ${fadeState ? 'fade-in' : 'fade-out'}`}
               style={{ gridArea: '2 / 2 / 4 / 4' }}
-              onClick={() => openLightbox(activeIndex)}
+              onClick={() => {
+                let images = department?.images || [];
+                if (typeof images === 'string') {
+                  try { images = JSON.parse(images); } catch(e) { images = []; }
+                }
+                openLightbox(images.length > 0 ? activeIndex % images.length : 0);
+              }}
             >
-              <img src={poolImages[activeIndex]} alt="Piscine active center" />
+              {(() => {
+                let imgs = department?.images || [];
+                if (typeof imgs === 'string') {
+                  try { imgs = JSON.parse(imgs); } catch(e) { imgs = []; }
+                }
+                if (!Array.isArray(imgs) || imgs.length === 0) return null;
+                const safeIndex = activeIndex % imgs.length;
+                return <img src={imgs[safeIndex]} alt="Piscine active center" loading="lazy" />;
+              })()}
               <div className="bw-center-hover-overlay">
                 <span className="bw-center-hover-text">Agrandir</span>
               </div>
@@ -311,7 +197,7 @@ const Piscine = () => {
 
       {/* ─── INFOS PRATIQUES ─── */}
       <Lightbox
-        images={poolImages}
+        images={(department?.images || [])}
         currentIndex={currentImage}
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}

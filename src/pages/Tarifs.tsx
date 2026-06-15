@@ -7,7 +7,7 @@ const Tarifs = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
 
   useEffect(() => {
-    setDepartments(getDepartments());
+    getDepartments().then(setDepartments);
   }, []);
 
   return (

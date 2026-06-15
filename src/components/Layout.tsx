@@ -10,7 +10,7 @@ import './Layout.css';
 const Layout = () => {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
-  const isAdminRoute = location.pathname.startsWith('/admin-hs-2025');
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
   useEffect(() => {
     // Simulate initial loading screen

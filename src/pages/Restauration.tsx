@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom';
 import { ShoppingCart, Plus, Minus, Trash2, X, MessageCircle, Phone, ArrowLeft, ArrowRight, Clock } from 'lucide-react';
 import { getRestaurants, Restaurant, MenuItem, CartItem, getCart, saveCart } from '../utils/storage';
 import './Restauration.css';
-import logoTropicana from '../images/logo/logo_tropicana.png';
 
 const Restauration = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
@@ -16,7 +15,7 @@ const Restauration = () => {
   const [checkoutTime, setCheckoutTime] = useState('19:00');
 
   useEffect(() => {
-    setRestaurants(getRestaurants());
+    getRestaurants().then(setRestaurants);
   }, []);
 
   useEffect(() => {
@@ -217,7 +216,7 @@ const Restauration = () => {
         <div className="rest-hero-overlay"></div>
         <div className="rest-hero-content rest-hero-logo-only">
           {currentRest && currentRest.id === 'tropicana' && (
-            <img src={logoTropicana} alt={`${currentRest.name} logo`} className="rest-hero-logo" />
+            <img src={'/images/logo/logo_tropicana.png'} alt={`${currentRest.name} logo`} className="rest-hero-logo" />
           )}
         </div>
       </section>

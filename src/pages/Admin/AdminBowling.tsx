@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getBowlingPlans, saveBowlingPlans, BowlingPlan, getDepartments, saveDepartments, Department } from '../../utils/storage';
 import { Save, Trash2, Plus, Pencil, Upload } from 'lucide-react';
 import Modal from '../../components/Modal';
+import AdminGallery from '../../components/AdminGallery';
 import { compressImageToBase64 } from '../../utils/fileUpload';
 
 const AdminBowling = () => {
@@ -13,9 +14,8 @@ const AdminBowling = () => {
   const [newFeature, setNewFeature] = useState('');
 
   useEffect(() => {
-    setPlans(getBowlingPlans());
-    const deps = getDepartments();
-    setDepartment(deps.find(d => d.id === 'bowling') || null);
+    getBowlingPlans().then(setPlans);
+    getDepartments().then(deps => setDepartment(deps.find(d => d.id === 'bowling') || null));
   }, []);
 
   const handleDepChange = (field: keyof Department, value: any) => {
@@ -42,18 +42,33 @@ const AdminBowling = () => {
     setNewFeature('');
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!form.name || !form.price) return;
+    let newPlans: BowlingPlan[];
     if (editingId) {
-      setPlans(prev => prev.map(p => p.id === editingId ? { ...form } : p));
+      newPlans = plans.map(p => p.id === editingId ? { ...form } : p);
     } else {
-      setPlans(prev => [...prev, { ...form, id: `bw-${Date.now()}`, badge: form.badge || null }]);
+      newPlans = [...plans, { ...form, id: `bw-${Date.now()}`, badge: form.badge || null }];
     }
-    setModalOpen(false);
+    try {
+      await saveBowlingPlans(newPlans);
+      setPlans(newPlans);
+      setModalOpen(false);
+    } catch (e: any) {
+      alert('Erreur lors de la sauvegarde: ' + e.message);
+    }
   };
 
-  const handleDelete = (id: string) => {
-    if (confirm('Supprimer cette formule ?')) setPlans(prev => prev.filter(p => p.id !== id));
+  const handleDelete = async (id: string) => {
+    if (confirm('Supprimer cette formule ?')) {
+      const newPlans = plans.filter(p => p.id !== id);
+      try {
+        await saveBowlingPlans(newPlans);
+        setPlans(newPlans);
+      } catch (e: any) {
+        alert('Erreur lors de la suppression: ' + e.message);
+      }
+    }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,9 +79,9 @@ const AdminBowling = () => {
     }
   };
 
-  const handleSave = () => {
-    saveBowlingPlans(plans);
-    if (department) { const deps = getDepartments(); saveDepartments(deps.map(d => d.id === 'bowling' ? department : d)); }
+  const handleSave = async () => {
+    await saveBowlingPlans(plans);
+    if (department) { await getDepartments().then(deps => saveDepartments(deps.map(d => d.id === 'bowling' ? department : d))); }
     alert('Modifications enregistrées');
   };
 
@@ -95,6 +110,22 @@ const AdminBowling = () => {
           </div>
         </div>
       )}
+
+      {department && (
+        <AdminGallery 
+          department={department} 
+          onUpdate={async (images) => {
+            handleDepChange('images', images);
+            try {
+              const depsData = await getDepartments();
+              await saveDepartments(depsData.map(d => d.id === 'bowling' ? { ...department, images } : d));
+            } catch (e) {
+              console.error(e);
+            }
+          }} 
+        />
+      )}
+
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {plans.map(plan => (

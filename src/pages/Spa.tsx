@@ -1,32 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getSpaServices, SpaService, getDepartments, Department } from '../utils/storage';
 import { createPortal } from 'react-dom';
 import { Clock, Phone, Sparkles, CalendarCheck, ShoppingBag, Plus, Minus, X, ChevronDown, Send } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Piscine.css';
 import './Spa.css';
-import logoSpa from '../images/logo/logo_spa.png';
 
-import spa1 from '../images/spa/spa-1.jpg';
-import spa2 from '../images/spa/spa-2.jpg';
-import spa3 from '../images/spa/spa-3.jpg';
-import spa4 from '../images/spa/spa-4.jpg';
-import spa5 from '../images/spa/spa-5.jpg';
-import spa6 from '../images/spa/spa-6.jpg';
-import spa7 from '../images/spa/spa-7.jpg';
-import spa8 from '../images/spa/spa-8.jpg';
-import spa9 from '../images/spa/spa-9.jpg';
-import spa10 from '../images/spa/spa-10.jpg';
-import spa11 from '../images/spa/spa-11.jpg';
-import spa12 from '../images/spa/spa-12.jpg';
-import spa13 from '../images/spa/spa-13.jpg';
-import spa14 from '../images/spa/spa-14.jpg';
-import spa15 from '../images/spa/spa-15.jpg';
 
-// spaImages indices for lightbox
-const spaImages = [
-  spa1, spa2, spa3, spa4, spa5, spa6, spa7, spa8,
-  spa9, spa10, spa11, spa12, spa13, spa14, spa15,
-];
+// (department?.images || []) indices for lightbox
+
 
 const outerSlots = [
   { row: 1, col: 1, imgIndex: 0 },
@@ -55,61 +37,7 @@ interface CartItem extends Soin {
   qty: number;
 }
 
-const soins: Soin[] = [
-  // SOINS DU CORPS
-  { category: 'Soins du Corps', name: 'Massage Aromathérapie 1h', duration: '60 min', desc: 'Soin relaxant profond associant les vertus thérapeutiques des huiles essentielles.', price: '30.000' },
-  { category: 'Soins du Corps', name: 'Relax Touche 30min', duration: '30 min', desc: 'Massage ciblé rapide pour libérer les tensions accumulées.', price: '15.000' },
-  { category: 'Soins du Corps', name: 'Relax Touche 1h', duration: '60 min', desc: 'Massage relaxant complet pour apaiser le corps et l\'esprit.', price: '25.000' },
-  { category: 'Soins du Corps', name: 'Massage Pierres Chaudes', duration: '60 min', desc: 'Massage réconfortant avec des pierres de basalte volcaniques chauffées.', price: '40.000' },
-  { category: 'Soins du Corps', name: 'Four Hands 50min', duration: '50 min', desc: 'Une harmonie parfaite réalisée par deux praticiens pour une relaxation absolue.', price: '40.000' },
-  { category: 'Soins du Corps', name: 'Escale Plantaire 30min', duration: '30 min', desc: 'Massage relaxant des pieds inspiré de la réflexologie plantaire.', price: '17.000' },
-  { category: 'Soins du Corps', name: 'Duo Force Vital 1h', duration: '60 min', desc: 'Partagez un moment d\'énergie et de complicité à deux en cabine double.', price: '55.000' },
-  { category: 'Soins du Corps', name: 'Duo Toucher Apaisant 1h', duration: '60 min', desc: 'Massage relaxant à deux pour une évasion sensorielle partagée.', price: '40.000' },
-  { category: 'Soins du Corps', name: 'Duo Pierres Chaudes 1h30', duration: '90 min', desc: 'Expérience sensorielle divine à deux avec des pierres volcaniques chaudes.', price: '70.000' },
-  { category: 'Soins du Corps', name: 'Force Vital 30min', duration: '30 min', desc: 'Soin dynamisant rapide pour relancer l\'énergie corporelle.', price: '20.000' },
-  { category: 'Soins du Corps', name: 'Force Vital 1h', duration: '60 min', desc: 'Soin énergétique complet pour retrouver vitalité et équilibre.', price: '30.000' },
 
-  // GOMMAGE
-  { category: 'Gommage', name: 'Gommage du Corps 30min', duration: '30 min', desc: 'Exfoliation douce pour éliminer les cellules mortes et sublimer la peau.', price: '22.000' },
-
-  // EPILATION A LA CIRE
-  { category: 'Épilation à la Cire', name: 'Épilation Jambes, Bras, Maillot Intégral & Aisselles', duration: 'Prestation', desc: 'Formule complète pour une douceur absolue de tout le corps.', price: '32.000' },
-  { category: 'Épilation à la Cire', name: 'Épilation Jambes, Maillot Intégral & Aisselles', duration: 'Prestation', desc: 'Formule corps essentielle pour une peau lisse et douce.', price: '26.000' },
-  { category: 'Épilation à la Cire', name: 'Épilation Jambes, Bras & Aisselles', duration: 'Prestation', desc: 'Formule douce pour les zones visibles du corps.', price: '22.000' },
-  { category: 'Épilation à la Cire', name: 'Cire Jambes Complètes', duration: 'Prestation', desc: 'Épilation soignée de toute la longueur des jambes.', price: '12.000' },
-  { category: 'Épilation à la Cire', name: 'Cire Jambes Demi', duration: 'Prestation', desc: 'Épilation rapide des demi-jambes.', price: '6.000' },
-  { category: 'Épilation à la Cire', name: 'Cire Bras Completes', duration: 'Prestation', desc: 'Épilation complète des bras pour une douceur uniforme.', price: '7.000' },
-  { category: 'Épilation à la Cire', name: 'Cire Bras Demi', duration: 'Prestation', desc: 'Épilation des avant-bras ou demi-bras.', price: '4.000' },
-  { category: 'Épilation à la Cire', name: 'Cire Maillot Integral Completes', duration: 'Prestation', desc: 'Épilation intégrale professionnelle du maillot.', price: '12.000' },
-  { category: 'Épilation à la Cire', name: 'Cire Maillot Integral Demi', duration: 'Prestation', desc: 'Épilation classique ou demi-maillot.', price: '6.000' },
-  { category: 'Épilation à la Cire', name: 'Torse Femme', duration: 'Prestation', desc: 'Épilation douce et nette du torse pour femme.', price: '10.000' },
-  { category: 'Épilation à la Cire', name: 'Torse Homme', duration: 'Prestation', desc: 'Épilation nette et soignée du torse pour homme.', price: '15.000' },
-  { category: 'Épilation à la Cire', name: 'Moustache', duration: 'Prestation', desc: 'Épilation précise de la lèvre supérieure.', price: '3.000' },
-  { category: 'Épilation à la Cire', name: 'Aisselles', duration: 'Prestation', desc: 'Épilation classique des aisselles.', price: '5.000' },
-  { category: 'Épilation à la Cire', name: 'Visage Complet', duration: 'Prestation', desc: 'Épilation intégrale du visage (sourcils, lèvre, menton, joues).', price: '10.000' },
-  { category: 'Épilation à la Cire', name: 'Sourcil', duration: 'Prestation', desc: 'Restructuration et épilation précise de la ligne des sourcils.', price: '5.000' },
-  { category: 'Épilation à la Cire', name: 'Dos Femme Complet', duration: 'Prestation', desc: 'Épilation soignée de l\'intégralité du dos pour femme.', price: '10.000' },
-  { category: 'Épilation à la Cire', name: 'Dos Homme Complet', duration: 'Prestation', desc: 'Épilation de l\'intégralité du dos pour homme.', price: '12.000' },
-  { category: 'Épilation à la Cire', name: 'Fesse Femme', duration: 'Prestation', desc: 'Épilation douce de la zone des fessiers pour femme.', price: '10.000' },
-  { category: 'Épilation à la Cire', name: 'Fesse Homme', duration: 'Prestation', desc: 'Épilation professionnelle de la zone des fessiers pour homme.', price: '12.000' },
-
-  // BEAUTE DES MAINS/PIEDS
-  { category: 'Beauté des Mains & Pieds', name: 'Manucure', duration: 'Soin', desc: 'Mise en beauté complète des mains : limage, cuticules et hydratation.', price: '7.000' },
-  { category: 'Beauté des Mains & Pieds', name: 'Pédicure', duration: 'Soin', desc: 'Soin complet des pieds pour retrouver une peau douce et des ongles parfaits.', price: '10.000' },
-  { category: 'Beauté des Mains & Pieds', name: 'Manucure et Pédicure', duration: 'Soin', desc: 'Formule combinée pour une beauté totale des mains et des pieds.', price: '15.000' },
-  { category: 'Beauté des Mains & Pieds', name: 'Vernis Semi Permanent Mains', duration: 'Soin', desc: 'Pose de vernis semi-permanent longue tenue pour les mains.', price: '5.000' },
-  { category: 'Beauté des Mains & Pieds', name: 'Vernis Semi Permanent Pieds', duration: 'Soin', desc: 'Pose de vernis semi-permanent longue tenue pour les pieds.', price: '8.000' },
-  { category: 'Beauté des Mains & Pieds', name: 'Pose Vernis Mains/Pieds', duration: 'Soin', desc: 'Pose de vernis à ongles classique de haute qualité.', price: '3.000' },
-  { category: 'Beauté des Mains & Pieds', name: 'Pose Capsule', duration: 'Soin', desc: 'Extension des ongles avec capsules pour un rendu parfait et résistant.', price: '10.000' },
-  { category: 'Beauté des Mains & Pieds', name: 'Dépose', duration: 'Soin', desc: 'Retrait soigné et respectueux du vernis semi-permanent ou des capsules.', price: '5.000' },
-  { category: 'Beauté des Mains & Pieds', name: 'Soin Jelly Main ou Pieds', duration: 'Soin', desc: 'Bain de gelée sensorielle hydratante et relaxante.', price: '4.000' },
-
-  // JACUZZI - SAUNA
-  { category: 'Jacuzzi & Sauna', name: 'Jacuzzi 30min/Personne', duration: '30 min', desc: 'Bain bouillonnant relaxant individuel dans notre espace bien-être.', price: '10.000' },
-  { category: 'Jacuzzi & Sauna', name: 'Sauna 30min/Personne', duration: '30 min', desc: 'Bain de chaleur sèche bienfaisant pour éliminer les toxines.', price: '10.000' },
-  { category: 'Jacuzzi & Sauna', name: 'Jacuzzi 1h/Personne', duration: '60 min', desc: 'Séance prolongée de balnéothérapie relaxante pour une détente totale.', price: '18.000' },
-  { category: 'Jacuzzi & Sauna', name: 'Sauna 1h/Personne', duration: '60 min', desc: 'Séance complète de détoxification et relaxation par la chaleur sèche.', price: '18.000' },
-];
 
 const categories = [
   'Tous',
@@ -125,6 +53,18 @@ const priceToNumber = (p: string) => parseInt(p.replace(/\./g, ''), 10);
 const formatPrice = (n: number) => n.toLocaleString('fr-FR').replace(/\s/g, '.') + ' FCFA';
 
 const Spa = () => {
+  const [soins, setSoins] = useState<Soin[]>([]);
+  const [department, setDepartment] = useState<Department | null>(null);
+  useEffect(() => {
+    // Assuming getSpaServices is synchronous for now, but ready for async
+    const fetchServices = async () => {
+      const data = await getSpaServices();
+      setSoins(data as Soin[]);
+      const deps = await getDepartments();
+      setDepartment(deps.find((d: Department) => d.id === 'spa') || null);
+    };
+    fetchServices();
+  }, []);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('Tous');
@@ -141,10 +81,14 @@ const Spa = () => {
   // Automatic 4-second sequential rotation
   React.useEffect(() => {
     const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % spaImages.length);
+      setActiveIndex((prev) => {
+        const len = (department?.images || []).length;
+        if (len === 0) return 0;
+        return (prev + 1) % len;
+      });
     }, 4000);
     return () => clearInterval(timer);
-  }, [timerTrigger]);
+  }, [timerTrigger, department]);
 
   React.useEffect(() => {
     setFadeState(false);
@@ -204,7 +148,7 @@ const Spa = () => {
         <div className="bw-hero-bg"></div>
         <div className="bw-hero-overlay"></div>
         <div className="bw-hero-content bw-hero-logo-only">
-          <img src={logoSpa} alt="Spa Harmonie Signature" className="bw-hero-dept-logo" />
+          <img src={'/images/logo/logo_spa.png'} alt="Spa Harmonie Signature" className="bw-hero-dept-logo" />
         </div>
       </section>
 
@@ -299,6 +243,11 @@ const Spa = () => {
         <div className="bw-square-gallery-container">
           <div className="bw-square-gallery">
             {outerSlots.map((slot, idx) => {
+              let images = department?.images || [];
+              if (typeof images === 'string') {
+                try { images = JSON.parse(images); } catch(e) { images = []; }
+              }
+              const safeImgIndex = images.length > 0 ? slot.imgIndex % images.length : 0;
               const isHighlighted = activeIndex === slot.imgIndex;
               return (
                 <div
@@ -307,7 +256,7 @@ const Spa = () => {
                   style={{ gridArea: `${slot.row} / ${slot.col}` }}
                   onClick={() => selectImage(slot.imgIndex)}
                 >
-                  <img src={spaImages[slot.imgIndex]} alt={`Spa ${idx + 1}`} loading="lazy" />
+                  {images.length > 0 && <img src={images[safeImgIndex]} alt={`Spa ${idx + 1}`} loading="lazy" />}
                   <div className="bw-gallery-hover"></div>
                 </div>
               );
@@ -315,9 +264,23 @@ const Spa = () => {
             <div
               className={`bw-gallery-center ${fadeState ? 'fade-in' : 'fade-out'}`}
               style={{ gridArea: '2 / 2 / 4 / 4' }}
-              onClick={() => openLightbox(activeIndex)}
+              onClick={() => {
+                let images = department?.images || [];
+                if (typeof images === 'string') {
+                  try { images = JSON.parse(images); } catch(e) { images = []; }
+                }
+                openLightbox(images.length > 0 ? activeIndex % images.length : 0);
+              }}
             >
-              <img src={spaImages[activeIndex]} alt="Spa Active Center" />
+              {(() => {
+                let imgs = department?.images || [];
+                if (typeof imgs === 'string') {
+                  try { imgs = JSON.parse(imgs); } catch(e) { imgs = []; }
+                }
+                if (!Array.isArray(imgs) || imgs.length === 0) return null;
+                const safeIndex = activeIndex % imgs.length;
+                return <img src={imgs[safeIndex]} alt="Spa Active Center" loading="lazy" />;
+              })()}
               <div className="bw-center-hover-overlay">
                 <span className="bw-center-hover-text">Agrandir</span>
               </div>
@@ -415,7 +378,7 @@ const Spa = () => {
       )}
 
       <Lightbox
-        images={spaImages}
+        images={(department?.images || [])}
         currentIndex={currentImage}
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}

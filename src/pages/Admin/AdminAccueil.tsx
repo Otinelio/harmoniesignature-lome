@@ -12,17 +12,17 @@ const AdminAccueil = () => {
   const [activeSection, setActiveSection] = useState<'home' | 'faq' | 'social'>('home');
 
   useEffect(() => {
-    setSettings(getSettings());
-    setFaq(getFAQ());
+    getSettings().then(setSettings);
+    getFAQ().then(setFaq);
   }, []);
 
   const handleChange = (field: keyof Settings, value: string) => {
     if (settings) setSettings({ ...settings, [field]: value });
   };
 
-  const handleSave = () => {
-    if (settings) saveSettings(settings);
-    saveFAQ(faq);
+  const handleSave = async () => {
+    if (settings) await saveSettings(settings);
+    await saveFAQ(faq);
     alert('Modifications enregistrées');
   };
 
@@ -61,24 +61,6 @@ const AdminAccueil = () => {
 
       {activeSection === 'home' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <div style={{ backgroundColor: '#182030', padding: '24px', borderRadius: '8px' }}>
-            <h3 style={{ fontSize: '18px', color: '#C8A84B', marginBottom: '16px' }}>Textes d'accroche</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div className="modal-field"><label className="modal-label">Titre principal</label><input className="modal-input" value={settings.homeHeroTitle || ''} onChange={e => handleChange('homeHeroTitle', e.target.value)} /></div>
-              <div className="modal-field"><label className="modal-label">Sous-titre</label><input className="modal-input" value={settings.homeHeroSubtitle || ''} onChange={e => handleChange('homeHeroSubtitle', e.target.value)} /></div>
-            </div>
-          </div>
-
-          <div style={{ backgroundColor: '#182030', padding: '24px', borderRadius: '8px' }}>
-            <h3 style={{ fontSize: '18px', color: '#C8A84B', marginBottom: '16px' }}>Vidéos</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div className="modal-field"><label className="modal-label">Vidéo de fond (Landing)</label><input className="modal-input" value={settings.heroVideoUrl} onChange={e => handleChange('heroVideoUrl', e.target.value)} placeholder="URL directe vidéo MP4/WebM" /><span style={{ fontSize: '11px', opacity: 0.4 }}>Lien direct vers le fichier vidéo</span></div>
-              <div className="modal-field"><label className="modal-label">Vidéo Spa 1</label><input className="modal-input" value={settings.spaVideo1Url || ''} onChange={e => handleChange('spaVideo1Url', e.target.value)} placeholder="URL vidéo Spa #1" /></div>
-              <div className="modal-field"><label className="modal-label">Vidéo Spa 2</label><input className="modal-input" value={settings.spaVideo2Url || ''} onChange={e => handleChange('spaVideo2Url', e.target.value)} placeholder="URL vidéo Spa #2" /></div>
-              <div className="modal-field"><label className="modal-label">Vidéo Spa 3</label><input className="modal-input" value={settings.spaVideo3Url || ''} onChange={e => handleChange('spaVideo3Url', e.target.value)} placeholder="URL vidéo Spa #3" /></div>
-            </div>
-          </div>
-
           <div style={{ backgroundColor: '#182030', padding: '24px', borderRadius: '8px' }}>
             <h3 style={{ fontSize: '18px', color: '#C8A84B', marginBottom: '16px' }}>Informations de contact</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>

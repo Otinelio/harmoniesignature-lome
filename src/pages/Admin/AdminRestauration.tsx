@@ -11,7 +11,7 @@ const AdminRestauration = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<MenuItem>({ id: '', name: '', category: 'Entrée', description: '', price: 0, image: '' });
 
-  useEffect(() => { setRestaurants(getRestaurants()); }, []);
+  useEffect(() => { getRestaurants().then(setRestaurants); }, []);
 
   const handleRestChange = (field: keyof Restaurant, value: any) => {
     const nr = [...restaurants]; nr[activeTab] = { ...nr[activeTab], [field]: value }; setRestaurants(nr);
@@ -21,21 +21,33 @@ const AdminRestauration = () => {
 
   const openEdit = (item: MenuItem) => { setEditingId(item.id); setForm({ ...item }); setModalOpen(true); };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!form.name || !form.price) return;
     const nr = [...restaurants];
     if (editingId) {
-      nr[activeTab].menu = nr[activeTab].menu.map(i => i.id === editingId ? { ...form } : i);
+      nr[activeTab] = { ...nr[activeTab], menu: nr[activeTab].menu.map(i => i.id === editingId ? { ...form } : i) };
     } else {
-      nr[activeTab].menu = [...nr[activeTab].menu, { ...form, id: `item-${Date.now()}` }];
+      nr[activeTab] = { ...nr[activeTab], menu: [...nr[activeTab].menu, { ...form, id: `item-${Date.now()}` }] };
     }
-    setRestaurants(nr);
-    setModalOpen(false);
+    try {
+      await saveRestaurants(nr);
+      setRestaurants(nr);
+      setModalOpen(false);
+    } catch (e: any) {
+      alert('Erreur lors de la sauvegarde: ' + e.message);
+    }
   };
 
-  const handleDelete = (itemId: string) => {
+  const handleDelete = async (itemId: string) => {
     if (!confirm('Supprimer ce plat ?')) return;
-    const nr = [...restaurants]; nr[activeTab].menu = nr[activeTab].menu.filter(i => i.id !== itemId); setRestaurants(nr);
+    const nr = [...restaurants];
+    nr[activeTab] = { ...nr[activeTab], menu: nr[activeTab].menu.filter(i => i.id !== itemId) };
+    try {
+      await saveRestaurants(nr);
+      setRestaurants(nr);
+    } catch (e: any) {
+      alert('Erreur: ' + e.message);
+    }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +55,7 @@ const AdminRestauration = () => {
     if (file) { try { const b64 = await compressImageToBase64(file); setForm(prev => ({ ...prev, image: b64 })); } catch { alert('Erreur image'); } }
   };
 
-  const handleSave = () => { saveRestaurants(restaurants); alert('Modifications enregistrées'); };
+  const handleSave = async () => { await saveRestaurants(restaurants); alert('Modifications enregistrées'); };
 
   if (restaurants.length === 0) return null;
   const cur = restaurants[activeTab];

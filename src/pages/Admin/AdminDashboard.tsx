@@ -5,21 +5,28 @@ import { CheckCircle } from 'lucide-react';
 const AdminDashboard = () => {
   const [stats, setStats] = useState({ deps: 0, rests: 0, lastMod: '' });
 
-  useEffect(() => {
-    const deps = getDepartments();
-    const rests = getRestaurants();
-    const activeDeps = deps.filter(d => d.isOpen).length;
-    const activeRests = rests.filter(r => r.isOpen).length;
-    
-    // In a real app we'd track this. Using current date for mockup.
-    const lastMod = new Date().toLocaleString('fr-FR', { 
-      day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
-    });
+  const [settings, setSettings] = useState<any>(null);
 
-    setStats({ deps: activeDeps, rests: activeRests, lastMod });
+  useEffect(() => {
+    const fetchData = async () => {
+      const depsData = await getDepartments();
+      const restsData = await getRestaurants();
+      const settingsData = await getSettings();
+      
+      const activeDeps = depsData.filter((d: any) => d.isOpen).length;
+      const activeRests = restsData.filter((r: any) => r.isOpen).length;
+      
+      const lastMod = new Date().toLocaleString('fr-FR', { 
+        day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+      });
+
+      setStats({ deps: activeDeps, rests: activeRests, lastMod });
+      setSettings(settingsData);
+    };
+    fetchData();
   }, []);
 
-  const settings = getSettings();
+  if (!settings) return null;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>

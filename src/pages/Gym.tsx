@@ -1,42 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getGymPlans, GymPlan, getDepartments, Department } from '../utils/storage';
 import { Clock, Phone, Zap, Dumbbell, Sparkles } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Piscine.css';
 import './Gym.css';
-import logoGym from '../images/logo/logo_gym.png';
-import gym1 from '../images/salles/gym-1.jpg';
-import gym2 from '../images/salles/gym-2.jpg';
-import gym3 from '../images/salles/gym-3.jpg';
-import gym4 from '../images/salles/gym-4.jpg';
-import gym5 from '../images/salles/gym-5.jpg';
-import gym6 from '../images/salles/gym-6.jpg';
-import gym7 from '../images/salles/gym-7.jpg';
-import gym8 from '../images/salles/gym-8.jpg';
-import gym9 from '../images/salles/gym-9.jpg';
-import gym10 from '../images/salles/gym-10.jpg';
-import gym11 from '../images/salles/gym-11.jpg';
-import gym12 from '../images/salles/gym-12.jpg';
-import gym13 from '../images/salles/gym-13.jpg';
-import gym14 from '../images/salles/gym-14.jpg';
-import gym15 from '../images/salles/gym-15.jpg';
 
-const gymImages = [
-  gym1,
-  gym2,
-  gym3,
-  gym4,
-  gym5,
-  gym6,
-  gym7,
-  gym8,
-  gym9,
-  gym10,
-  gym11,
-  gym12,
-  gym13,
-  gym14,
-  gym15,
-];
+
 
 const outerSlots = [
   { row: 1, col: 1, imgIndex: 0 },
@@ -53,149 +22,7 @@ const outerSlots = [
   { row: 2, col: 1, imgIndex: 11 },
 ];
 
-const gymPlans = [
-  // ACCES GYM
-  {
-    category: 'Accès Gym',
-    name: 'Séance Unique',
-    price: '6.000',
-    desc: 'Accès libre à tous les équipements pour une séance unique sans engagement.',
-    duration: '1 Séance',
-    badge: null,
-  },
-  {
-    category: 'Accès Gym',
-    name: 'Hebdomadaire',
-    price: '15.000',
-    desc: 'Accès illimité à la salle de sport pendant 7 jours consécutifs.',
-    duration: '1 Semaine',
-    badge: null,
-  },
-  {
-    category: 'Accès Gym',
-    name: '2 Semaines',
-    price: '30.000',
-    desc: 'Accès illimité à l\'espace fitness pendant 14 jours consécutifs.',
-    duration: '2 Semaines',
-    badge: null,
-  },
-  {
-    category: 'Accès Gym',
-    name: '3 Semaines',
-    price: '40.000',
-    desc: 'Accès illimité à l\'espace fitness pendant 21 jours consécutifs.',
-    duration: '3 Semaines',
-    badge: null,
-  },
-  {
-    category: 'Accès Gym',
-    name: 'Mensuel',
-    price: '50.000',
-    desc: 'Formule idéale pour un entraînement régulier. Accès illimité pendant 30 jours.',
-    duration: '1 Mois',
-    badge: 'Populaire',
-  },
-  {
-    category: 'Accès Gym',
-    name: 'Trimestriel',
-    price: '130.000',
-    desc: 'Accès illimité pendant 3 mois. Suivi et progression garantis.',
-    duration: '3 Mois',
-    badge: null,
-  },
-  {
-    category: 'Accès Gym',
-    name: 'Semestriel',
-    price: '230.000',
-    desc: 'Accès illimité pendant 6 mois pour un engagement de santé à moyen terme.',
-    duration: '6 Mois',
-    badge: null,
-  },
-  {
-    category: 'Accès Gym',
-    name: 'Annuel',
-    price: '360.000',
-    desc: 'Accès illimité pendant 1 an. La formule suprême pour un mode de vie sain.',
-    duration: '1 An',
-    badge: 'Économique',
-  },
 
-  // GYM + PISCINE (COMBINE)
-  {
-    category: 'Gym + Piscine (Combiné)',
-    name: 'Séance Combinée unique',
-    price: '10.000',
-    desc: 'Accès combiné à la salle de sport et à la piscine olympique pour une journée.',
-    duration: '1 Séance',
-    badge: 'Duo Journée',
-  },
-  {
-    category: 'Gym + Piscine (Combiné)',
-    name: 'Mensuel Combiné',
-    price: '90.000',
-    desc: 'Accès illimité à la gym et à la piscine olympique pendant 1 mois.',
-    duration: '1 Mois',
-    badge: 'Recommandé',
-  },
-  {
-    category: 'Gym + Piscine (Combiné)',
-    name: 'Trimestriel Combiné',
-    price: '260.000',
-    desc: 'Le compromis parfait. Accès illimité gym et piscine pendant 3 mois.',
-    duration: '3 Mois',
-    badge: null,
-  },
-  {
-    category: 'Gym + Piscine (Combiné)',
-    name: 'Semestriel Combiné',
-    price: '475.000',
-    desc: 'Accès illimité total à notre complexe sportif de prestige pendant 6 mois.',
-    duration: '6 Mois',
-    badge: null,
-  },
-  {
-    category: 'Gym + Piscine (Combiné)',
-    name: 'Annuel Combiné',
-    price: '600.000',
-    desc: 'Accès illimité absolu 365 jours de l\'année. Formule ultime Harmonie Gold.',
-    duration: '1 An',
-    badge: 'Prestige VIP',
-  },
-
-  // COURS & ACTIVITES
-  {
-    category: 'Cours & Activités',
-    name: 'Séance de Cours Gym',
-    price: '3.000',
-    desc: 'Participation à une séance collective encadrée par nos coachs certifiés.',
-    duration: 'Séance',
-    badge: null,
-  },
-  {
-    category: 'Cours & Activités',
-    name: 'Mensuel Cours Gym',
-    price: '20.000',
-    desc: 'Accès illimité aux cours collectifs de fitness et gym pendant un mois.',
-    duration: '1 Mois',
-    badge: null,
-  },
-  {
-    category: 'Cours & Activités',
-    name: 'Cours de Combat',
-    price: '30.000',
-    desc: 'Soin de self-défense, boxe et arts martiaux encadrés par des professionnels.',
-    duration: 'Tarif Mensuel',
-    badge: 'Nouveau',
-  },
-  {
-    category: 'Cours & Activités',
-    name: 'Aqua-Gym',
-    price: '30.000',
-    desc: 'Gymnastique aquatique tonifiante et douce pour les articulations.',
-    duration: 'Tarif Mensuel',
-    badge: null,
-  },
-];
 
 const categories = [
   'Tous',
@@ -205,6 +32,17 @@ const categories = [
 ];
 
 const Gym = () => {
+  const [gymPlans, setGymPlans] = useState<GymPlan[]>([]);
+  const [department, setDepartment] = useState<Department | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getGymPlans();
+      setGymPlans(data);
+      const deps = await getDepartments();
+      setDepartment(deps.find(d => d.id === 'gym') || null);
+    };
+    fetchData();
+  }, []);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('Tous');
@@ -219,14 +57,16 @@ const Gym = () => {
     const timer = setInterval(() => {
       setActiveIndex((prev) => {
         let nextIndex = prev;
+        const numImages = (department?.images || []).length;
+        if (numImages <= 1) return 0;
         while (nextIndex === prev) {
-          nextIndex = Math.floor(Math.random() * gymImages.length);
+          nextIndex = Math.floor(Math.random() * numImages);
         }
         return nextIndex;
       });
     }, 4000);
     return () => clearInterval(timer);
-  }, [timerTrigger]);
+  }, [timerTrigger, department]);
 
   // Smooth fade transition on active image changes
   React.useEffect(() => {
@@ -261,7 +101,7 @@ const Gym = () => {
         <div className="bw-hero-bg"></div>
         <div className="bw-hero-overlay"></div>
         <div className="bw-hero-content bw-hero-logo-only">
-          <img src={logoGym} alt="Gym Harmonie Signature" className="bw-hero-dept-logo" />
+          <img src={'/images/logo/logo_gym.png'} alt="Gym Harmonie Signature" className="bw-hero-dept-logo" />
         </div>
       </section>
 
@@ -333,6 +173,8 @@ const Gym = () => {
           <div className="bw-square-gallery">
             {/* Perimeter Slots (12 images mapped to 10 actual files) */}
             {outerSlots.map((slot, idx) => {
+              const images = department?.images || [];
+              const safeImgIndex = images.length > 0 ? slot.imgIndex % images.length : 0;
               const isHighlighted = activeIndex === slot.imgIndex;
               return (
                 <div
@@ -341,7 +183,7 @@ const Gym = () => {
                   style={{ gridArea: `${slot.row} / ${slot.col}` }}
                   onClick={() => selectImage(slot.imgIndex)}
                 >
-                  <img src={gymImages[slot.imgIndex]} alt={`Gym Perimeter ${idx + 1}`} loading="lazy" />
+                  {images.length > 0 && <img src={images[safeImgIndex]} alt={`Gym Perimeter ${idx + 1}`} loading="lazy" />}
                   <div className="bw-gallery-hover"></div>
                 </div>
               );
@@ -351,9 +193,12 @@ const Gym = () => {
             <div
               className={`bw-gallery-center ${fadeState ? 'fade-in' : 'fade-out'}`}
               style={{ gridArea: '2 / 2 / 4 / 4' }}
-              onClick={() => openLightbox(activeIndex)}
+              onClick={() => {
+                const images = department?.images || [];
+                openLightbox(images.length > 0 ? activeIndex % images.length : 0);
+              }}
             >
-              <img src={gymImages[activeIndex]} alt="Gym Active Center" />
+              {(department?.images || []).length > 0 && <img src={(department?.images || [])[activeIndex % (department?.images.length || 1)]} alt="Gym Active Center" />}
               <div className="bw-center-hover-overlay">
                 <span className="bw-center-hover-text">Agrandir</span>
               </div>
@@ -389,7 +234,7 @@ const Gym = () => {
       </section>
 
       <Lightbox 
-        images={gymImages}
+        images={(department?.images || [])}
         currentIndex={currentImage}
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}

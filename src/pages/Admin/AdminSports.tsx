@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getSportServices, saveSportServices, SportService, getDepartments, saveDepartments, Department } from '../../utils/storage';
 import { Save, Trash2, Plus, Pencil } from 'lucide-react';
 import Modal from '../../components/Modal';
+import AdminGallery from '../../components/AdminGallery';
 
 const AdminSports = () => {
   const [dTennis, setDTennis] = useState<Department | null>(null);
@@ -12,10 +13,11 @@ const AdminSports = () => {
   const [form, setForm] = useState<SportService>({ id: '', sportType: 'Tennis', name: '', duration: '', desc: '', price: '', unit: 'par personne' });
 
   useEffect(() => {
-    setServices(getSportServices());
-    const deps = getDepartments();
-    setDTennis(deps.find(d => d.id === 'tennis') || null);
-    setDBasket(deps.find(d => d.id === 'basket') || null);
+    getSportServices().then(setServices);
+    getDepartments().then((depsData) => {
+      setDTennis(depsData.find((d: any) => d.id === 'tennis') || null);
+      setDBasket(depsData.find((d: any) => d.id === 'basket') || null);
+    });
   }, []);
 
   const hdc = (id: 'tennis' | 'basket', field: keyof Department, value: any) => {
@@ -26,22 +28,39 @@ const AdminSports = () => {
   const openAdd = () => { setEditingId(null); setForm({ id: '', sportType: 'Tennis', name: '', duration: '', desc: '', price: '', unit: 'par personne' }); setModalOpen(true); };
   const openEdit = (s: SportService) => { setEditingId(s.id); setForm({ ...s }); setModalOpen(true); };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!form.name || !form.price) return;
-    if (editingId) setServices(prev => prev.map(s => s.id === editingId ? { ...form } : s));
-    else setServices(prev => [...prev, { ...form, id: `sport-${Date.now()}` }]);
-    setModalOpen(false);
+    let newServices: SportService[];
+    if (editingId) newServices = services.map(s => s.id === editingId ? { ...form } : s);
+    else newServices = [...services, { ...form, id: `sport-${Date.now()}` }];
+    try {
+      await saveSportServices(newServices);
+      setServices(newServices);
+      setModalOpen(false);
+    } catch (e: any) {
+      alert('Erreur lors de la sauvegarde: ' + e.message);
+    }
   };
 
-  const handleDelete = (id: string) => { if (confirm('Supprimer ?')) setServices(prev => prev.filter(s => s.id !== id)); };
+  const handleDelete = async (id: string) => {
+    if (confirm('Supprimer ?')) {
+      const newServices = services.filter(s => s.id !== id);
+      try {
+        await saveSportServices(newServices);
+        setServices(newServices);
+      } catch (e: any) {
+        alert('Erreur: ' + e.message);
+      }
+    }
+  };
 
-  const handleSave = () => {
-    saveSportServices(services);
-    const deps = getDepartments();
-    let nd = [...deps];
+  const handleSave = async () => {
+    await saveSportServices(services);
+    const depsData = await getDepartments();
+    let nd = [...depsData];
     if (dTennis) nd = nd.map(d => d.id === 'tennis' ? dTennis : d);
     if (dBasket) nd = nd.map(d => d.id === 'basket' ? dBasket : d);
-    saveDepartments(nd);
+    await saveDepartments(nd);
     alert('Modifications enregistrées');
   };
 
@@ -66,6 +85,20 @@ const AdminSports = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}><label style={{ fontSize: '14px' }}>Statut</label><input type="checkbox" checked={dTennis.isOpen} onChange={e => hdc('tennis', 'isOpen', e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#C8A84B' }} /></div>
           </div>
         </div>)}
+
+        {dTennis && (
+          <AdminGallery 
+            department={dTennis} 
+            onUpdate={async (images) => {
+              hdc('tennis', 'images', images);
+              try {
+                const depsData = await getDepartments();
+                await saveDepartments(depsData.map(d => d.id === 'tennis' ? { ...dTennis, images } : d));
+              } catch (e) { console.error(e); }
+            }} 
+          />
+        )}
+
         {dBasket && (<div style={{ backgroundColor: '#182030', padding: '24px', borderRadius: '8px' }}>
           <h3 style={{ fontSize: '18px', color: '#C8A84B', marginBottom: '16px' }}>Infos Basket</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -74,6 +107,20 @@ const AdminSports = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}><label style={{ fontSize: '14px' }}>Statut</label><input type="checkbox" checked={dBasket.isOpen} onChange={e => hdc('basket', 'isOpen', e.target.checked)} style={{ width: '20px', height: '20px', accentColor: '#C8A84B' }} /></div>
           </div>
         </div>)}
+
+        {dBasket && (
+          <AdminGallery 
+            department={dBasket} 
+            onUpdate={async (images) => {
+              hdc('basket', 'images', images);
+              try {
+                const depsData = await getDepartments();
+                await saveDepartments(depsData.map(d => d.id === 'basket' ? { ...dBasket, images } : d));
+              } catch (e) { console.error(e); }
+            }} 
+          />
+        )}
+
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>

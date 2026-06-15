@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { getSpaServices, saveSpaServices, SpaService, getDepartments, saveDepartments, Department } from '../../utils/storage';
+import { getSpaServices, saveSpaServices, SpaService, getDepartments, saveDepartments, Department, getSettings, saveSettings, Settings } from '../../utils/storage';
 import { Save, Trash2, Plus, Pencil, Upload } from 'lucide-react';
 import Modal from '../../components/Modal';
+import AdminGallery from '../../components/AdminGallery';
+import AdminVideoUpload from '../../components/AdminVideoUpload';
 import { compressImageToBase64 } from '../../utils/fileUpload';
 
 const AdminSpa = () => {
   const [department, setDepartment] = useState<Department | null>(null);
+  const [settings, setSettings] = useState<Settings | null>(null);
   const [services, setServices] = useState<SpaService[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -14,13 +17,17 @@ const AdminSpa = () => {
   });
 
   useEffect(() => {
-    setServices(getSpaServices());
-    const deps = getDepartments();
-    setDepartment(deps.find(d => d.id === 'spa') || null);
+    getSpaServices().then(setServices);
+    getDepartments().then(deps => setDepartment(deps.find(d => d.id === 'spa') || null));
+    getSettings().then(setSettings);
   }, []);
 
   const handleDepChange = (field: keyof Department, value: any) => {
     if (department) setDepartment({ ...department, [field]: value });
+  };
+
+  const handleSettingsChange = (field: keyof Settings, value: string) => {
+    if (settings) setSettings({ ...settings, [field]: value });
   };
 
   const openAdd = () => {
@@ -35,18 +42,33 @@ const AdminSpa = () => {
     setModalOpen(true);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!form.name || !form.price) return;
+    let newServices: SpaService[];
     if (editingId) {
-      setServices(prev => prev.map(s => s.id === editingId ? { ...form } : s));
+      newServices = services.map(s => s.id === editingId ? { ...form } : s);
     } else {
-      setServices(prev => [...prev, { ...form, id: `spa-${Date.now()}` }]);
+      newServices = [...services, { ...form, id: `spa-${Date.now()}` }];
     }
-    setModalOpen(false);
+    try {
+      await saveSpaServices(newServices);
+      setServices(newServices);
+      setModalOpen(false);
+    } catch (e: any) {
+      alert('Erreur lors de la sauvegarde: ' + e.message);
+    }
   };
 
-  const handleDelete = (id: string) => {
-    if (confirm('Supprimer ce soin ?')) setServices(prev => prev.filter(s => s.id !== id));
+  const handleDelete = async (id: string) => {
+    if (confirm('Supprimer ce soin ?')) {
+      const newServices = services.filter(s => s.id !== id);
+      try {
+        await saveSpaServices(newServices);
+        setServices(newServices);
+      } catch (e: any) {
+        alert('Erreur lors de la suppression: ' + e.message);
+      }
+    }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,13 +81,21 @@ const AdminSpa = () => {
     }
   };
 
-  const handleSave = () => {
-    saveSpaServices(services);
-    if (department) {
-      const deps = getDepartments();
-      saveDepartments(deps.map(d => d.id === 'spa' ? department : d));
+  const handleSave = async () => {
+    try {
+      await saveSpaServices(services);
+      if (department) {
+        const depsData = await getDepartments();
+        await saveDepartments(depsData.map(d => d.id === 'spa' ? department : d));
+      }
+      if (settings) {
+        await saveSettings(settings);
+      }
+      alert('Modifications enregistrées');
+    } catch (e: any) {
+      alert('Erreur lors de la sauvegarde: ' + e.message);
+      console.error(e);
     }
-    alert('Modifications enregistrées');
   };
 
   const categories = ['Soins du Corps', 'Gommage', 'Épilation à la Cire', 'Beauté des Mains & Pieds', 'Jacuzzi & Sauna'];
@@ -99,6 +129,45 @@ const AdminSpa = () => {
           </div>
         </div>
       )}
+
+      {department && (
+        <AdminGallery 
+          department={department} 
+          onUpdate={async (images) => {
+            handleDepChange('images', images);
+            try {
+              const depsData = await getDepartments();
+              await saveDepartments(depsData.map(d => d.id === 'spa' ? { ...department, images } : d));
+            } catch (e) {
+              console.error(e);
+            }
+          }} 
+        />
+      )}
+
+      {settings && (
+        <div style={{ backgroundColor: '#182030', padding: '24px', borderRadius: '8px' }}>
+          <h3 style={{ fontSize: '18px', color: '#C8A84B', marginBottom: '16px' }}>Vidéos Spa sur la page d'Accueil</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px' }}>
+            <AdminVideoUpload 
+              label="Média Spa 1" 
+              mediaUrl={settings.spaVideo1Url} 
+              onChange={v => handleSettingsChange('spaVideo1Url', v)} 
+            />
+            <AdminVideoUpload 
+              label="Média Spa 2" 
+              mediaUrl={settings.spaVideo2Url} 
+              onChange={v => handleSettingsChange('spaVideo2Url', v)} 
+            />
+            <AdminVideoUpload 
+              label="Média Spa 3" 
+              mediaUrl={settings.spaVideo3Url} 
+              onChange={v => handleSettingsChange('spaVideo3Url', v)} 
+            />
+          </div>
+        </div>
+      )}
+
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {categories.map(cat => {

@@ -1,68 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getBowlingPlans, BowlingPlan, getDepartments, Department } from '../utils/storage';
 import { Clock, Phone, Check, Sun, Zap } from 'lucide-react';
 import Lightbox from '../components/Lightbox';
 import './Bowling.css';
-import logoBowling from '../images/logo/logo_bowling.png';
-import bowling1 from '../images/bowling/bowling_1.jpg';
-import bowling2 from '../images/bowling/bowling_2.jpg';
-import bowling3 from '../images/bowling/bowling_3.jpg';
-import bowling4 from '../images/bowling/bowling_4.jpg';
-import bowling5 from '../images/bowling/bowling_5.jpg';
-import bowling6 from '../images/bowling/bowling_6.jpg';
-import bowling7 from '../images/bowling/bowling_7.jpg';
-import bowling8 from '../images/bowling/bowling_8.jpg';
-import bowling9 from '../images/bowling/bowling_9.jpg';
-import bowling10 from '../images/bowling/bowling_10.jpg';
-import bowling11 from '../images/bowling/bowling_11.jpg';
-import bowling12 from '../images/bowling/bowling_12.jpg';
-import bowling13 from '../images/bowling/bowling_13.jpg';
-import bowling14 from '../images/bowling/bowling_14.jpg';
-import bowling15 from '../images/bowling/bowling_15.jpg';
 
-const bowlingImages = [
-  bowling1,
-  bowling2,
-  bowling3,
-  bowling4,
-  bowling5,
-  bowling6,
-  bowling7,
-  bowling8,
-  bowling9,
-  bowling10,
-  bowling11,
-  bowling12,
-  bowling13,
-  bowling14,
-  bowling15,
-];
 
-const plans = [
-  {
-    badge: null,
-    name: 'Partie Simple',
-    tagline: '1 joueur · Chaussures incluses',
-    price: '5 000',
-    features: ['1 piste réservée', 'Chaussures fournies', 'Balle au choix'],
-    highlight: false,
-  },
-  {
-    badge: 'Populaire',
-    name: 'Groupe (4 pers.)',
-    tagline: 'Idéal entre amis ou en famille',
-    price: '18 000',
-    features: ['1 piste réservée', 'Chaussures fournies', '2 parties incluses'],
-    highlight: true,
-  },
-  {
-    badge: null,
-    name: 'Soirée VIP',
-    tagline: 'Piste privée · 2h · Boissons',
-    price: '35 000',
-    features: ['Piste privatisée 2h', 'Chaussures fournies', 'Boissons offertes'],
-    highlight: false,
-  },
-];
+
+
 
 const outerSlots = [
   { row: 1, col: 1, imgIndex: 0 },
@@ -80,6 +24,17 @@ const outerSlots = [
 ];
 
 const Bowling = () => {
+  const [plans, setPlans] = useState<BowlingPlan[]>([]);
+  const [department, setDepartment] = useState<Department | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getBowlingPlans();
+      setPlans(data);
+      const deps = await getDepartments();
+      setDepartment(deps.find(d => d.id === 'bowling') || null);
+    };
+    fetchData();
+  }, []);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
   
@@ -93,15 +48,17 @@ const Bowling = () => {
     const timer = setInterval(() => {
       setActiveIndex((prev) => {
         let nextIndex = prev;
+        const numImages = (department?.images || []).length;
+        if (numImages <= 1) return 0;
         // Ensure the randomly chosen image index is different from the current one
         while (nextIndex === prev) {
-          nextIndex = Math.floor(Math.random() * bowlingImages.length);
+          nextIndex = Math.floor(Math.random() * numImages);
         }
         return nextIndex;
       });
     }, 4000);
     return () => clearInterval(timer);
-  }, [timerTrigger]);
+  }, [timerTrigger, department]);
 
   // Smooth fade transition on active image changes
   React.useEffect(() => {
@@ -128,7 +85,7 @@ const Bowling = () => {
         <div className="bw-hero-bg"></div>
         <div className="bw-hero-overlay"></div>
         <div className="bw-hero-content bw-hero-logo-only">
-          <img src={logoBowling} alt="Bowling Harmonie Signature" className="bw-hero-dept-logo" />
+          <img src={'/images/logo/logo_bowling.png'} alt="Bowling Harmonie Signature" className="bw-hero-dept-logo" />
         </div>
       </section>
 
@@ -168,6 +125,8 @@ const Bowling = () => {
           <div className="bw-square-gallery">
             {/* Perimeter Slots (12 images) */}
             {outerSlots.map((slot, idx) => {
+              const images = department?.images || [];
+              const safeImgIndex = images.length > 0 ? slot.imgIndex % images.length : 0;
               const isHighlighted = activeIndex === slot.imgIndex;
               return (
                 <div
@@ -176,7 +135,7 @@ const Bowling = () => {
                   style={{ gridArea: `${slot.row} / ${slot.col}` }}
                   onClick={() => selectImage(slot.imgIndex)}
                 >
-                  <img src={bowlingImages[slot.imgIndex]} alt={`Bowling Perimeter ${idx + 1}`} loading="lazy" />
+                  {images.length > 0 && <img src={images[safeImgIndex]} alt={`Bowling Perimeter ${idx + 1}`} loading="lazy" />}
                   <div className="bw-gallery-hover"></div>
                 </div>
               );
@@ -186,9 +145,12 @@ const Bowling = () => {
             <div
               className={`bw-gallery-center ${fadeState ? 'fade-in' : 'fade-out'}`}
               style={{ gridArea: '2 / 2 / 4 / 4' }}
-              onClick={() => openLightbox(activeIndex)}
+              onClick={() => {
+                const images = department?.images || [];
+                openLightbox(images.length > 0 ? activeIndex % images.length : 0);
+              }}
             >
-              <img src={bowlingImages[activeIndex]} alt="Bowling Active Center" />
+              {(department?.images || []).length > 0 && <img src={(department?.images || [])[activeIndex % (department?.images.length || 1)]} alt="Bowling Active Center" />}
               <div className="bw-center-hover-overlay">
                 <span className="bw-center-hover-text">Agrandir</span>
               </div>
@@ -213,7 +175,7 @@ const Bowling = () => {
       </section>
 
       <Lightbox
-        images={bowlingImages}
+        images={(department?.images || [])}
         currentIndex={currentImage}
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}

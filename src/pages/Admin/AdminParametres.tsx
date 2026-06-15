@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { getSettings, saveSettings, Settings } from '../../utils/storage';
 import { Save } from 'lucide-react';
+import AdminVideoUpload from '../../components/AdminVideoUpload';
 
 const AdminParametres = () => {
   const [settings, setSettings] = useState<Settings | null>(null);
 
   useEffect(() => {
-    setSettings(getSettings());
+    getSettings().then(setSettings);
   }, []);
 
   const handleChange = (field: keyof Settings, value: string) => {
@@ -15,9 +16,9 @@ const AdminParametres = () => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (settings) {
-      saveSettings(settings);
+      await saveSettings(settings);
       alert('Modifications enregistrées');
     }
   };
@@ -60,6 +61,38 @@ const AdminParametres = () => {
             <input type="text" value={settings.adminPasswordHash} onChange={e => handleChange('adminPasswordHash', e.target.value)} style={{ padding: '12px', backgroundColor: '#0C1018', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '4px' }} />
             <span style={{ fontSize: '11px', opacity: 0.4 }}>En clair pour cette démo. À sécuriser en production.</span>
           </div>
+        </div>
+      </div>
+
+
+      <div style={{ backgroundColor: '#182030', padding: '32px', borderRadius: '8px' }}>
+        <h2 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', marginBottom: '24px', color: '#C8A84B' }}>Vidéos de la Page d'Accueil</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '32px' }}>
+          <AdminVideoUpload 
+            label="Média principal (Version PC)" 
+            mediaUrl={settings.heroVideoUrl} 
+            onChange={v => handleChange('heroVideoUrl', v)} 
+          />
+          <AdminVideoUpload 
+            label="Média principal (Version Mobile)" 
+            mediaUrl={settings.heroVideoMobileUrl} 
+            onChange={v => handleChange('heroVideoMobileUrl', v)} 
+          />
+          <AdminVideoUpload 
+            label="Média Spa 1" 
+            mediaUrl={settings.spaVideo1Url} 
+            onChange={v => handleChange('spaVideo1Url', v)} 
+          />
+          <AdminVideoUpload 
+            label="Média Spa 2" 
+            mediaUrl={settings.spaVideo2Url} 
+            onChange={v => handleChange('spaVideo2Url', v)} 
+          />
+          <AdminVideoUpload 
+            label="Média Spa 3" 
+            mediaUrl={settings.spaVideo3Url} 
+            onChange={v => handleChange('spaVideo3Url', v)} 
+          />
         </div>
       </div>
 

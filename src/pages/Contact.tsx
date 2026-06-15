@@ -5,7 +5,10 @@ import { getSettings } from '../utils/storage';
 import './Contact.css';
 
 const Contact = () => {
-  const settings = getSettings();
+  const [settings, setSettings] = useState<any>(null);
+  React.useEffect(() => {
+    getSettings().then(setSettings);
+  }, []);
   const [formState, setFormState] = useState({ nom: '', email: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -16,6 +19,8 @@ const Contact = () => {
     setTimeout(() => setIsSubmitted(false), 5000);
     setFormState({ nom: '', email: '', message: '' });
   };
+
+  if (!settings) return null;
 
   return (
     <div className="contact-page">

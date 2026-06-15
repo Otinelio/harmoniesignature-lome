@@ -1,32 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getSettings, Settings } from '../utils/storage';
 import { ChevronDown, Waves, CircleDot, Sparkles, Dumbbell, Trophy, CalendarCheck, ArrowRight } from 'lucide-react';
 import CountUp from 'react-countup';
 import './Home.css';
 
-import imgGym from '../images/salles/gym-2.jpg';
-import videoDeo1 from '../images/spa/spaDeo/SpaDeo1.mp4';
-import videoDeo2 from '../images/spa/spaDeo/SpaDeo2.mp4';
-import videoDeo3 from '../images/spa/spaDeo/SpaDeo3.mp4';
-import posterDeo1 from '../images/spa/spaDeo/SpaDeo1-poster.jpg';
-import posterDeo2 from '../images/spa/spaDeo/SpaDeo2-poster.jpg';
-import posterDeo3 from '../images/spa/spaDeo/SpaDeo3-poster.jpg';
 
-import logoBowling from '../images/logo/logo_bowling.png';
-import logoSpa from '../images/logo/logo_spa.png';
-import logoGym from '../images/logo/logo_gym.png';
-import logoTropicana from '../images/logo/logo_tropicana.png';
-import imgTennisBasket1 from '../images/tennis&Basketball/tennis&Basketball1.jpg';
-import imgPiscine1 from '../images/piscine/piscine1.jpg';
 
 const Home = () => {
   const [hoveredUnivers, setHoveredUnivers] = useState<string>('piscine');
+  const [settings, setSettings] = useState<Settings | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    getSettings().then(setSettings);
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  if (!settings) return null;
 
   const universList = [
-    { id: 'bowling', name: 'Bowling', img: logoBowling, isLogo: true },
-    { id: 'spa', name: 'Lotus Spa', img: logoSpa, isLogo: true },
-    { id: 'gym', name: 'Platinum Fitness', img: logoGym, isLogo: true },
-    { id: 'restauration', name: 'Tropicana', img: logoTropicana, isLogo: true },
+    { id: 'bowling', name: 'Bowling', img: '/images/logo/logo_bowling.png', isLogo: true },
+    { id: 'spa', name: 'Lotus Spa', img: '/images/logo/logo_spa.png', isLogo: true },
+    { id: 'gym', name: 'Platinum Fitness', img: '/images/logo/logo_gym.png', isLogo: true },
+    { id: 'restauration', name: 'Tropicana', img: '/images/logo/logo_tropicana.png', isLogo: true },
     { id: 'piscine', name: 'Piscine', isTextCenter: true },
     { id: 'sports', name: 'Tennis & Basket', isTextCenter: true },
   ];
@@ -44,15 +44,15 @@ const Home = () => {
           preload="auto"
           aria-label="Vidéo de fond"
         >
-          <source src="/videoAccueil.mp4" type="video/mp4" />
+          <source src={isMobile && settings.heroVideoMobileUrl ? settings.heroVideoMobileUrl : settings.heroVideoUrl} type="video/mp4" />
         </video>
         <div className="video-vignette" aria-hidden="true"></div>
         <div className="video-top-overlay">
           <div className="video-line"></div>
-          <p>BIENVENUE CHEZ HARMONIE SIGNATURE</p>
+          <p>{settings.homeHeroTitle}</p>
         </div>
         <div className="video-bottom-overlay">
-          <h2>Votre complexe de référence à Lomé</h2>
+          <h2>{settings.homeHeroSubtitle}</h2>
           <p>Harmonie Signature · tous les jours de 06h00 à 22h00</p>
         </div>
         <div className="scroll-indicator">
@@ -107,20 +107,20 @@ const Home = () => {
           <div className="spa-videos-frame">
             <div className="spa-videos-trio">
               <div className="spa-video-card">
-                <video className="spa-video-item" autoPlay muted loop playsInline poster={posterDeo1}>
-                  <source src={videoDeo1} type="video/mp4" />
+                <video className="spa-video-item" autoPlay muted loop playsInline poster="/images/spa/spaDeo/SpaDeo1-poster.jpg">
+                  <source src={settings.spaVideo1Url || "/images/spa/spaDeo/SpaDeo1.mp4"} type="video/mp4" />
                 </video>
                 <div className="spa-video-label">Spa à l'honneur</div>
               </div>
               <div className="spa-video-card">
-                <video className="spa-video-item" autoPlay muted loop playsInline poster={posterDeo2}>
-                  <source src={videoDeo2} type="video/mp4" />
+                <video className="spa-video-item" autoPlay muted loop playsInline poster="/images/spa/spaDeo/SpaDeo2-poster.jpg">
+                  <source src={settings.spaVideo2Url || "/images/spa/spaDeo/SpaDeo2.mp4"} type="video/mp4" />
                 </video>
                 <div className="spa-video-label">Espace détente</div>
               </div>
               <div className="spa-video-card">
-                <video className="spa-video-item" autoPlay muted loop playsInline poster={posterDeo3}>
-                  <source src={videoDeo3} type="video/mp4" />
+                <video className="spa-video-item" autoPlay muted loop playsInline poster="/images/spa/spaDeo/SpaDeo3-poster.jpg">
+                  <source src={settings.spaVideo3Url || "/images/spa/spaDeo/SpaDeo3.mp4"} type="video/mp4" />
                 </video>
                 <div className="spa-video-label">Rituels bien-être</div>
               </div>

@@ -1,33 +1,34 @@
 import React, { useEffect } from 'react';
 import { Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, UtensilsCrossed, Video, Settings, LogOut, Sparkles, Trophy, Target, Waves, Dumbbell, Home } from 'lucide-react';
+import { LayoutDashboard, UtensilsCrossed, Settings, LogOut, Sparkles, Trophy, Target, Waves, Dumbbell, Home } from 'lucide-react';
 import './Admin.css';
 
 const AdminLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    const isAuth = sessionStorage.getItem('hs_admin_auth');
-    if (!isAuth) navigate('/admin-hs-2025');
-  }, [navigate]);
+  const isAuth = sessionStorage.getItem('hs_admin_auth');
 
+  useEffect(() => {
+    if (!isAuth) navigate('/admin');
+  }, [isAuth, navigate]);
+
+  if (!isAuth) return null; // Sécurité : bloque l'affichage si non authentifié
   const handleLogout = () => {
     sessionStorage.removeItem('hs_admin_auth');
-    navigate('/admin-hs-2025');
+    navigate('/admin');
   };
 
   const navItems = [
-    { path: '/admin-hs-2025/dashboard', icon: <LayoutDashboard size={18} />, label: 'Vue générale' },
-    { path: '/admin-hs-2025/accueil', icon: <Home size={18} />, label: 'Accueil & FAQ' },
-    { path: '/admin-hs-2025/restauration', icon: <UtensilsCrossed size={18} />, label: 'Restauration' },
-    { path: '/admin-hs-2025/spa', icon: <Sparkles size={18} />, label: 'Spa & Soins' },
-    { path: '/admin-hs-2025/bowling', icon: <Target size={18} />, label: 'Bowling' },
-    { path: '/admin-hs-2025/piscine', icon: <Waves size={18} />, label: 'Piscine' },
-    { path: '/admin-hs-2025/gym', icon: <Dumbbell size={18} />, label: 'Gym' },
-    { path: '/admin-hs-2025/sports', icon: <Trophy size={18} />, label: 'Sports' },
-    { path: '/admin-hs-2025/medias', icon: <Video size={18} />, label: 'Médias' },
-    { path: '/admin-hs-2025/parametres', icon: <Settings size={18} />, label: 'Paramètres' },
+    { path: '/admin/dashboard', icon: <LayoutDashboard size={18} />, label: 'Vue générale' },
+    { path: '/admin/accueil', icon: <Home size={18} />, label: 'Accueil & FAQ' },
+    { path: '/admin/restauration', icon: <UtensilsCrossed size={18} />, label: 'Restauration' },
+    { path: '/admin/spa', icon: <Sparkles size={18} />, label: 'Spa & Soins' },
+    { path: '/admin/bowling', icon: <Target size={18} />, label: 'Bowling' },
+    { path: '/admin/piscine', icon: <Waves size={18} />, label: 'Piscine' },
+    { path: '/admin/gym', icon: <Dumbbell size={18} />, label: 'Gym' },
+    { path: '/admin/sports', icon: <Trophy size={18} />, label: 'Sports' },
+    { path: '/admin/parametres', icon: <Settings size={18} />, label: 'Paramètres' },
   ];
 
   return (

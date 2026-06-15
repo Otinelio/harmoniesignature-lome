@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import { getDepartments, Department } from '../utils/storage';
 import { ArrowRight, Waves, CircleDot, Sparkles, Dumbbell, Trophy } from 'lucide-react';
 import './DepartementsHub.css';
-import harmonieImg from '../images/harmonie.png';
 
 const DepartementsHub = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
 
   useEffect(() => {
-    setDepartments(getDepartments());
+    getDepartments().then(setDepartments);
   }, []);
 
   const getIcon = (id: string) => {
@@ -65,7 +64,7 @@ const DepartementsHub = () => {
   return (
     <div className="hub-page">
       <section className="hub-hero">
-        <div className="hub-hero-bg" style={{ backgroundImage: `url(${harmonieImg})` }}></div>
+        <div className="hub-hero-bg" style={{ backgroundImage: `url(${'/images/harmonie.png'})` }}></div>
         <div className="hub-hero-overlay"></div>
         <div className="hub-hero-content">
           <h1 className="hub-title">Nos Départements</h1>

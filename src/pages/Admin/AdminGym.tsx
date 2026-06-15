@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getGymPlans, saveGymPlans, GymPlan, getDepartments, saveDepartments, Department } from '../../utils/storage';
 import { Save, Trash2, Plus, Pencil } from 'lucide-react';
 import Modal from '../../components/Modal';
+import AdminGallery from '../../components/AdminGallery';
 
 const AdminGym = () => {
   const [department, setDepartment] = useState<Department | null>(null);
@@ -11,9 +12,8 @@ const AdminGym = () => {
   const [form, setForm] = useState<GymPlan>({ id: '', category: 'Accès Gym', name: '', price: '', desc: '', duration: '', badge: '' });
 
   useEffect(() => {
-    setPlans(getGymPlans());
-    const deps = getDepartments();
-    setDepartment(deps.find(d => d.id === 'gym') || null);
+    getGymPlans().then(setPlans);
+    getDepartments().then(deps => setDepartment(deps.find(d => d.id === 'gym') || null));
   }, []);
 
   const handleDepChange = (field: keyof Department, value: any) => {
@@ -23,18 +23,35 @@ const AdminGym = () => {
   const openAdd = () => { setEditingId(null); setForm({ id: '', category: 'Accès Gym', name: '', price: '', desc: '', duration: '', badge: '' }); setModalOpen(true); };
   const openEdit = (p: GymPlan) => { setEditingId(p.id); setForm({ ...p }); setModalOpen(true); };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!form.name || !form.price) return;
-    if (editingId) setPlans(prev => prev.map(p => p.id === editingId ? { ...form } : p));
-    else setPlans(prev => [...prev, { ...form, id: `gym-${Date.now()}` }]);
-    setModalOpen(false);
+    let newPlans: GymPlan[];
+    if (editingId) newPlans = plans.map(p => p.id === editingId ? { ...form } : p);
+    else newPlans = [...plans, { ...form, id: `gym-${Date.now()}` }];
+    try {
+      await saveGymPlans(newPlans);
+      setPlans(newPlans);
+      setModalOpen(false);
+    } catch (e: any) {
+      alert('Erreur lors de la sauvegarde: ' + e.message);
+    }
   };
 
-  const handleDelete = (id: string) => { if (confirm('Supprimer ?')) setPlans(prev => prev.filter(p => p.id !== id)); };
+  const handleDelete = async (id: string) => {
+    if (confirm('Supprimer ?')) {
+      const newPlans = plans.filter(p => p.id !== id);
+      try {
+        await saveGymPlans(newPlans);
+        setPlans(newPlans);
+      } catch (e: any) {
+        alert('Erreur: ' + e.message);
+      }
+    }
+  };
 
-  const handleSave = () => {
-    saveGymPlans(plans);
-    if (department) { const deps = getDepartments(); saveDepartments(deps.map(d => d.id === 'gym' ? department : d)); }
+  const handleSave = async () => {
+    await saveGymPlans(plans);
+    if (department) { await getDepartments().then(deps => saveDepartments(deps.map(d => d.id === 'gym' ? department : d))); }
     alert('Modifications enregistrées');
   };
 
@@ -62,6 +79,22 @@ const AdminGym = () => {
           </div>
         </div>
       )}
+
+      {department && (
+        <AdminGallery 
+          department={department} 
+          onUpdate={async (images) => {
+            handleDepChange('images', images);
+            try {
+              const depsData = await getDepartments();
+              await saveDepartments(depsData.map(d => d.id === 'gym' ? { ...department, images } : d));
+            } catch (e) {
+              console.error(e);
+            }
+          }} 
+        />
+      )}
+
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {categories.map(cat => {

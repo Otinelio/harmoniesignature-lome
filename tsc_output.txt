@@ -1,0 +1,10 @@
+src/pages/Admin/AdminSpa.tsx(64,29): error TS2552: Cannot find name 'setDepartments'. Did you mean 'setDepartment'?
+src/pages/Admin/AdminSpa.tsx(65,23): error TS2304: Cannot find name 'deps'.
+src/pages/Admin/AdminSpa.tsx(65,32): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/pages/Admin/AdminSports.tsx(16,27): error TS2552: Cannot find name 'setDepartments'. Did you mean 'getDepartments'?
+src/pages/Admin/AdminSports.tsx(17,16): error TS2304: Cannot find name 'deps'.
+src/pages/Admin/AdminSports.tsx(17,26): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/pages/Admin/AdminSports.tsx(18,16): error TS2304: Cannot find name 'deps'.
+src/pages/Admin/AdminSports.tsx(18,26): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/pages/Admin/AdminSports.tsx(40,27): error TS2552: Cannot find name 'setDepartments'. Did you mean 'getDepartments'?
+src/pages/Admin/AdminSports.tsx(41,18): error TS2304: Cannot find name 'deps'.
